@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
 const { APIError } = require("../helpers/error");
+const { roles } = require("./../../helpers/constant");
 
 const userschema = mongoose.Schema(
   {
@@ -31,6 +32,11 @@ const userschema = mongoose.Schema(
         type: String,
         unique: true,
       },
+    },
+    role: {
+      type: String,
+      default: "User",
+      enum: [roles.A, roles.U],
     },
   },
   {
