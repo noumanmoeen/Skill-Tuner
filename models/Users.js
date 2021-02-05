@@ -70,6 +70,16 @@ userschema.method("checkIfUserWithEmailExists", async function (email) {
   return user;
 });
 
+userschema.method("checkUserRole", async function (user) {
+  let User = this.model("User");
+  let user = await User.findOne({ _id: user._id, role: user.role });
+
+  if (user == null) {
+    throw new APIError(404, "No user with this role found");
+  }
+  return user;
+});
+
 userschema.method("checkIfUserWithUsernameExists", async function (username) {
   let User = this.model("User");
   return await User.findOne({ username }).select("username");

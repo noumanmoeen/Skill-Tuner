@@ -73,20 +73,24 @@ router.post(
       .then((_user) => {
         // verify password
         if (user.checkPass(_user, req.body.pswd)) {
-          let token = jwt.sign(
-            {
+          if (user.checkUserRole({ _id: _user.id, role: req.body.role })) {
+            let token = jwt.sign(
+              {
+                _id: _user._id,
+                username: _user.username,
+                role: _user.role,
+              },
+              keys.jwtsecret
+            );
+            // TODO: never expiring tokens
+            res.send({
               _id: _user._id,
-              username: _user.username,
-              role: _user.role,
-            },
-            keys.jwtsecret
-          );
-          // TODO: never expiring tokens
-          res.send({
-            _id: _user._id,
-            token,
-            message: "Keep it safe :)",
-          });
+              token,
+              message: "Keep it safe :)",
+            });
+          } else {
+            next(new APIError(400, "Invalid role"));
+          }
         } else {
           next(new APIError(400, "Invalid Password"));
         }
