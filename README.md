@@ -18,7 +18,7 @@ We need to make API routes for these. Add more if necessary.
 
 ### User
 
-- [ ] User can register for an account and sign in
+- [x] User can register for an account and sign in
 - [ ] User can have a profile picture
 - [ ] User has to specify their Subjects and Areas of Interests (skills)
 - [ ] User can take / drop course
