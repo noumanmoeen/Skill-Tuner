@@ -73,7 +73,9 @@ router.post(
       .then((_user) => {
         // verify password
         if (user.checkPass(_user, req.body.pswd)) {
-          if (user.checkUserRole({ _id: _user.id, role: req.body.role })) {
+          if (
+            user.checkUserRole({ _id: _user.id, role: req.body.role }) == true
+          ) {
             let token = jwt.sign(
               {
                 _id: _user._id,

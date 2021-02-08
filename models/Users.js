@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
 const { APIError } = require("../helpers/error");
-const { roles } = require("./../../helpers/constant");
+const { roles } = require("./../helpers/constant");
 
 const userschema = mongoose.Schema(
   {
@@ -70,14 +70,14 @@ userschema.method("checkIfUserWithEmailExists", async function (email) {
   return user;
 });
 
-userschema.method("checkUserRole", async function (user) {
+userschema.method("checkUserRole", async function (_user) {
   let User = this.model("User");
-  let user = await User.findOne({ _id: user._id, role: user.role });
-
+  let user = await User.findOne({ _id: _user._id, role: _user.role });
+  console.log(user);
   if (user == null) {
-    throw new APIError(404, "No user with this role found");
+    return false;
   }
-  return user;
+  return true;
 });
 
 userschema.method("checkIfUserWithUsernameExists", async function (username) {

@@ -1,3 +1,3 @@
 const roles = { A: "Admin", U: "User" };
-
-module.exports = { roles };
+const contentType = { T: "Text", V: "Video", L: "Link" };
+module.exports = { roles, contentType };
