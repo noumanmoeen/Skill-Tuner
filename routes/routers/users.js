@@ -73,26 +73,29 @@ router.post(
       .then((_user) => {
         // verify password
         if (user.checkPass(_user, req.body.pswd)) {
-          if (
-            user.checkUserRole({ _id: _user.id, role: req.body.role }) == true
-          ) {
-            let token = jwt.sign(
-              {
+          console.log("this is the user login = ", _user.id);
+          user = new User({ _id: _user.id, role: req.body.role });
+          user.checkUserRole(this.user).then((data) => {
+            console.log("the data", data);
+            if (data) {
+              let token = jwt.sign(
+                {
+                  _id: _user._id,
+                  username: _user.username,
+                  role: _user.role,
+                },
+                keys.jwtsecret
+              );
+              // TODO: never expiring tokens
+              res.send({
                 _id: _user._id,
-                username: _user.username,
-                role: _user.role,
-              },
-              keys.jwtsecret
-            );
-            // TODO: never expiring tokens
-            res.send({
-              _id: _user._id,
-              token,
-              message: "Keep it safe :)",
-            });
-          } else {
-            next(new APIError(400, "Invalid role"));
-          }
+                token,
+                message: "Keep it safe :)",
+              });
+            } else {
+              next(new APIError(400, "Invalid role"));
+            }
+          });
         } else {
           next(new APIError(400, "Invalid Password"));
         }
@@ -128,5 +131,18 @@ router.get(
       .catch(next);
   }
 );
+
+// router.get(
+//   "/users/checkrole/:role/:_id",
+//   param("role").escape().isString(),
+//   param("_id").escape().isString(),
+//   processValidationErrors,
+//   (req, res, next) => {
+//     let user = new User({ _id: req.params._id, role: req.params.role });
+//     user.checkUserRole(this.user).then((data) => {
+//       res.send(data);
+//     });
+//   }
+// );
 
 module.exports = router;

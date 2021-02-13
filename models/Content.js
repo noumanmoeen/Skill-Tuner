@@ -26,4 +26,16 @@ const contentSchema = mongoose.Schema(
   }
 );
 
+contentSchema.method("addnewContent", async function () {
+  return await this.model("Content").create(this);
+});
+
+contentSchema.method("deleteContentById", async function (_id) {
+  return await this.model("Content").deleteOne({ _id });
+});
+
+contentSchema.method("getContentById", async function () {
+  return await this.model("Content").findOne({ _id: this._id });
+});
+
 module.exports = mongoose.model("Content", contentSchema);

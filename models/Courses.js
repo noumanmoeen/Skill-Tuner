@@ -4,7 +4,7 @@ const { roles } = require("./../helpers/constant");
 
 const coursesSchema = mongoose.Schema(
   {
-    title: String,
+    title: { type: String, required: true, unique: true },
     subject: String,
     skills: [
       {
@@ -21,7 +21,7 @@ const coursesSchema = mongoose.Schema(
     },
     content: [
       {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Content",
       },
     ],
@@ -30,5 +30,26 @@ const coursesSchema = mongoose.Schema(
     timestamps: true,
   }
 );
+
+coursesSchema.method("createCourse", async function () {
+  const Courses = this.model("Courses");
+  if ((await Courses.findOne({ title: this.title })) !== null) {
+    throw new APIError(400, "Course with this title already exists");
+  }
+  return await Courses.create(this);
+});
+
+coursesSchema.method("getCourseByTitle", async function () {
+  const Courses = this.model("Courses");
+  return await Courses.findOne({ title: this.title });
+});
+
+coursesSchema.method("deleteCourseById", async function (_id) {
+  return await this.model("Courses").deleteOne({ _id });
+});
+
+coursesSchema.method("deleteCourseByName", async function (title) {
+  return await this.model("Courses").deleteOne({ title });
+});
 
 module.exports = mongoose.model("Courses", coursesSchema);
