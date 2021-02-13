@@ -8,7 +8,7 @@ const contentSchema = mongoose.Schema(
     title: String,
     type: {
       type: String,
-      default: "Link",
+      default: contentType.L,
       enum: [contentType.T, contentType.V, contentType.L],
     },
     quiz: [

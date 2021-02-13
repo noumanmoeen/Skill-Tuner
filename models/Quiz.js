@@ -6,14 +6,7 @@ const { contentType } = require("./../helpers/constant");
 const quizSchema = mongoose.Schema(
   {
     title: String,
-    startTime: {
-      type: Date,
-      required: true,
-    },
-    endTime: {
-      type: Date,
-      required: true,
-    },
+
     questions: [
       {
         type: Schema.Types.ObjectId,

@@ -19,6 +19,12 @@ const coursesSchema = mongoose.Schema(
     description: {
       type: String,
     },
+    content: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Content",
+      },
+    ],
   },
   {
     timestamps: true,

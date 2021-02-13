@@ -70,10 +70,9 @@ userschema.method("checkIfUserWithEmailExists", async function (email) {
   return user;
 });
 
-userschema.method("checkUserRole", async function (_user) {
+userschema.method("checkUserRole", async function () {
   let User = this.model("User");
-  let user = await User.findOne({ _id: _user._id, role: _user.role });
-  console.log(user);
+  let user = await User.findOne({ _id: this._id, role: this.role });
   if (user == null) {
     return false;
   }
