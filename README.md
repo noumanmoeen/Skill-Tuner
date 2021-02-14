@@ -36,17 +36,17 @@ We need to make API routes for these. Add more if necessary.
 
 ### Course
 
-- [ ] Course should have a title and a subject (and also skills)
-- [ ] Course must have an estimated time to completion
-- [ ] Course can have a description
-- [ ] Course can have associated content
+- [x] Course should have a title and a subject (and also skills)
+- [x] Course must have an estimated time to completion
+- [x] Course can have a description
+- [x] Course can have associated content
 - [ ] Course has a leader-board (top scorers from quizzes.)
 - [ ] Courses can have sections (arbitrary collections of content, e.g Week 1-2, 3-4, etc.)
 
 ### Content (Single Unit of a Course)
 
-- [ ] Content is dynamic. Could be text, video, link, etc.
-- [ ] Content must have 0 or 1 associated Quiz
+- [x] Content is dynamic. Could be text, video, link, etc.
+- [x] Content must have 0 or 1 associated Quiz
 - [ ] Content has a "Done" button to be clicked by User when they have finished
       consuming the content
 - [ ] Time when the user completed content should be recorded for stats.
@@ -54,8 +54,8 @@ We need to make API routes for these. Add more if necessary.
 ### Quiz
 
 - [ ] Quiz has creator specific total points
-- [ ] Quiz can have multiple questions
-- [ ] Each question has same point (# of questions / total)
+- [x] Quiz can have multiple questions
+- [x] Each question has same point (# of questions / total)
 - [ ] Entire quiz will be checked on submission
 - [ ] Time when the user completed quiz should be recorded for stats.
 
