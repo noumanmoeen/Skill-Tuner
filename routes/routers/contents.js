@@ -25,7 +25,7 @@ router.post(
   (req, res, next) => {
     const content = new Content(req.body);
     content
-      .addnewContent(this.content)
+      .addnewContent()
       .then((data) => {
         res.send({ message: "Content added successfully" });
       })

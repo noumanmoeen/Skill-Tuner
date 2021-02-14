@@ -24,7 +24,7 @@ router.post(
   (req, res, next) => {
     const quiz = new Quiz(req.body);
     quiz
-      .createQuiz(this.quiz)
+      .createQuiz()
       .then((data) => {
         res.send({ message: "Quiz created successfully" });
       })

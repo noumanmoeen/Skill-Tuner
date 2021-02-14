@@ -24,7 +24,7 @@ router.post(
   (req, res, next) => {
     let course = new Course(req.body);
     course
-      .createCourse(this.course)
+      .createCourse()
       .then((data) => {
         res.send({ message: "course registered" });
       })
