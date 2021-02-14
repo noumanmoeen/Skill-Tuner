@@ -3,7 +3,6 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const process = require("process");
 const Course = require("./../../models/Courses");
-const Question = require("./../../models/Questions");
 const Quiz = require("./../../models/Quiz");
 
 const keys = {

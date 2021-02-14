@@ -9,8 +9,22 @@ const quizSchema = mongoose.Schema(
 
     questions: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Question",
+        questionText: { type: String, required: true },
+        choices: [
+          {
+            type: String,
+            required: true,
+          },
+        ],
+        correctAnswer: {
+          type: String,
+          required: true,
+        },
+        answerDescription: String,
+        marks: {
+          type: Number,
+          required: true,
+        },
       },
     ],
     description: String,
