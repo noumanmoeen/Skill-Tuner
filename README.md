@@ -8,10 +8,10 @@ We need to make API routes for these. Add more if necessary.
 
 ### Admin/Creator
 
-- [ ] Can add a course
-- [ ] Can delete a course
-- [ ] Can add content to a course
-- [ ] Can add quiz to a content
+- [x] Can add a course
+- [x] Can delete a course
+- [x] Can add content to a course
+- [x] Can add quiz to a content
 - [ ] Can create other admins
 - [ ] Can block a user
 - [ ] Can review course requets
@@ -25,7 +25,7 @@ We need to make API routes for these. Add more if necessary.
 - [x] User can search for all courses (filter by various criteria; smart search)
 - [ ] User can view their recommended courses
 - [x] User can view all the courses that they are currently taking
-- [ ] User can get entire course material
+- [x] User can get entire course material
 - [ ] User can view a specific section (single content page) of the entire course
 - [ ] User can see their stats on a course (total points earned for that course, total time spent, % completed etc.)
 - [ ] User can send their feedback on a course (rating)

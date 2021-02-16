@@ -40,7 +40,6 @@ router.get(
   processValidationErrors,
   // ejwtauth,
   (req, res, next) => {
-    console.log("helle");
     const course = new Course({ _id: req.params._id });
     course
       .searchBycourseId()
@@ -67,6 +66,24 @@ router.get(
         if (data.length == 0) {
           throw new APIError(404, "There is no course with this title");
         }
+        res.send(data);
+      })
+      .catch(next);
+  }
+);
+
+router.get(
+  "/courses/getContentById/:_id",
+  param("_id", "Invalid Object ID")
+    .escape()
+    .custom((value) => validateObjectID(value)),
+  processValidationErrors,
+  // ejwtauth,
+  (req, res, next) => {
+    const course = new Course({ _id: req.params._id });
+    course
+      .getCourseContentById()
+      .then((data) => {
         res.send(data);
       })
       .catch(next);
