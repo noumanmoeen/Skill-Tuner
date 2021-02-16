@@ -20,11 +20,11 @@ We need to make API routes for these. Add more if necessary.
 
 - [x] User can register for an account and sign in
 - [ ] User can have a profile picture
-- [ ] User has to specify their Subjects and Areas of Interests (skills)
-- [ ] User can take / drop course
-- [ ] User can search for all courses (filter by various criteria; smart search)
+- [x] User has to specify their Subjects and Areas of Interests (skills)
+- [x] User can take / drop course
+- [x] User can search for all courses (filter by various criteria; smart search)
 - [ ] User can view their recommended courses
-- [ ] User can view all the courses that they are currently taking
+- [x] User can view all the courses that they are currently taking
 - [ ] User can get entire course material
 - [ ] User can view a specific section (single content page) of the entire course
 - [ ] User can see their stats on a course (total points earned for that course, total time spent, % completed etc.)

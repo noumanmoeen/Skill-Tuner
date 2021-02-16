@@ -32,4 +32,45 @@ router.post(
   }
 );
 
+router.get(
+  "/courses/searchById/:_id",
+  param("_id", "Invalid Object ID")
+    .escape()
+    .custom((value) => validateObjectID(value)),
+  processValidationErrors,
+  // ejwtauth,
+  (req, res, next) => {
+    console.log("helle");
+    const course = new Course({ _id: req.params._id });
+    course
+      .searchBycourseId()
+      .then((data) => {
+        if (data.length == 0) {
+          throw new APIError(404, "There is no course with this id");
+        }
+        res.send(data);
+      })
+      .catch(next);
+  }
+);
+
+router.get(
+  "/courses/searchByName/:name",
+  param("name").escape(),
+  processValidationErrors,
+  // ejwtauth,
+  (req, res, next) => {
+    const course = new Course({ title: req.params.name });
+    course
+      .searchByTitle()
+      .then((data) => {
+        if (data.length == 0) {
+          throw new APIError(404, "There is no course with this title");
+        }
+        res.send(data);
+      })
+      .catch(next);
+  }
+);
+
 module.exports = router;

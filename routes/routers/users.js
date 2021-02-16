@@ -126,7 +126,7 @@ router.get(
   (req, res, next) => {
     let user = new User({ username: req.params.username });
     user
-      .checkIfUserWithUsernameExists(this.user)
+      .checkIfUserWithUsernameExists()
       .then((data) => res.send(data ? 200 : 400))
       .catch(next);
   }
@@ -144,5 +144,82 @@ router.get(
 //     });
 //   }
 // );
+
+router.post(
+  "/users/courses/add/",
+  body("_id").escape(),
+  body("courseId").escape(),
+  processValidationErrors,
+  // ejwtauth,
+  (req, res, next) => {
+    const user = new User({
+      _id: req.body._id,
+      courses: { _id: req.body.courseId },
+    });
+    user
+      .addNewCourseByUserID()
+      .then((data) => {
+        res.sendStatus(data ? 200 : 400);
+      })
+      .catch(next);
+  }
+);
+
+router.post(
+  "/users/courses/drop/",
+  body("_id").escape(),
+  body("courseId").escape(),
+  processValidationErrors,
+  // ejwtauth,
+  (req, res, next) => {
+    const user = new User({
+      _id: req.body._id,
+      courses: { _id: req.body.courseId },
+    });
+    user
+      .dropCourseByUserID()
+      .then((data) => {
+        res.sendStatus(data ? 200 : 400);
+      })
+      .catch(next);
+  }
+);
+
+router.post(
+  "/users/addSkill/",
+  body("_id").escape(),
+
+  processValidationErrors,
+  // ejwtauth,
+  (req, res, next) => {
+    console.log(req.body.skills);
+    const user = new User({
+      _id: req.body._id,
+      skills: req.body.skills,
+    });
+    user
+      .addSkill()
+      .then((data) => {
+        res.sendStatus(data ? 200 : 400);
+      })
+      .catch(next);
+  }
+);
+
+router.get(
+  "/users/getEnrollCourses/:_id",
+  param("_id", "Invalid Object ID")
+    .escape()
+    .custom((value) => validateObjectID(value)),
+  // ejwtauth,
+  processValidationErrors,
+  (req, res, next) => {
+    let user = new User({ _id: req.params._id });
+    user
+      .viewEnrollCourses()
+      .then((data) => res.send(data))
+      .catch(next);
+  }
+);
 
 module.exports = router;
