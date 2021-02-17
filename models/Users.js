@@ -38,6 +38,15 @@ const userschema = mongoose.Schema(
       default: "User",
       enum: [roles.A, roles.U],
     },
+    skills: [{ type: String }],
+    courses: [
+      {
+        _id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Courses",
+        },
+      },
+    ],
   },
   {
     timestamps: true,
@@ -101,4 +110,48 @@ userschema.method("deleteUser", async function (_id) {
   return await this.model("User").deleteOne({ _id });
 });
 
+userschema.method("addNewCourseByUserID", async function () {
+  const user = this.model("User");
+  if ((await user.findOne({ _id: this._id, courses: this.courses })) != null) {
+    throw new APIError(404, "User already registered in this course");
+  }
+  return await user.updateOne(
+    { _id: this._id },
+    { $push: { courses: this.courses } }
+  );
+});
+
+userschema.method("dropCourseByUserID", async function () {
+  const user = this.model("User");
+  if ((await user.findOne({ _id: this._id, courses: this.courses })) == null) {
+    throw new APIError(404, "User is not registered in this course");
+  }
+  return await user.updateOne(
+    { _id: this._id },
+    { $pull: { courses: this.courses[0] } },
+    { multi: true }
+  );
+});
+
+userschema.method("addSkill", async function () {
+  const user = this.model("User");
+  if ((await user.findOne({ _id: this._id, skills: this.skills })) != null) {
+    throw new APIError(404, "Already a skill present in profile");
+  }
+
+  return await user.updateOne(
+    { _id: this._id },
+    { $push: { skills: this.skills } },
+    { multi: true }
+  );
+});
+
+userschema.method("viewEnrollCourses", async function () {
+  const user = this.model("User");
+  if ((await user.findOne({ _id: this._id })) == null) {
+    throw new APIError(404, "There is no user with this id");
+  }
+
+  return await user.findOne({ _id: this._id }).select("courses");
+});
 module.exports = mongoose.model("User", userschema);

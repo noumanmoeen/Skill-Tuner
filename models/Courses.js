@@ -52,4 +52,23 @@ coursesSchema.method("deleteCourseByName", async function (title) {
   return await this.model("Courses").deleteOne({ title });
 });
 
+coursesSchema.method("searchBycourseId", async function () {
+  return await this.model("Courses").findOne({ _id: this._id });
+});
+
+coursesSchema.method("searchByTitle", async function () {
+  return await this.model("Courses").find({
+    title: { $regex: this.title },
+  });
+});
+
+coursesSchema.method("getCourseContentById", async function () {
+  const course = await this.model("Courses")
+    .findOne({ _id: this._id })
+    .select("content");
+  if (course.length == 0) {
+    throw new APIError(404, "Course with this id is not found");
+  }
+  return course;
+});
 module.exports = mongoose.model("Courses", coursesSchema);
