@@ -3,6 +3,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const process = require("process");
 const User = require("./../../models/Users");
+const { status } = require("./../../helpers/constant");
 
 const keys = {
   jwtsecret: process.env.jwtsecret,
@@ -218,6 +219,23 @@ router.get(
     user
       .viewEnrollCourses()
       .then((data) => res.send(data))
+      .catch(next);
+  }
+);
+
+router.post(
+  "/users/blockUser",
+  body("_id").escape(),
+
+  // ejwtauth,
+  (req, res, next) => {
+    let user = new User({ _id: req.body._id, status: status.B });
+
+    user
+      .blockUserByID()
+      .then((data) => {
+        res.sendStatus(data ? 200 : 400);
+      })
       .catch(next);
   }
 );

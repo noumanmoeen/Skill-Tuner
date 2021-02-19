@@ -12,8 +12,8 @@ We need to make API routes for these. Add more if necessary.
 - [x] Can delete a course
 - [x] Can add content to a course
 - [x] Can add quiz to a content
-- [ ] Can create other admins
-- [ ] Can block a user
+- [x] Can create other admins
+- [x] Can block a user
 - [ ] Can review course requets
 
 ### User
@@ -53,7 +53,7 @@ We need to make API routes for these. Add more if necessary.
 
 ### Quiz
 
-- [ ] Quiz has creator specific total points
+- [x] Quiz has creator specific total points
 - [x] Quiz can have multiple questions
 - [x] Each question has same point (# of questions / total)
 - [ ] Entire quiz will be checked on submission

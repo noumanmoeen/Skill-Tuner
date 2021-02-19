@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
 const { APIError } = require("../helpers/error");
-const { roles } = require("./../helpers/constant");
+const { roles, status } = require("./../helpers/constant");
 
 const userschema = mongoose.Schema(
   {
@@ -35,8 +35,13 @@ const userschema = mongoose.Schema(
     },
     role: {
       type: String,
-      default: "User",
+      default: roles.U,
       enum: [roles.A, roles.U],
+    },
+    status: {
+      type: String,
+      default: status.A,
+      enum: [status.A, status.B],
     },
     skills: [{ type: String }],
     courses: [
@@ -154,4 +159,14 @@ userschema.method("viewEnrollCourses", async function () {
 
   return await user.findOne({ _id: this._id }).select("courses");
 });
+
+userschema.method("blockUserByID", async function () {
+  const user = await this.model("User").findOne({ _id: this._id });
+  if (user == null) {
+    throw new APIError(404, "There is no user with this id");
+  }
+
+  return user.updateOne({ status: this.status });
+});
+
 module.exports = mongoose.model("User", userschema);
