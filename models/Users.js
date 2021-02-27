@@ -3,11 +3,16 @@ const bcrypt = require("bcrypt");
 const validator = require("validator");
 const { APIError } = require("../helpers/error");
 const { roles, status } = require("./../helpers/constant");
+const fs = require("fs");
 
 const userschema = mongoose.Schema(
   {
     firstname: String,
     lastname: String,
+    profilePicture: {
+      data: Buffer,
+      contentType: String,
+    },
     username: {
       type: String,
       index: true,
@@ -72,6 +77,16 @@ userschema.method("createUser", async function (user) {
   }
 
   return await User.create(user);
+});
+
+userschema.method("addProfilePicture", async function (file) {
+  let User = await this.model("User").findOne({ _id: this._id });
+  if (User == null) {
+    throw new APIError(404, "User with this id not found");
+  }
+  User.profilePicture.data = fs.readFileSync(file);
+  User.profilePicture.contentType = "image/png";
+  return await User.save();
 });
 
 userschema.method("checkIfUserWithEmailExists", async function (email) {

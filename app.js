@@ -4,6 +4,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const { handleErrors } = require("./helpers/error");
+var multer = require("multer");
 
 var indexRouter = require("./routes/index");
 // var usersRouter = require('./routes/users');
@@ -29,6 +30,16 @@ app.use(handleErrors);
 app.use(function (req, res, next) {
   next(createError(404));
 });
+
+// upload images in server
+app.use(
+  multer({
+    dest: "./uploads/profilePictures/",
+    rename: function (filename) {
+      return filename;
+    },
+  })
+);
 
 // error handler
 app.use(function (err, req, res, next) {

@@ -49,6 +49,22 @@ router.post(
   }
 );
 
+router.post(
+  "/users/addProfilePicture",
+  body("_id").escape(),
+  ejwtauth,
+  processValidationErrors,
+  (req, res, next) => {
+    const user = new User({ _id: req.body._id });
+    user
+      .addProfilePicture(req.files.profilePicture.path)
+      .then((data) => {
+        res.sendStatus(204);
+      })
+      .catch(next);
+  }
+);
+
 /*
   --------
   Read
@@ -151,7 +167,7 @@ router.post(
   body("_id").escape(),
   body("courseId").escape(),
   processValidationErrors,
-  // ejwtauth,
+  ejwtauth,
   (req, res, next) => {
     const user = new User({
       _id: req.body._id,
@@ -171,7 +187,7 @@ router.post(
   body("_id").escape(),
   body("courseId").escape(),
   processValidationErrors,
-  // ejwtauth,
+  ejwtauth,
   (req, res, next) => {
     const user = new User({
       _id: req.body._id,
@@ -191,7 +207,7 @@ router.post(
   body("_id").escape(),
 
   processValidationErrors,
-  // ejwtauth,
+  ejwtauth,
   (req, res, next) => {
     console.log(req.body.skills);
     const user = new User({
@@ -212,7 +228,7 @@ router.get(
   param("_id", "Invalid Object ID")
     .escape()
     .custom((value) => validateObjectID(value)),
-  // ejwtauth,
+  ejwtauth,
   processValidationErrors,
   (req, res, next) => {
     let user = new User({ _id: req.params._id });
@@ -227,7 +243,7 @@ router.post(
   "/users/blockUser",
   body("_id").escape(),
 
-  // ejwtauth,
+  ejwtauth,
   (req, res, next) => {
     let user = new User({ _id: req.body._id, status: status.B });
 

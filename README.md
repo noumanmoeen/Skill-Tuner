@@ -19,7 +19,7 @@ We need to make API routes for these. Add more if necessary.
 ### User
 
 - [x] User can register for an account and sign in
-- [ ] User can have a profile picture
+- [x] User can have a profile picture
 - [x] User has to specify their Subjects and Areas of Interests (skills)
 - [x] User can take / drop course
 - [x] User can search for all courses (filter by various criteria; smart search)
