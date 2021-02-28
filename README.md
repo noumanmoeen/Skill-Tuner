@@ -30,9 +30,9 @@ We need to make API routes for these. Add more if necessary.
 - [ ] User can see their stats on a course (total points earned for that course, total time spent, % completed etc.)
 - [x] User can send their feedback on a course (rating)
 - [ ] User can answer quiz questions
-- [ ] User can also create a TODO list. (CRD, no edit)
-- [ ] User can chat with a general chat bot that answers questions about the entire SITE (not related to any specific course)
-- [ ] User can view other people's profile and see what courses that user is taking and their stats
+- [x] User can also create a TODO list. (CRD, no edit)
+- [x] User can chat with a general chat bot that answers questions about the entire SITE (not related to any specific course , do not requre mongo)
+- [x] User can view other people's profile and see what courses that user is taking and their stats
 
 ### Course
 

@@ -256,4 +256,56 @@ router.post(
   }
 );
 
+// adding tasks in to do list
+router.post(
+  "/users/todoTask/add",
+  body("_id").escape(),
+  ejwtauth,
+  processValidationErrors,
+  (req, res, next) => {
+    const user = new User({ _id: req.body._id, todolist: req.body.todolist });
+    user
+      .addTaskInTodoList()
+      .then((data) => {
+        res.sendStatus(data ? 200 : 400);
+      })
+      .catch(next);
+  }
+);
+
+// get all to do list tasks
+router.get(
+  "/users/todoTask/get/:_id",
+  ejwtauth,
+  processValidationErrors,
+  (req, res, next) => {
+    const user = new User({ _id: req.params._id });
+    user
+      .getTodoList()
+      .then((data) => {
+        res.send(data);
+      })
+      .catch(next);
+  }
+);
+
+// delete a list task based upon task id
+router.delete(
+  "/users/:_id/todoTask/delete/:Tid",
+  ejwtauth,
+  processValidationErrors,
+  (req, res, next) => {
+    const user = new User({
+      _id: req.params._id,
+      todolist: { _id: req.params.Tid },
+    });
+    user
+      .deleteTodoListTask()
+      .then((data) => {
+        res.send(data ? 200 : 400);
+      })
+      .catch(next);
+  }
+);
+
 module.exports = router;

@@ -2,8 +2,9 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
 const { APIError } = require("../helpers/error");
-const { roles, status } = require("./../helpers/constant");
+const { roles, status, todoStatus } = require("./../helpers/constant");
 const fs = require("fs");
+const _ = require("underscore");
 
 const userschema = mongoose.Schema(
   {
@@ -49,6 +50,21 @@ const userschema = mongoose.Schema(
       enum: [status.A, status.B],
     },
     skills: [{ type: String }],
+    todolist: [
+      {
+        title: {
+          type: String,
+        },
+        description: {
+          type: String,
+        },
+        status: {
+          type: String,
+          default: todoStatus.C,
+          enum: [todoStatus.C, todoStatus.IP, todoStatus.C, todoStatus.P],
+        },
+      },
+    ],
     courses: [
       {
         _id: {
@@ -182,6 +198,70 @@ userschema.method("blockUserByID", async function () {
   }
 
   return user.updateOne({ status: this.status });
+});
+
+userschema.method("addTaskInTodoList", async function () {
+  const user = await this.model("User").findOne({ _id: this._id });
+  if (user == null) {
+    throw new APIError(404, "There is no user with this id");
+  }
+
+  const task = _.find(user.todolist, (result) => {
+    if (result.title == undefined) {
+      throw new APIError(404, "title is not present");
+    }
+    return result.title.toString() == this.todolist[0].title;
+  });
+
+  if (task != undefined) {
+    throw new APIError(
+      400,
+      "there is already a task present in todo list with same title"
+    );
+  }
+  return await this.model("User").updateOne(
+    {
+      _id: this._id,
+    },
+    { $push: { todolist: this.todolist } },
+    { multi: true }
+  );
+});
+
+userschema.method("getTodoList", async function () {
+  const user = await this.model("User")
+    .findOne({ _id: this._id })
+    .select("todolist");
+  if (user == null) {
+    throw new APIError(404, "There is no user with this id");
+  }
+  return user;
+});
+
+userschema.method("deleteTodoListTask", async function () {
+  const user = await this.model("User").findOne({ _id: this._id });
+  if (user == null) {
+    throw new APIError(404, "There is no user with this id");
+  }
+
+  const task = _.find(user.todolist, (result) => {
+    return result.title.toString() == this.todolist[0].title;
+  });
+
+  if (task != undefined) {
+    return await this.model("User").updateOne(
+      {
+        _id: this._id,
+        todolist: { $elemMatch: { _id: this.todolist[0]._id } },
+      },
+      { $pull: { todolist: this.todolist[0] } },
+      { multi: true }
+    );
+  }
+  throw new APIError(
+    404,
+    "There is no task with same title please create a new one"
+  );
 });
 
 module.exports = mongoose.model("User", userschema);
