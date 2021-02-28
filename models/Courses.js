@@ -19,6 +19,10 @@ const coursesSchema = mongoose.Schema(
     description: {
       type: String,
     },
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+    },
     content: [
       {
         type: mongoose.Schema.Types.ObjectId,

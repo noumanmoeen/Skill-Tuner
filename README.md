@@ -23,7 +23,7 @@ We need to make API routes for these. Add more if necessary.
 - [x] User has to specify their Subjects and Areas of Interests (skills)
 - [x] User can take / drop course
 - [x] User can search for all courses (filter by various criteria; smart search)
-- [ ] User can view their recommended courses
+- [x] User can view their recommended courses
 - [x] User can view all the courses that they are currently taking
 - [x] User can get entire course material
 - [x] User can view a specific section (single content page) of the entire course
