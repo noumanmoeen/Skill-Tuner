@@ -21,7 +21,7 @@ router.post(
   "/content/addContent",
   body("title").escape(),
   //   todo:adding auth as a middleware
-  //   ejwtauth,
+  ejwtauth,
   (req, res, next) => {
     const content = new Content(req.body);
     content
@@ -37,7 +37,7 @@ router.get(
   "/content/getContent/:_id",
   param("_id").escape().isString(),
   //   todo:adding auth as a middleware
-  //   ejwtauth,
+  ejwtauth,
   processValidationErrors,
   (req, res, next) => {
     const content = new Content({ _id: req.params._id });

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { APIError } = require("../helpers/error");
 const { roles } = require("./../helpers/constant");
-
+const _ = require("underscore");
 const coursesSchema = mongoose.Schema(
   {
     title: { type: String, required: true, unique: true },
@@ -23,6 +23,20 @@ const coursesSchema = mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Content",
+      },
+    ],
+    feedback: [
+      {
+        userId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+        comment: {
+          type: String,
+        },
+        ratings: {
+          type: Number,
+        },
       },
     ],
   },
@@ -54,6 +68,34 @@ coursesSchema.method("deleteCourseByName", async function (title) {
 
 coursesSchema.method("searchBycourseId", async function () {
   return await this.model("Courses").findOne({ _id: this._id });
+});
+
+coursesSchema.method("addUserFeedBack", async function () {
+  const course = await this.model("Courses").findOne({ _id: this._id });
+  if (course == null) {
+    throw new APIError(404, "there is no course with this id exists");
+  }
+
+  const user = _.find(course.feedback, (result) => {
+    return result.userId.toString() == this.feedback[0].userId;
+  });
+
+  if (user != undefined) {
+    return await this.model("Courses").updateOne(
+      {
+        _id: this._id,
+        feedback: { $elemMatch: { userId: this.feedback[0].userId } },
+      },
+      { $set: { feedback: this.feedback[0] } },
+      { multi: true }
+    );
+  }
+
+  return await this.model("Courses").updateOne(
+    { _id: this._id },
+    { $push: { feedback: this.feedback } },
+    { multi: true }
+  );
 });
 
 coursesSchema.method("searchByTitle", async function () {

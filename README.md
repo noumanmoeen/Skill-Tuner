@@ -26,9 +26,9 @@ We need to make API routes for these. Add more if necessary.
 - [ ] User can view their recommended courses
 - [x] User can view all the courses that they are currently taking
 - [x] User can get entire course material
-- [ ] User can view a specific section (single content page) of the entire course
+- [x] User can view a specific section (single content page) of the entire course
 - [ ] User can see their stats on a course (total points earned for that course, total time spent, % completed etc.)
-- [ ] User can send their feedback on a course (rating)
+- [x] User can send their feedback on a course (rating)
 - [ ] User can answer quiz questions
 - [ ] User can also create a TODO list. (CRD, no edit)
 - [ ] User can chat with a general chat bot that answers questions about the entire SITE (not related to any specific course)

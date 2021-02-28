@@ -14,13 +14,14 @@ const router = express.Router();
 const validateObjectID = require("mongoose").Types.ObjectId.isValid;
 const { processValidationErrors, APIError } = require("../../helpers/error");
 const { param, body } = require("express-validator");
+const { data } = require("../../helpers/logger");
 
 router.post(
   "/courses/add",
   body("title").escape(),
   body("subject").escape(),
   //   todo:adding auth as a middleware
-  //   ejwtauth,
+  ejwtauth,
   (req, res, next) => {
     let course = new Course(req.body);
     course
@@ -38,7 +39,7 @@ router.get(
     .escape()
     .custom((value) => validateObjectID(value)),
   processValidationErrors,
-  // ejwtauth,
+  ejwtauth,
   (req, res, next) => {
     const course = new Course({ _id: req.params._id });
     course
@@ -57,7 +58,7 @@ router.get(
   "/courses/searchByName/:name",
   param("name").escape(),
   processValidationErrors,
-  // ejwtauth,
+  ejwtauth,
   (req, res, next) => {
     const course = new Course({ title: req.params.name });
     course
@@ -78,11 +79,34 @@ router.get(
     .escape()
     .custom((value) => validateObjectID(value)),
   processValidationErrors,
-  // ejwtauth,
+  ejwtauth,
   (req, res, next) => {
     const course = new Course({ _id: req.params._id });
     course
       .getCourseContentById()
+      .then((data) => {
+        res.send(data);
+      })
+      .catch(next);
+  }
+);
+
+router.post(
+  "/courses/addFeedback",
+  // ejwtauth,
+  processValidationErrors,
+  (req, res, next) => {
+    const course = new Course({
+      _id: req.body.course_id,
+      feedback: {
+        userId: req.body.user_id,
+        comment: req.body.comment,
+        ratings: req.body.ratings,
+      },
+    });
+
+    course
+      .addUserFeedBack()
       .then((data) => {
         res.send(data);
       })

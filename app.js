@@ -38,7 +38,7 @@ app.use(
     rename: function (filename) {
       return filename;
     },
-  })
+  }).any()
 );
 
 // error handler
