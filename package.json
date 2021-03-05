@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "client":"cd client && npm start",
     "start": "nodemon ./bin/www"
   },
   "dependencies": {
@@ -24,5 +25,6 @@
     "underscore": "^1.12.0",
     "validator": "^13.5.2",
     "winston": "^3.3.3"
-  }
+  },
+  "proxy":"http://localhost:4000"
 }
