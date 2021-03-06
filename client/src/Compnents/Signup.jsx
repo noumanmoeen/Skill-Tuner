@@ -25,7 +25,7 @@ class Signup extends Component {
     if (this.state.password != this.state.confirmpassword) {
       toast.error("password and confirm password are not matched");
     } else {
-      Axios.post("http://localhost:4000/api/users/register", {
+      Axios.post("/api/users/register", {
         firstname: this.state.firstname,
         lastname: this.state.lastname,
         username: this.state.username,
