@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -97,9 +98,12 @@ class Login extends Component {
               </form>
               <div className="mt-12 text-sm font-display font-semibold text-gray-700 text-center">
                 Don't have an account ?{" "}
-                <a className="cursor-pointer text-indigo-600 hover:text-indigo-800">
+                <Link
+                  className="cursor-pointer text-indigo-600 hover:text-indigo-800"
+                  to="/signup"
+                >
                   Sign up
-                </a>
+                </Link>
               </div>
             </div>
           </div>

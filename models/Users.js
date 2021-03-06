@@ -88,10 +88,6 @@ userschema.method("createUser", async function (user) {
     throw new APIError(400, "User with this username already exists");
   }
 
-  if ((await User.findOne({ reg_no: user.reg_no })) !== null) {
-    throw new APIError(400, "User with this registeration no already exists");
-  }
-
   return await User.create(user);
 });
 

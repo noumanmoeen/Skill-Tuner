@@ -1,9 +1,65 @@
 import React, { Component } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Axios from "axios";
+import { Link } from "react-router-dom";
 
 class Signup extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      firstname: "",
+      lastname: "",
+      username: "",
+      email: "",
+      password: "",
+      confirmpassword: "",
+      errorMessages: [],
+      successMessages: [],
+    };
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+
+    if (this.state.password != this.state.confirmpassword) {
+      toast.error("password and confirm password are not matched");
+    } else {
+      Axios.post("http://localhost:4000/api/users/register", {
+        firstname: this.state.firstname,
+        lastname: this.state.lastname,
+        username: this.state.username,
+        email: this.state.email,
+        pswd: this.state.password,
+      })
+        .then((res) => {
+          this.setState({ errorMessages: [] });
+          toast.success("User Successfully Created. Redirecting...");
+          this.setState({
+            successMessages: ["User Successfully Created. Redirecting..."],
+          });
+          setTimeout(() => {
+            // go to login page
+            this.props.history.push("/login");
+          }, 2000);
+        })
+        .catch((err) => {
+          if (err.response && Array.isArray(err.response.data.messages)) {
+            const msgs = err.response.data.messages.map((v) => {
+              toast.error(v.msg);
+            });
+            this.setState({ errorMessages: msgs });
+          }
+          throw err;
+        });
+    }
+    console.log(this.state);
+  }
+
+  handleChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
   }
   render() {
     return (
@@ -55,116 +111,136 @@ class Signup extends Component {
               Signup
             </h2>
             <div>
-              <form>
-                <div className="mt-10">
-                  <div className="">
-                    <div className="flex mb-4">
-                      <div className="w-1/2 mr-1">
-                        <label
-                          className="block text-grey-darker text-sm font-bold mb-2"
-                          htmlFor="first_name"
-                        >
-                          First Name
-                        </label>
-                        <input
-                          className="appearance-none border rounded w-full py-2 px-3 text-grey-darker"
-                          id="first_name"
-                          type="text"
-                          placeholder="Your first name"
-                        />
-                      </div>
-                      <div className="w-1/2 ml-1">
-                        <label
-                          className="block text-grey-darker text-sm font-bold mb-2"
-                          htmlFor="last_name"
-                        >
-                          Last Name
-                        </label>
-                        <input
-                          className="appearance-none border rounded w-full py-2 px-3 text-grey-darker"
-                          id="last_name"
-                          type="text"
-                          placeholder="Your last name"
-                        />
-                      </div>
-                    </div>
-                    <div className="mb-4">
+              <div className="mt-10">
+                <div className="">
+                  <div className="flex mb-4">
+                    <div className="w-1/2 mr-1">
                       <label
                         className="block text-grey-darker text-sm font-bold mb-2"
-                        htmlFor="username"
+                        htmlFor="firstname"
                       >
-                        Username
+                        First Name
                       </label>
                       <input
                         className="appearance-none border rounded w-full py-2 px-3 text-grey-darker"
-                        id="username"
+                        name="firstname"
                         type="text"
-                        placeholder="Your username"
+                        placeholder="Your first name"
+                        onChange={(e) => this.handleChange(e)}
                       />
                     </div>
-                    <div className="mb-4">
+                    <div className="w-1/2 ml-1">
                       <label
                         className="block text-grey-darker text-sm font-bold mb-2"
-                        htmlFor="email"
+                        htmlFor="lastname"
                       >
-                        Email Address
+                        Last Name
                       </label>
                       <input
                         className="appearance-none border rounded w-full py-2 px-3 text-grey-darker"
-                        id="email"
-                        type="email"
-                        placeholder="Your email address"
+                        name="lastname"
+                        type="text"
+                        placeholder="Your last name"
+                        onChange={(e) => this.handleChange(e)}
                       />
-                    </div>
-                    <div className="mb-4">
-                      <label
-                        className="block text-grey-darker text-sm font-bold mb-2"
-                        htmlFor="password"
-                      >
-                        Password
-                      </label>
-                      <input
-                        className="appearance-none border rounded w-full py-2 px-3 text-grey-darker"
-                        id="password"
-                        type="password"
-                        placeholder="Your secure password"
-                      />
-                      <p className="text-grey text-xs mt-1">
-                        At least 6 characters
-                      </p>
-                    </div>
-                    <div className="mb-4">
-                      <label
-                        className="block text-grey-darker text-sm font-bold mb-2"
-                        htmlFor="password"
-                      >
-                        Confirm Password
-                      </label>
-                      <input
-                        className="appearance-none border rounded w-full py-2 px-3 text-grey-darker"
-                        id="password"
-                        type="password"
-                        placeholder="Confirm your secure password"
-                      />
-                      <p className="text-grey text-xs mt-1">
-                        At least 6 characters
-                      </p>
                     </div>
                   </div>
-                  <button
-                    className="bg-indigo-500 text-gray-100 p-4 w-full rounded-full tracking-wide
+                  <div className="mb-4">
+                    <label
+                      className="block text-grey-darker text-sm font-bold mb-2"
+                      htmlFor="username"
+                    >
+                      Username
+                    </label>
+                    <input
+                      className="appearance-none border rounded w-full py-2 px-3 text-grey-darker"
+                      name="username"
+                      type="text"
+                      placeholder="Your username"
+                      onChange={(e) => this.handleChange(e)}
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label
+                      className="block text-grey-darker text-sm font-bold mb-2"
+                      htmlFor="email"
+                    >
+                      Email Address
+                    </label>
+                    <input
+                      className="appearance-none border rounded w-full py-2 px-3 text-grey-darker"
+                      name="email"
+                      type="email"
+                      placeholder="Your email address"
+                      onChange={(e) => this.handleChange(e)}
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label
+                      className="block text-grey-darker text-sm font-bold mb-2"
+                      htmlFor="password"
+                    >
+                      Password
+                    </label>
+                    <input
+                      className="appearance-none border rounded w-full py-2 px-3 text-grey-darker"
+                      name="password"
+                      type="password"
+                      onChange={(e) => this.handleChange(e)}
+                      placeholder="Your secure password"
+                    />
+                    {/* <p className="text-grey text-xs mt-1">
+                      At least 6 characters
+                    </p> */}
+                  </div>
+                  <div className="mb-4">
+                    <label
+                      className="block text-grey-darker text-sm font-bold mb-2"
+                      htmlFor="password"
+                    >
+                      Confirm Password
+                    </label>
+                    <input
+                      className="appearance-none border rounded w-full py-2 px-3 text-grey-darker"
+                      name="confirmpassword"
+                      type="password"
+                      placeholder="Confirm your secure password"
+                      required
+                      onChange={(e) => this.handleChange(e)}
+                    />
+                  </div>
+                </div>
+                <button
+                  className="bg-indigo-500 text-gray-100 p-4 w-full rounded-full tracking-wide
                                 font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-indigo-600
                                 shadow-lg"
-                  >
-                    Sign Up
-                  </button>
-                </div>
-              </form>
+                  onClick={(e) => {
+                    this.handleSubmit(e);
+                  }}
+                >
+                  Sign Up
+                </button>
+                <ToastContainer
+                  position="top-left"
+                  autoClose={5000}
+                  hideProgressBar={false}
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                />
+              </div>
+
               <div className="mt-6 text-sm font-display font-semibold text-gray-700 text-center">
                 Already have an account ?{" "}
-                <a className="cursor-pointer text-indigo-600 hover:text-indigo-800">
+                <Link
+                  className="cursor-pointer text-indigo-600 hover:text-indigo-800"
+                  to="/login"
+                >
                   Sign in
-                </a>
+                </Link>
               </div>
               <div className="mt-6"></div>
             </div>
