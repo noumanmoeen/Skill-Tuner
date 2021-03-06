@@ -1,10 +1,54 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import Axios from "axios";
+
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      email: "",
+      password: "",
+    };
   }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    // log in
+    Axios.post("/api/users/login", {
+      email: this.state.email,
+      pswd: this.state.password,
+    })
+      .then((res) => {
+        toast.success("Logged In. Redirecting...");
+        // store token in the browser
+        localStorage.setItem("token", res.data.token);
+        // store user id
+        localStorage.setItem("_id", res.data._id);
+
+        setTimeout(() => {
+          // tell parent that user loggedIn
+          this.props.whenLoggedIn();
+          // login to dashboard
+          this.props.history.push("/");
+        }, 2000);
+      })
+      .catch((err) => {
+        if (err.response && Array.isArray(err.response.data.messages)) {
+          const msgs = err.response.data.messages.map((v) =>
+            toast.error(v.msg)
+          );
+        }
+        throw err;
+      });
+  }
+
+  handleChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  }
+
   render() {
     return (
       <div className="lg:flex">
@@ -55,14 +99,16 @@ class Login extends Component {
               Log in
             </h2>
             <div className="mt-12">
-              <form>
+              <form onSubmit={(e) => this.handleSubmit(e)}>
                 <div>
                   <div className="text-sm font-bold text-gray-700 tracking-wide">
                     Email Address
                   </div>
                   <input
                     className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
-                    type
+                    type="email"
+                    name="email"
+                    onChange={(e) => this.handleChange(e)}
                     placeholder="some@gmail.com"
                   />
                 </div>
@@ -82,8 +128,10 @@ class Login extends Component {
                   </div>
                   <input
                     className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
+                    name="password"
                     type="password"
                     placeholder="Enter your password"
+                    onChange={(e) => this.handleChange(e)}
                   />
                 </div>
                 <div className="mt-10">
@@ -95,6 +143,17 @@ class Login extends Component {
                     Log In
                   </button>
                 </div>
+                <ToastContainer
+                  position="top-left"
+                  autoClose={5000}
+                  hideProgressBar={false}
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                />
               </form>
               <div className="mt-12 text-sm font-display font-semibold text-gray-700 text-center">
                 Don't have an account ?{" "}

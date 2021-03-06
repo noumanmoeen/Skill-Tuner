@@ -76,12 +76,7 @@ router.post(
   body("email", "Email is required and must be a valid mail")
     .isEmail()
     .normalizeEmail(),
-  body(
-    "pswd",
-    "Password is required, must contain atleast 6 characters, and must be a string."
-  )
-    .isLength({ min: 6 })
-    .isString(),
+
   processValidationErrors,
   (req, res, next) => {
     let user = new User();
@@ -90,10 +85,8 @@ router.post(
       .then((_user) => {
         // verify password
         if (user.checkPass(_user, req.body.pswd)) {
-          console.log("this is the user login = ", _user.id);
           user = new User({ _id: _user.id, role: req.body.role });
           user.checkUserRole(this.user).then((data) => {
-            console.log("the data", data);
             if (data) {
               let token = jwt.sign(
                 {
@@ -114,7 +107,7 @@ router.post(
             }
           });
         } else {
-          next(new APIError(400, "Invalid Password"));
+          next(new APIError(400, "Invalid Email or Password"));
         }
       })
       .catch(next);
