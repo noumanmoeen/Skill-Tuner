@@ -21,18 +21,23 @@ class Login extends Component {
       pswd: this.state.password,
     })
       .then((res) => {
-        toast.success("Logged In. Redirecting...");
-        // store token in the browser
-        localStorage.setItem("token", res.data.token);
-        // store user id
-        localStorage.setItem("_id", res.data._id);
+        if (res.data.admin) {
+          toast.success("Logged In. Redirecting...");
 
-        setTimeout(() => {
-          // tell parent that user loggedIn
-          this.props.whenLoggedIn();
-          // login to dashboard
-          this.props.history.push("/");
-        }, 2000);
+          // store token in the browser
+          localStorage.setItem("token", res.data.token);
+          // store user id
+          localStorage.setItem("_id", res.data._id);
+
+          setTimeout(() => {
+            // tell parent that user loggedIn
+            this.props.whenLoggedIn();
+            // login to dashboard
+            this.props.history.push("/dashboard");
+          }, 2000);
+        } else {
+          toast.error("Invalid user role please login with Admin Account.");
+        }
       })
       .catch((err) => {
         if (err.response && Array.isArray(err.response.data.messages)) {

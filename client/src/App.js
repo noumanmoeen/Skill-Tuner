@@ -6,6 +6,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import Login from "./Compnents/Login";
+import SideBar from "./Compnents/SideBar";
 import Signup from "./Compnents/Signup";
 import auth_axios from "./utils/auth_axios";
 
@@ -51,13 +52,26 @@ class App extends React.Component {
             path="/login"
             render={(props) => {
               return this.state.loggedIn ? (
-                <Redirect to="/" /> /*if user is login then redirect user to dashboard*/
+                <Redirect to="/dashboard" /> /*if user is login then redirect user to dashboard*/
               ) : (
                 <Login {...props} whenLoggedIn={this.handleLoggedIn} />
               );
             }}
           />
           <Route path="/signup" component={Signup} />
+          <Route
+            path="/dashboard"
+            render={(props) => {
+              return this.state.loggedIn ? (
+                <SideBar
+                  {...props}
+                  whenLoggedOut={this.handleLoggedOut}
+                /> /*if user is login then redirect user to dashboard*/
+              ) : (
+                <Redirect to="/login" />
+              );
+            }}
+          />
         </Switch>
       </Router>
     );

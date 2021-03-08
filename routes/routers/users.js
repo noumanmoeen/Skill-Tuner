@@ -3,7 +3,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const process = require("process");
 const User = require("./../../models/Users");
-const { status } = require("./../../helpers/constant");
+const { status, roles } = require("./../../helpers/constant");
 
 const keys = {
   jwtsecret: process.env.jwtsecret,
@@ -15,6 +15,7 @@ const router = express.Router();
 const validateObjectID = require("mongoose").Types.ObjectId.isValid;
 const { processValidationErrors, APIError } = require("../../helpers/error");
 const { param, body } = require("express-validator");
+const { input } = require("../../helpers/logger");
 
 /*
   --------
@@ -85,27 +86,31 @@ router.post(
       .then((_user) => {
         // verify password
         if (user.checkPass(_user, req.body.pswd)) {
-          user = new User({ _id: _user.id, role: req.body.role });
-          user.checkUserRole(this.user).then((data) => {
-            if (data) {
-              let token = jwt.sign(
-                {
-                  _id: _user._id,
-                  username: _user.username,
-                  role: _user.role,
-                },
-                keys.jwtsecret
-              );
-              // TODO: never expiring tokens
-              res.send({
-                _id: _user._id,
-                token,
-                message: "Keep it safe :)",
-              });
-            } else {
-              next(new APIError(400, "Invalid role"));
-            }
-          });
+          let token = jwt.sign(
+            {
+              _id: _user._id,
+              username: _user.username,
+              role: _user.role,
+            },
+            keys.jwtsecret
+          );
+          if (_user.role == roles.A) {
+            // TODO: never expiring tokens
+            res.send({
+              _id: _user._id,
+              token,
+              admin: true,
+              message: "Keep it safe :)",
+            });
+          } else {
+            // TODO: never expiring tokens
+            res.send({
+              _id: _user._id,
+              token,
+              admin: false,
+              message: "Keep it safe :)",
+            });
+          }
         } else {
           next(new APIError(400, "Invalid Email or Password"));
         }
