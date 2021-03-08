@@ -66,6 +66,8 @@ class App extends React.Component {
                 <SideBar
                   {...props}
                   whenLoggedOut={this.handleLoggedOut}
+                  id={localStorage.getItem("_id")}
+                  isloggedIn={this.state.loggedIn}
                 /> /*if user is login then redirect user to dashboard*/
               ) : (
                 <Redirect to="/login" />
