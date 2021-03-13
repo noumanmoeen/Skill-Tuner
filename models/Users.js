@@ -196,6 +196,16 @@ userschema.method("blockUserByID", async function () {
   return user.updateOne({ status: this.status });
 });
 
+// admin can create another admin
+userschema.method("changeUserRoleToAdminByID", async function () {
+  const user = await this.model("User").findOne({ _id: this._id });
+  if (user == null) {
+    throw new APIError(404, "There is no user with this id");
+  }
+
+  return user.updateOne({ role: roles.A });
+});
+
 userschema.method("addTaskInTodoList", async function () {
   const user = await this.model("User").findOne({ _id: this._id });
   if (user == null) {

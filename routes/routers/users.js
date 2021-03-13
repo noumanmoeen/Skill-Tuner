@@ -309,7 +309,7 @@ router.delete(
 // get the list of those users that are not admin
 router.get(
   "/users/getAllUsers/:_id",
-  // ejwtauth,
+  ejwtauth,
   processValidationErrors,
   (req, res, next) => {
     const user = new User({ _id: req.params._id });
@@ -318,6 +318,22 @@ router.get(
       .getAllUsers()
       .then((data) => {
         res.send(data);
+      })
+      .catch(next);
+  }
+);
+
+router.put(
+  "/users/updateRole/:_id",
+  ejwtauth,
+  processValidationErrors,
+  (req, res, next) => {
+    const user = new User({ _id: req.params._id });
+
+    user
+      .changeUserRoleToAdminByID()
+      .then((data) => {
+        res.sendStatus(data ? 200 : 400);
       })
       .catch(next);
   }
