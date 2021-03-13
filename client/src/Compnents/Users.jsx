@@ -37,7 +37,8 @@ class Users extends Component {
                         toast.success(
                           "User role changes to admin successfully"
                         );
-                      }, 2000);
+                        window.location.reload();
+                      }, 1000);
                     } else {
                       toast.error("User role is not changed");
                     }
