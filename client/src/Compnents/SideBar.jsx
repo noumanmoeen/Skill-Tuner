@@ -8,6 +8,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import Users from "./Users";
+import Settings from "./Settings";
 class SideBar extends Component {
   constructor(props) {
     super(props);
@@ -96,13 +97,13 @@ class SideBar extends Component {
                 </li>
 
                 <li className="sidebar-menu-item">
-                  <a
-                    href="#"
+                  <Link
+                    to="/Settings"
                     className="flex p-3 items-center text-gray-600 hover:bg-pink-100 rounded-lg hover:text-pink-800"
                   >
                     <i className="las la-cog h-8 w-8 text-2xl inline-flex items-center justify-center mr-4" />
                     <span className="hidden md:inline-flex">Settings</span>
-                  </a>
+                  </Link>
                 </li>
               </ul>
 
@@ -127,6 +128,9 @@ class SideBar extends Component {
             </Route>
             <Route path="/Users">
               <Users userId={this.props.id} />
+            </Route>
+            <Route path="/Settings">
+              <Settings userId={this.props.id} />
             </Route>
           </Switch>
         </Router>

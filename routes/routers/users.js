@@ -338,4 +338,19 @@ router.put(
       .catch(next);
   }
 );
+
+router.put(
+  "/users/updatePassword/",
+  ejwtauth,
+  processValidationErrors,
+  (req, res, next) => {
+    const user = new User({ _id: req.body._id, pswd: req.body.pswd });
+    user
+      .updatePassword(req.body.oldpassword)
+      .then((data) => {
+        res.sendStatus(data ? 200 : 400);
+      })
+      .catch(next);
+  }
+);
 module.exports = router;

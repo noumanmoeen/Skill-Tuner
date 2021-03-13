@@ -22,8 +22,16 @@ class Signup extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-
-    if (this.state.password != this.state.confirmpassword) {
+    if (
+      this.state.firstname.length == 0 ||
+      this.state.lastname.length == 0 ||
+      this.state.username.length == 0 ||
+      this.state.email.length == 0 ||
+      this.state.password.length == 0 ||
+      this.state.confirmpassword.length == 0
+    ) {
+      toast.error("Please fill all fields before sign up");
+    } else if (this.state.password != this.state.confirmpassword) {
       toast.error("password and confirm password are not matched");
     } else {
       Axios.post("/api/users/register", {
@@ -54,7 +62,6 @@ class Signup extends Component {
           throw err;
         });
     }
-    console.log(this.state);
   }
 
   handleChange(e) {

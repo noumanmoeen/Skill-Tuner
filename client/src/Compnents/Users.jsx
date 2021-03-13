@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { MDBDataTable } from "mdbreact";
-import Axios from "axios";
 import auth_axios from "./../utils/auth_axios";
 import { ToastContainer, toast } from "react-toastify";
 

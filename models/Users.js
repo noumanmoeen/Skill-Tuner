@@ -138,6 +138,18 @@ userschema.method("checkPass", function (user, pswd) {
   return bcrypt.compareSync(pswd, user.pswd);
 });
 
+userschema.method("updatePassword", async function (pswd) {
+  const user = await this.model("User").findOne({ _id: this._id });
+  if (user == null) {
+    throw new APIError(404, "No User Found");
+  }
+  console.log(pswd);
+  if (bcrypt.compareSync(pswd, user.pswd)) {
+    return user.updateOne({ pswd: this.pswd });
+  }
+  throw new APIError(404, "old password is not match");
+});
+
 userschema.method("deleteUser", async function (_id) {
   return await this.model("User").deleteOne({ _id });
 });
