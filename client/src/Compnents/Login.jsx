@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import Axios from "axios";
 import SideDiv from "./SideDiv";
-
+import url from "./../utils/url_config";
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -33,7 +33,7 @@ class Login extends Component {
             // tell parent that user loggedIn
             this.props.whenLoggedIn();
             // login to dashboard
-            this.props.history.push("/dashboard");
+            this.props.history.push(url.dashboard);
           }, 2000);
         } else {
           toast.error("Invalid user role please login with Admin Account.");
@@ -168,7 +168,7 @@ class Login extends Component {
                 Don't have an account ?{" "}
                 <Link
                   className="cursor-pointer text-indigo-600 hover:text-indigo-800"
-                  to="/signup"
+                  to={url.register}
                 >
                   Sign up
                 </Link>

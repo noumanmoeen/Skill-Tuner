@@ -11,6 +11,7 @@ import SideBar from "./Compnents/SideBar";
 import Signup from "./Compnents/Signup";
 import Users from "./Compnents/Users";
 import auth_axios from "./utils/auth_axios";
+import url from "./utils/url_config";
 
 class App extends React.Component {
   constructor(props) {
@@ -51,7 +52,7 @@ class App extends React.Component {
       <Router>
         <Switch>
           <Route
-            path="/Users"
+            path={url.users}
             render={(props) => {
               return this.state.loggedIn ? (
                 <SideBar
@@ -61,13 +62,13 @@ class App extends React.Component {
                   isloggedIn={this.state.loggedIn}
                 />
               ) : (
-                <Redirect to="/login" />
+                <Redirect to={url.login} />
               );
             }}
           />
 
           <Route
-            path="/Settings"
+            path={url.setting}
             render={(props) => {
               return this.state.loggedIn ? (
                 <SideBar
@@ -77,24 +78,42 @@ class App extends React.Component {
                   isloggedIn={this.state.loggedIn}
                 />
               ) : (
-                <Redirect to="/login" />
+                <Redirect to={url.login} />
               );
             }}
           />
 
           <Route
-            path="/login"
+            path={url.addCourse}
             render={(props) => {
               return this.state.loggedIn ? (
-                <Redirect to="/dashboard" /> /*if user is login then redirect user to dashboard*/
+                <SideBar
+                  {...props}
+                  whenLoggedOut={this.handleLoggedOut}
+                  id={localStorage.getItem("_id")}
+                  isloggedIn={this.state.loggedIn}
+                />
+              ) : (
+                <Redirect to={url.login} />
+              );
+            }}
+          />
+
+          <Route
+            path={url.login}
+            render={(props) => {
+              return this.state.loggedIn ? (
+                <Redirect
+                  to={url.dashboard}
+                /> /*if user is login then redirect user to dashboard*/
               ) : (
                 <Login {...props} whenLoggedIn={this.handleLoggedIn} />
               );
             }}
           />
-          <Route path="/signup" component={Signup} />
+          <Route path={url.register} component={Signup} />
           <Route
-            path="/dashboard"
+            path={url.dashboard}
             render={(props) => {
               return this.state.loggedIn ? (
                 <SideBar
@@ -104,7 +123,7 @@ class App extends React.Component {
                   isloggedIn={this.state.loggedIn}
                 /> /*if user is login then redirect user to dashboard*/
               ) : (
-                <Redirect to="/login" />
+                <Redirect to={url.login} />
               );
             }}
           />

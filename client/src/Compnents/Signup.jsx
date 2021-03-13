@@ -4,6 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Axios from "axios";
 import { Link } from "react-router-dom";
 import SideDiv from "./SideDiv";
+import url from "../utils/url_config";
 
 class Signup extends Component {
   constructor(props) {
@@ -49,7 +50,7 @@ class Signup extends Component {
           });
           setTimeout(() => {
             // go to login page
-            this.props.history.push("/login");
+            this.props.history.push(url.login);
           }, 2000);
         })
         .catch((err) => {
@@ -245,7 +246,7 @@ class Signup extends Component {
                 Already have an account ?{" "}
                 <Link
                   className="cursor-pointer text-indigo-600 hover:text-indigo-800"
-                  to="/login"
+                  to={url.login}
                 >
                   Sign in
                 </Link>

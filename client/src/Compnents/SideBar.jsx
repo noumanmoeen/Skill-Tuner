@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Dashboard from "./Dashboard";
+import url from "./../utils/url_config";
 import {
   BrowserRouter as Router,
   Switch,
@@ -9,6 +10,7 @@ import {
 } from "react-router-dom";
 import Users from "./Users";
 import Settings from "./Settings";
+import AddCourse from "./AddCourses";
 class SideBar extends Component {
   constructor(props) {
     super(props);
@@ -20,7 +22,7 @@ class SideBar extends Component {
     localStorage.removeItem("token");
     localStorage.removeItem("_id");
     this.props.whenLoggedOut();
-    this.props.history.push("/login");
+    this.props.history.push(url.login);
   };
   render() {
     return (
@@ -42,7 +44,7 @@ class SideBar extends Component {
               <ul className="p-4 flex-grow border">
                 <li className="sidebar-menu-item">
                   <Link
-                    to="/dashboard"
+                    to={url.dashboard}
                     className="flex p-3 items-center text-gray-600 hover:bg-pink-100 rounded-lg hover:text-pink-800"
                   >
                     <i className="las la-home h-8 w-8 text-2xl inline-flex items-center justify-center mr-4" />
@@ -50,13 +52,13 @@ class SideBar extends Component {
                   </Link>
                 </li>
                 <li className="sidebar-menu-item">
-                  <a
-                    href="#"
+                  <Link
+                    to={url.addCourse}
                     className="flex p-3 items-center text-gray-600 hover:bg-pink-100 rounded-lg hover:text-pink-800"
                   >
                     <i className="las la-plus h-8 w-8 text-2xl inline-flex items-center justify-center mr-4" />
                     <span className="hidden md:inline-flex">Add Courses</span>
-                  </a>
+                  </Link>
                 </li>
                 <li className="sidebar-menu-item">
                   <a
@@ -88,7 +90,7 @@ class SideBar extends Component {
 
                 <li className="sidebar-menu-item">
                   <Link
-                    to="/Users"
+                    to={url.users}
                     className="flex p-3 items-center text-gray-600 hover:bg-pink-100 rounded-lg hover:text-pink-800"
                   >
                     <i className="las la-user h-8 w-8 text-2xl inline-flex items-center justify-center mr-4" />
@@ -98,7 +100,7 @@ class SideBar extends Component {
 
                 <li className="sidebar-menu-item">
                   <Link
-                    to="/Settings"
+                    to={url.setting}
                     className="flex p-3 items-center text-gray-600 hover:bg-pink-100 rounded-lg hover:text-pink-800"
                   >
                     <i className="las la-cog h-8 w-8 text-2xl inline-flex items-center justify-center mr-4" />
@@ -123,14 +125,17 @@ class SideBar extends Component {
           </nav>
 
           <Switch>
-            <Route path="/dashboard">
+            <Route path={url.dashboard}>
               <Dashboard />
             </Route>
-            <Route path="/Users">
+            <Route path={url.users}>
               <Users userId={this.props.id} />
             </Route>
-            <Route path="/Settings">
+            <Route path={url.setting}>
               <Settings userId={this.props.id} />
+            </Route>
+            <Route path={url.addCourse}>
+              <AddCourse userId={this.props.id} />
             </Route>
           </Switch>
         </Router>
