@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import {
   BrowserRouter as Router,

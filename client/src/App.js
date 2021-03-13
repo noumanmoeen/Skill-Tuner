@@ -4,10 +4,12 @@ import {
   Switch,
   Route,
   Redirect,
+  useHistory,
 } from "react-router-dom";
 import Login from "./Compnents/Login";
 import SideBar from "./Compnents/SideBar";
 import Signup from "./Compnents/Signup";
+import Users from "./Compnents/Users";
 import auth_axios from "./utils/auth_axios";
 
 class App extends React.Component {
@@ -48,6 +50,22 @@ class App extends React.Component {
     return (
       <Router>
         <Switch>
+          <Route
+            path="/Users"
+            render={(props) => {
+              return this.state.loggedIn ? (
+                <SideBar
+                  {...props}
+                  whenLoggedOut={this.handleLoggedOut}
+                  id={localStorage.getItem("_id")}
+                  isloggedIn={this.state.loggedIn}
+                />
+              ) : (
+                <Redirect to="/login" />
+              );
+            }}
+          />
+
           <Route
             path="/login"
             render={(props) => {

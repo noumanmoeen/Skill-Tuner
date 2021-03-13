@@ -27,7 +27,7 @@ class Users extends Component {
         function update(object) {
           object.action = (
             <button
-              className=" hover:bg-pink-100 text-gray font-bold py-2 px-4 rounded-full"
+              className=" hover:bg-pink-100 hover:text-pink-500 text-gray font-bold py-2 px-4 rounded-full"
               onClick={async () => {
                 await auth_axios
                   .put("/api/users/updateRole/" + object._id)
