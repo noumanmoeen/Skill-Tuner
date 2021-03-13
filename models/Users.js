@@ -259,5 +259,16 @@ userschema.method("deleteTodoListTask", async function () {
     "There is no task with same title please create a new one"
   );
 });
+// get all users except admins and user who call it.
+userschema.method("getAllUsers", async function () {
+  const user = await this.model("User")
+    .find({
+      _id: { $ne: this._id },
+      role: { $ne: roles.A },
+    })
+    .select(["firstname", "lastname", "email", "role", "status", "username"]);
+
+  return user;
+});
 
 module.exports = mongoose.model("User", userschema);

@@ -7,6 +7,7 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
+import Users from "./Users";
 class SideBar extends Component {
   constructor(props) {
     super(props);
@@ -22,12 +23,12 @@ class SideBar extends Component {
   };
   render() {
     return (
-      <>
+      <div className="flex">
         <Router>
-          <nav className="flex flex-col fixed inset-y-0 bg-white w-20 md:w-72 transition-all">
+          <nav className="flex flex-col min-h-screen inset-y-0 bg-white w-20 md:w-72 transition-all">
             <a
               href="#"
-              className="flex flex-col items-center text-xl py-4 shadow-sm justify-center font-bold text-gray-600"
+              className="flex flex-col items-center text-xl py-4 shadow-sm justify-center font-bold text-gray-600 border"
             >
               <div>
                 <span className="hidden md:inline-flex">Skill Tuner</span>
@@ -37,7 +38,7 @@ class SideBar extends Component {
               </div>
             </a>
             <div className="flex flex-col h-full overflow-y-auto">
-              <ul className="p-4 flex-grow">
+              <ul className="p-4 flex-grow border">
                 <li className="sidebar-menu-item">
                   <Link
                     to="/dashboard"
@@ -85,13 +86,13 @@ class SideBar extends Component {
                 </li>
 
                 <li className="sidebar-menu-item">
-                  <a
-                    href="#"
+                  <Link
+                    to="/Users"
                     className="flex p-3 items-center text-gray-600 hover:bg-pink-100 rounded-lg hover:text-pink-800"
                   >
                     <i className="las la-user h-8 w-8 text-2xl inline-flex items-center justify-center mr-4" />
                     <span className="hidden md:inline-flex">Users</span>
-                  </a>
+                  </Link>
                 </li>
 
                 <li className="sidebar-menu-item">
@@ -105,7 +106,7 @@ class SideBar extends Component {
                 </li>
               </ul>
 
-              <ul className="p-4">
+              <ul className="p-4 border">
                 <li className="sidebar-menu-item">
                   <a
                     href="#"
@@ -119,13 +120,17 @@ class SideBar extends Component {
               </ul>
             </div>
           </nav>
+
           <Switch>
             <Route path="/dashboard">
               <Dashboard />
             </Route>
+            <Route path="/Users">
+              <Users userId={this.props.id} />
+            </Route>
           </Switch>
         </Router>
-      </>
+      </div>
     );
   }
 }

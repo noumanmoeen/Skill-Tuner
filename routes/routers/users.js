@@ -15,7 +15,7 @@ const router = express.Router();
 const validateObjectID = require("mongoose").Types.ObjectId.isValid;
 const { processValidationErrors, APIError } = require("../../helpers/error");
 const { param, body } = require("express-validator");
-const { input } = require("../../helpers/logger");
+const { input, data } = require("../../helpers/logger");
 
 /*
   --------
@@ -306,4 +306,20 @@ router.delete(
   }
 );
 
+// get the list of those users that are not admin
+router.get(
+  "/users/getAllUsers/:_id",
+  // ejwtauth,
+  processValidationErrors,
+  (req, res, next) => {
+    const user = new User({ _id: req.params._id });
+
+    user
+      .getAllUsers()
+      .then((data) => {
+        res.send(data);
+      })
+      .catch(next);
+  }
+);
 module.exports = router;

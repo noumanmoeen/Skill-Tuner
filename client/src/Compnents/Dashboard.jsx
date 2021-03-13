@@ -8,7 +8,11 @@ class Dashboard extends Component {
   render() {
     return (
       <>
-        <h1>hello</h1>
+        {/* <div className="flex flex-1">
+          <main className="flex items-center justify-center flex-1 px-4 py-8">
+            <h1 className="text-5xl font-bold text-gray-500">In progress</h1>
+          </main>
+        </div> */}
       </>
     );
   }
