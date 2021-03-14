@@ -6,8 +6,16 @@ class AddCourse extends Component {
     super(props);
     this.state = {
       options: [
-        { name: "Srigar", id: 1 },
-        { name: "Sam", id: 2 },
+        { name: "programming", id: 1 },
+        { name: "Seo", id: 2 },
+        { name: "technicalWriting", id: 3 },
+        { name: "photoShop", id: 4 },
+        { name: "management", id: 5 },
+        { name: "speaking", id: 6 },
+        { name: "finance", id: 7 },
+        { name: "Accounting", id: 8 },
+        { name: "Microsoft office", id: 9 },
+        { name: "Graphics", id: 10 },
       ],
     };
   }

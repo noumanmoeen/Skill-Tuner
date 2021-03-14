@@ -30,4 +30,20 @@ router.post(
       .catch(next);
   }
 );
+
+router.get(
+  "/category/getAllCategory",
+  ejwtauth,
+  processValidationErrors,
+  (req, res, next) => {
+    const category = new Category({ name: req.body.name });
+    category
+      .getAllCategories()
+      .then((data) => {
+        res.send(data);
+      })
+      .catch(next);
+  }
+);
+
 module.exports = router;
