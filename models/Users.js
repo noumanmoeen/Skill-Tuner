@@ -143,7 +143,6 @@ userschema.method("updatePassword", async function (pswd) {
   if (user == null) {
     throw new APIError(404, "No User Found");
   }
-  console.log(pswd);
   if (bcrypt.compareSync(pswd, user.pswd)) {
     return user.updateOne({ pswd: this.pswd });
   }

@@ -73,7 +73,7 @@ class Settings extends Component {
             className="justify-center flex-1 py-10 px-10"
             style={{ paddingBottom: "1rem" }}
           >
-            <h1 className="text-3xl font-bold text-gray-600">Settings</h1>
+            <h1 className="text-3xl font-bold text-gray-600">Setting</h1>
           </main>
           <div
             className="container mx-auto md:container md:mx-auto sm:container sm:mx-auto lg:container"
