@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { Multiselect } from "multiselect-react-dropdown";
+import auth_axios from "../utils/auth_axios";
 class AddCourse extends Component {
   constructor(props) {
     super(props);
@@ -17,7 +18,19 @@ class AddCourse extends Component {
         { name: "Microsoft office", id: 9 },
         { name: "Graphics", id: 10 },
       ],
+      category: [],
     };
+  }
+
+  componentDidMount() {
+    auth_axios
+      .get("/api/category/getAllCategory")
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }
   render() {
     return (

@@ -11,6 +11,7 @@ import {
 import Users from "./Users";
 import Settings from "./Settings";
 import AddCourse from "./AddCourses";
+import AddCourseCategory from "./AddCourseCategory";
 class SideBar extends Component {
   constructor(props) {
     super(props);
@@ -49,6 +50,17 @@ class SideBar extends Component {
                   >
                     <i className="las la-home h-8 w-8 text-2xl inline-flex items-center justify-center mr-4" />
                     <span className="hidden md:inline-flex">Dashboard</span>
+                  </Link>
+                </li>
+                <li className="sidebar-menu-item">
+                  <Link
+                    to={url.addCourseCategory}
+                    className="flex p-3 items-center text-gray-600 hover:bg-pink-100 rounded-lg hover:text-pink-800"
+                  >
+                    <i className="las la-plus h-8 w-8 text-2xl inline-flex items-center justify-center mr-4" />
+                    <span className="hidden md:inline-flex">
+                      Add Courses Category
+                    </span>
                   </Link>
                 </li>
                 <li className="sidebar-menu-item">
@@ -136,6 +148,9 @@ class SideBar extends Component {
             </Route>
             <Route path={url.addCourse}>
               <AddCourse userId={this.props.id} />
+            </Route>
+            <Route path={url.addCourseCategory}>
+              <AddCourseCategory userId={this.props.id} />
             </Route>
           </Switch>
         </Router>

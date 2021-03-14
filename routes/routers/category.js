@@ -17,7 +17,6 @@ const { param, body } = require("express-validator");
 router.post(
   "/category/add",
   body("name").escape(),
-  //   todo:adding auth as a middleware
   ejwtauth,
   processValidationErrors,
   (req, res, next) => {
@@ -25,7 +24,7 @@ router.post(
     category
       .addCategory()
       .then((data) => {
-        res.send({ message: "Content added successfully" });
+        res.sendStatus(data ? 200 : 400);
       })
       .catch(next);
   }

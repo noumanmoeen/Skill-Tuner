@@ -4,7 +4,6 @@ import {
   Switch,
   Route,
   Redirect,
-  useHistory,
 } from "react-router-dom";
 import Login from "./Compnents/Login";
 import SideBar from "./Compnents/SideBar";
@@ -69,6 +68,22 @@ class App extends React.Component {
 
           <Route
             path={url.setting}
+            render={(props) => {
+              return this.state.loggedIn ? (
+                <SideBar
+                  {...props}
+                  whenLoggedOut={this.handleLoggedOut}
+                  id={localStorage.getItem("_id")}
+                  isloggedIn={this.state.loggedIn}
+                />
+              ) : (
+                <Redirect to={url.login} />
+              );
+            }}
+          />
+
+          <Route
+            path={url.addCourseCategory}
             render={(props) => {
               return this.state.loggedIn ? (
                 <SideBar
