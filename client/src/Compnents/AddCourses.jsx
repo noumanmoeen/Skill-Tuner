@@ -105,7 +105,7 @@ class AddCourse extends Component {
       formData.append("description", this.state.description);
 
       formData.append("category", this.state.selectedCategory);
-      formData.append("skills", this.state.skills);
+      formData.append("skills", skills);
       auth_axios
         .post("/api/courses/add", formData)
         .then((res) => {

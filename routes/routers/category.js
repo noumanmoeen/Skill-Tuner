@@ -45,4 +45,18 @@ router.get(
   }
 );
 
+router.get(
+  "/category/getCategory/:_id",
+  ejwtauth,
+  processValidationErrors,
+  (req, res, next) => {
+    const category = new Category({ _id: req.params._id });
+    category
+      .getCategoryNameById()
+      .then((data) => {
+        res.send(data);
+      })
+      .catch(next);
+  }
+);
 module.exports = router;

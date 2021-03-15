@@ -21,4 +21,12 @@ coursesCategorySchema.method("getAllCategories", async function () {
   return await this.model("Category").find({}).select(["_id", "name"]);
 });
 
+coursesCategorySchema.method("getCategoryNameById", async function () {
+  const Category = await this.model("Category").findOne({ _id: this._id });
+  if (Category == null) {
+    throw new APIError(404, "Category not Found");
+  }
+  return Category;
+});
+
 module.exports = mongoose.model("Category", coursesCategorySchema);

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { MDBDataTable } from "mdbreact";
+import auth_axios from "../utils/auth_axios";
 class ViewCourses extends Component {
   constructor(props) {
     super(props);
@@ -8,55 +9,56 @@ class ViewCourses extends Component {
   }
 
   componentDidMount() {
-    this.setState({
-      data: {
-        columns: [
-          {
-            label: "First Name",
-            field: "firstname",
-            sort: "asc",
-            width: 150,
+    auth_axios
+      .get("/api/courses/getAllCourses")
+      .then((res) => {
+        const result = res.data;
+        this.setState({
+          data: {
+            columns: [
+              {
+                label: "Course Name",
+                field: "title",
+                sort: "asc",
+                width: 150,
+              },
+              {
+                label: "Subject",
+                field: "subject",
+                sort: "asc",
+                width: 270,
+              },
+              {
+                label: "Category",
+                field: "category",
+                sort: "asc",
+                width: 200,
+              },
+              {
+                label: "Duration",
+                field: "duration",
+                sort: "asc",
+                width: 100,
+              },
+              {
+                label: "Skills",
+                field: "skills",
+                sort: "asc",
+                width: 150,
+              },
+              {
+                label: "Action",
+                field: "action",
+                sort: "asc",
+                width: 100,
+              },
+            ],
+            rows: res.data,
           },
-          {
-            label: "Last Name",
-            field: "lastname",
-            sort: "asc",
-            width: 270,
-          },
-          {
-            label: "Username",
-            field: "username",
-            sort: "asc",
-            width: 200,
-          },
-          {
-            label: "Email",
-            field: "email",
-            sort: "asc",
-            width: 100,
-          },
-          {
-            label: "Role",
-            field: "role",
-            sort: "asc",
-            width: 150,
-          },
-          {
-            label: "Status",
-            field: "status",
-            sort: "asc",
-            width: 100,
-          },
-          {
-            label: "Action",
-            field: "action",
-            sort: "asc",
-            width: 100,
-          },
-        ],
-        rows: [],
-      },
-    });
+        });
+        console.log(res.data);
+      })
+      .catch((err) => {});
   }
   render() {
     return (
@@ -83,14 +85,14 @@ class ViewCourses extends Component {
             className="container mx-auto md:container md:mx-auto sm:container sm:mx-auto lg:container"
             style={{ width: 1200 }}
           >
-            {/* <MDBDataTable
+            <MDBDataTable
               className="justify-center flex-1 px-16"
               striped
               bordered
               small
               responsive
               data={this.state.data}
-            /> */}
+            />
           </div>
         </div>
       </>
