@@ -115,6 +115,22 @@ class App extends React.Component {
           />
 
           <Route
+            path={url.viewCourses}
+            render={(props) => {
+              return this.state.loggedIn ? (
+                <SideBar
+                  {...props}
+                  whenLoggedOut={this.handleLoggedOut}
+                  id={localStorage.getItem("_id")}
+                  isloggedIn={this.state.loggedIn}
+                />
+              ) : (
+                <Redirect to={url.login} />
+              );
+            }}
+          />
+
+          <Route
             path={url.login}
             render={(props) => {
               return this.state.loggedIn ? (

@@ -6,6 +6,7 @@ const url = {
   setting: "/Setting",
   users: "/Users",
   addCourseCategory: "/Courses/addNewCategory",
+  viewCourses: "/Courses/View",
 };
 
 export default url;
