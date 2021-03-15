@@ -65,11 +65,14 @@ coursesSchema.method("getCourseByTitle", async function () {
   return await Courses.findOne({ title: this.title });
 });
 coursesSchema.method("getAllCourses", async function () {
-  return await this.model("Courses").find({});
+  return await this.model("Courses").find({}).populate("category");
 });
 
-coursesSchema.method("deleteCourseById", async function (_id) {
-  return await this.model("Courses").deleteOne({ _id });
+coursesSchema.method("deleteCourseById", async function () {
+  if ((await this.model("Courses").findOne({ _id: this._id })) == null) {
+    throw new APIError(400, "There is no course with this id");
+  }
+  return await this.model("Courses").deleteOne({ _id: this._id });
 });
 
 coursesSchema.method("deleteCourseByName", async function (title) {

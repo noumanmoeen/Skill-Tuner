@@ -13,6 +13,45 @@ class ViewCourses extends Component {
       .get("/api/courses/getAllCourses")
       .then((res) => {
         const result = res.data;
+        console.log("this = ", result);
+
+        result.forEach(update);
+        function update(object) {
+          object.category = object.category.name;
+          object.action = (
+            <button
+              className=" hover:bg-pink-100 hover:text-pink-500 text-gray font-bold py-2 px-4 rounded-full"
+              onClick={async () => {
+                await auth_axios
+                  .delete("/api/course/delete/" + object._id)
+                  .then((res) => {
+                    if (res.status == 200) {
+                      setTimeout(() => {
+                        toast.success("Course Deleted Successfully");
+                        window.location.reload();
+                      }, 1000);
+                    } else {
+                      toast.error("Course not deleted");
+                    }
+                  })
+                  .catch((err) => {
+                    if (
+                      err.response &&
+                      Array.isArray(err.response.data.messages)
+                    ) {
+                      const msgs = err.response.data.messages.map((v) =>
+                        toast.error(v.msg)
+                      );
+                    }
+                    throw err;
+                  });
+              }}
+            >
+              Delete
+            </button>
+          );
+        }
+
         this.setState({
           data: {
             columns: [
@@ -53,10 +92,9 @@ class ViewCourses extends Component {
                 width: 100,
               },
             ],
-            rows: res.data,
+            rows: result,
           },
         });
-        console.log(res.data);
       })
       .catch((err) => {});
   }

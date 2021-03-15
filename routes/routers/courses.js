@@ -148,9 +148,24 @@ router.get(
   }
 );
 
+router.delete(
+  "/course/delete/:_id",
+  ejwtauth,
+  processValidationErrors,
+  (req, res, next) => {
+    const course = new Course({ _id: req.params._id });
+    course
+      .deleteCourseById()
+      .then((data) => {
+        res.sendStatus(data ? 200 : 400);
+      })
+      .catch(next);
+  }
+);
+
 router.post(
   "/courses/addFeedback",
-  // ejwtauth,
+  ejwtauth,
   processValidationErrors,
   (req, res, next) => {
     const course = new Course({
