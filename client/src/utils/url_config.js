@@ -7,6 +7,7 @@ const url = {
   users: "/Users",
   addCourseCategory: "/Courses/addNewCategory",
   viewCourses: "/Courses/View",
+  addCourseContent: "/Courses/AddContent",
 };
 
 export default url;
