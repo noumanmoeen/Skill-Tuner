@@ -6,6 +6,9 @@ const coursesSchema = mongoose.Schema(
   {
     title: { type: String, required: true, unique: true },
     subject: String,
+    coverPicture: {
+      type: String,
+    },
     skills: [
       {
         type: String,

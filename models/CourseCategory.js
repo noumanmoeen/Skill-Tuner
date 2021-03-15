@@ -18,7 +18,7 @@ coursesCategorySchema.method("addCategory", async function () {
 });
 
 coursesCategorySchema.method("getAllCategories", async function () {
-  return await this.model("Category").find({});
+  return await this.model("Category").find({}).select(["_id", "name"]);
 });
 
 module.exports = mongoose.model("Category", coursesCategorySchema);

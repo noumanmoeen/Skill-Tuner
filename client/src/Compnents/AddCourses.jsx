@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { Multiselect } from "multiselect-react-dropdown";
 import auth_axios from "../utils/auth_axios";
+
 class AddCourse extends Component {
   constructor(props) {
     super(props);
@@ -19,19 +20,118 @@ class AddCourse extends Component {
         { name: "Graphics", id: 10 },
       ],
       category: [],
+      title: "",
+      subject: "",
+      duration: "",
+      skills: [],
+      description: "",
+      selectedCategory: "",
+      coverPicture: null,
+      loading: false,
     };
   }
 
-  componentDidMount() {
-    auth_axios
+  async componentDidMount() {
+    await auth_axios
       .get("/api/category/getAllCategory")
       .then((res) => {
         console.log(res.data);
+        this.setState({ category: res.data });
       })
       .catch((e) => {
         console.log(e);
       });
   }
+
+  handleFile = (e) => {
+    console.log(e.target.files[0]);
+    const validImageTypes = [
+      "image/gif",
+      "image/jpeg",
+      "image/png",
+      "image/jpg",
+    ];
+    if (!validImageTypes.includes(e.target.files[0].type)) {
+      toast.error("please insert picture");
+    } else {
+      this.setState({ coverPicture: e.target.files[0] });
+    }
+  };
+
+  onSelectCategory = (e) => {
+    this.setState({ selectedCategory: e.target.value });
+  };
+
+  onSelectSkill = (selectedList) => {
+    this.setState({ skills: selectedList });
+  };
+
+  onRemoveSkill = (selectedList) => {
+    this.setState({ skills: selectedList });
+  };
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  handleAddCourse = (e) => {
+    e.preventDefault();
+    this.setState({ loading: true });
+    if (
+      this.state.title.length == 0 ||
+      this.state.description.length == 0 ||
+      this.state.coverPicture == null ||
+      this.state.skills.length == 0 ||
+      this.state.subject.length == 0 ||
+      this.state.duration.length == 0 ||
+      this.state.category.length == 0
+    ) {
+      toast.error("Please fill all fields to add Course!!");
+    } else {
+      const skills = [];
+      const skillsData = this.state.skills;
+
+      skillsData.forEach(getNames);
+      function getNames(object) {
+        skills.push(object.name);
+      }
+
+      const formData = new FormData();
+      formData.append("coverPicture", this.state.coverPicture);
+      formData.append("title", this.state.title);
+      formData.append("subject", this.state.subject);
+      formData.append("duration", this.state.duration);
+      formData.append("description", this.state.description);
+
+      formData.append("category", this.state.selectedCategory);
+      formData.append("skills", this.state.skills);
+      auth_axios
+        .post("/api/courses/add", formData)
+        .then((res) => {
+          if (res.status == 200) {
+            this.setState({ loading: false });
+            setTimeout(() => {
+              toast.success("Course Added Successfully!!");
+              window.location.reload();
+            }, 1200);
+          } else {
+            toast.error("there is an error in course addition");
+            this.setState({ loading: false });
+          }
+        })
+        .catch((err) => {
+          if (err.response && Array.isArray(err.response.data.messages)) {
+            const msgs = err.response.data.messages.map((v) => {
+              toast.error(v.msg);
+            });
+            this.setState({ loading: false });
+            this.setState({ errorMessages: msgs });
+          }
+          throw err;
+        });
+    }
+  };
   render() {
     return (
       <>
@@ -75,8 +175,11 @@ class AddCourse extends Component {
                           <input
                             className="w-full shadow-inner p-2 border-0"
                             type="text"
-                            name="address_street"
-                            placeholder="subject"
+                            name="title"
+                            onChange={(e) => {
+                              this.handleChange(e);
+                            }}
+                            placeholder="Title"
                           />
                         </div>
                         <div className="md:flex-1 md:pr-3">
@@ -86,7 +189,8 @@ class AddCourse extends Component {
                           <input
                             className="w-full p-2"
                             type="file"
-                            name="address_street"
+                            onChange={(e) => this.handleFile(e)}
+                            name="coverPicture"
                           />
                         </div>
                       </div>
@@ -98,7 +202,10 @@ class AddCourse extends Component {
                           <input
                             className="w-full shadow-inner p-2 border-0"
                             type="text"
-                            name="address_street"
+                            name="subject"
+                            onChange={(e) => {
+                              this.handleChange(e);
+                            }}
                             placeholder="subject"
                           />
                         </div>
@@ -106,13 +213,14 @@ class AddCourse extends Component {
                           <label className="block uppercase tracking-wide text-charcoal-darker text-xs font-bold">
                             Skills
                           </label>
+
                           <Multiselect
                             options={this.state.options} // Options to display in the dropdown
                             // selectedValues={this.state.selectedValue} // Preselected value to persist in dropdown
-                            // onSelect={this.onSelect} // Function will trigger on select event
-                            // onRemove={this.onRemove} // Function will trigger on remove event
+                            onSelect={this.onSelectSkill} // Function will trigger on select event
+                            onRemove={this.onRemoveSkill} // Function will trigger on remove event
                             displayValue="name" // Property name to display in the dropdown options
-                            selectionLimit="2"
+                            selectionLimit="5"
                             placeholder="Select Skills"
                           />
                         </div>
@@ -125,7 +233,10 @@ class AddCourse extends Component {
                           <input
                             className="w-full shadow-inner p-2 border-0"
                             type="text"
-                            name="address_street"
+                            name="duration"
+                            onChange={(e) => {
+                              this.handleChange(e);
+                            }}
                             placeholder="duration eg: 2-weeks"
                           />
                         </div>
@@ -133,15 +244,27 @@ class AddCourse extends Component {
                           <label className="block uppercase tracking-wide text-charcoal-darker text-xs font-bold">
                             Category
                           </label>
-                          <Multiselect
-                            options={this.state.options} // Options to display in the dropdown
-                            // selectedValues={this.state.selectedValue} // Preselected value to persist in dropdown
-                            // onSelect={this.onSelect} // Function will trigger on select event
-                            // onRemove={this.onRemove} // Function will trigger on remove event
-                            displayValue="name" // Property name to display in the dropdown options
-                            singleSelect
-                            placeholder="Select Category"
-                          />
+                          {this.state.category.length > 0 ? (
+                            <select
+                              className="w-full border bg-white rounded px-3 py-2 outline-none"
+                              onChange={this.onSelectCategory}
+                            >
+                              <option value="" disable selected>
+                                Select category
+                              </option>
+                              {this.state.category.map((data, index) => {
+                                return (
+                                  <option
+                                    key={index}
+                                    className="py-1"
+                                    value={data._id}
+                                  >
+                                    {data.name}
+                                  </option>
+                                );
+                              })}
+                            </select>
+                          ) : null}
                         </div>
                       </div>
 
@@ -153,14 +276,40 @@ class AddCourse extends Component {
                           className="w-full shadow-inner p-2 border-0"
                           type="text"
                           rows="3"
-                          name="oldPassword"
+                          name="description"
+                          onChange={(e) => {
+                            this.handleChange(e);
+                          }}
                           placeholder="Introduce your Course here."
                         />
                       </div>
                       <button
                         type="button"
-                        class="focus:outline-none text-white text-sm py-2.5 px-5 rounded-md bg-gradient-to-r from-blue-400 to-blue-600 transform hover:scale-110"
+                        onClick={(e) => this.handleAddCourse(e)}
+                        class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md  bg-gradient-to-r from-blue-400 to-blue-600 transform hover:scale-110 text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
                       >
+                        {this.state.loading ? (
+                          <svg
+                            class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              class="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              stroke-width="4"
+                            />
+                            <path
+                              class="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            />
+                          </svg>
+                        ) : null}
                         Add Course
                       </button>
                     </div>

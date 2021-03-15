@@ -15,19 +15,58 @@ const validateObjectID = require("mongoose").Types.ObjectId.isValid;
 const { processValidationErrors, APIError } = require("../../helpers/error");
 const { param, body } = require("express-validator");
 const { data } = require("../../helpers/logger");
+const { request } = require("../../app");
+const fs = require("fs");
+const multer = require("multer");
+const uuid = require("uuid").v4;
+storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./uploads/Images/");
+  },
+  filename: (req, file, cb) => {
+    const fileName = file.originalname.toLowerCase().split(" ").join("-");
+    cb(null, uuid() + "-" + fileName);
+  },
+});
+
+upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    if (
+      file.mimetype == "image/png" ||
+      file.mimetype == "image/jpg" ||
+      file.mimetype == "image/jpeg"
+    ) {
+      cb(null, true);
+    } else {
+      cb(null, false);
+      return cb(new Error("Only .png, .jpg and .jpeg format allowed!"));
+    }
+  },
+});
 
 router.post(
   "/courses/add",
   body("title").escape(),
   body("subject").escape(),
   //   todo:adding auth as a middleware
+  upload.single("coverPicture"),
   ejwtauth,
   (req, res, next) => {
-    let course = new Course(req.body);
+    let course = new Course({
+      title: req.body.title,
+      subject: req.body.subject,
+      skills: req.body.skills,
+      duration: req.body.duration,
+      description: req.body.description,
+      category: req.body.category,
+      coverPicture: "/uploads/Images/" + req.file.filename,
+    });
+
     course
       .createCourse()
       .then((data) => {
-        res.send({ message: "course registered" });
+        res.sendStatus(data ? 200 : 400);
       })
       .catch(next);
   }

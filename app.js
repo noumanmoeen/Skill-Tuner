@@ -4,7 +4,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const { handleErrors } = require("./helpers/error");
-var multer = require("multer");
+// var multer = require("multer");
 var indexRouter = require("./routes/index");
 // var usersRouter = require('./routes/users');
 const apiRouter = require("./routes/api");
@@ -29,14 +29,14 @@ app.use(function (req, res, next) {
 });
 
 // upload images in server
-app.use(
-  multer({
-    dest: "./uploads/profilePictures/",
-    rename: function (filename) {
-      return filename;
-    },
-  }).any()
-);
+// app.use(
+//   multer({
+//     dest: "./uploads/Images/",
+//     rename: function (filename) {
+//       return filename;
+//     },
+//   }).any()
+// );
 
 // error handler
 app.use(function (err, req, res, next) {
