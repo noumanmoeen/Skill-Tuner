@@ -64,6 +64,9 @@ coursesSchema.method("getCourseByTitle", async function () {
   const Courses = this.model("Courses");
   return await Courses.findOne({ title: this.title });
 });
+coursesSchema.method("getAllCourses", async function () {
+  return await this.model("Courses").find({});
+});
 
 coursesSchema.method("deleteCourseById", async function (_id) {
   return await this.model("Courses").deleteOne({ _id });

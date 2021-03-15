@@ -94,6 +94,24 @@ router.get(
 );
 
 router.get(
+  "/courses/getAllCourses",
+  processValidationErrors,
+  ejwtauth,
+  (req, res, next) => {
+    const course = new Course();
+    course
+      .getAllCourses()
+      .then((data) => {
+        if (data.length == 0) {
+          throw new APIError(404, "There are no courses Available");
+        }
+        res.send(data);
+      })
+      .catch(next);
+  }
+);
+
+router.get(
   "/courses/searchByName/:name",
   param("name").escape(),
   processValidationErrors,
