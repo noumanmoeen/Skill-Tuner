@@ -58,6 +58,73 @@ class Users extends Component {
               Make Admin
             </button>
           );
+          if (object.status == "Active") {
+            object.block = (
+              <button
+                className=" hover:bg-pink-100 hover:text-pink-500 text-gray font-bold py-2 px-4 rounded-full"
+                onClick={async () => {
+                  await auth_axios
+                    .post("/api/users/blockUser/", { _id: object._id })
+                    .then((res) => {
+                      if (res.status == 200) {
+                        setTimeout(() => {
+                          toast.success("User blocked successfully");
+                          window.location.reload();
+                        }, 1000);
+                      } else {
+                        toast.error("User not blocked");
+                      }
+                    })
+                    .catch((err) => {
+                      if (
+                        err.response &&
+                        Array.isArray(err.response.data.messages)
+                      ) {
+                        const msgs = err.response.data.messages.map((v) =>
+                          toast.error(v.msg)
+                        );
+                      }
+                      throw err;
+                    });
+                }}
+              >
+                Block User
+              </button>
+            );
+          } else {
+            object.block = (
+              <button
+                className=" hover:bg-pink-100 hover:text-pink-500 text-gray font-bold py-2 px-4 rounded-full"
+                onClick={async () => {
+                  await auth_axios
+                    .post("/api/users/unBlockUser", { _id: object._id })
+                    .then((res) => {
+                      if (res.status == 200) {
+                        setTimeout(() => {
+                          toast.success("User unblocked successfully");
+                          window.location.reload();
+                        }, 1000);
+                      } else {
+                        toast.error("User not unblocked");
+                      }
+                    })
+                    .catch((err) => {
+                      if (
+                        err.response &&
+                        Array.isArray(err.response.data.messages)
+                      ) {
+                        const msgs = err.response.data.messages.map((v) =>
+                          toast.error(v.msg)
+                        );
+                      }
+                      throw err;
+                    });
+                }}
+              >
+                UnBlock User
+              </button>
+            );
+          }
         }
 
         this.setState({
@@ -102,6 +169,12 @@ class Users extends Component {
               {
                 label: "Action",
                 field: "action",
+                sort: "asc",
+                width: 100,
+              },
+              {
+                label: "Action",
+                field: "block",
                 sort: "asc",
                 width: 100,
               },

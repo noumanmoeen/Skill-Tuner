@@ -246,7 +246,24 @@ router.post(
     let user = new User({ _id: req.body._id, status: status.B });
 
     user
-      .blockUserByID()
+      .updateStatusByID()
+      .then((data) => {
+        res.sendStatus(data ? 200 : 400);
+      })
+      .catch(next);
+  }
+);
+
+router.post(
+  "/users/unBlockUser",
+  body("_id").escape(),
+
+  ejwtauth,
+  (req, res, next) => {
+    let user = new User({ _id: req.body._id, status: status.A });
+
+    user
+      .updateStatusByID()
       .then((data) => {
         res.sendStatus(data ? 200 : 400);
       })

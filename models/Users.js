@@ -198,7 +198,7 @@ userschema.method("viewEnrollCourses", async function () {
   return await user.findOne({ _id: this._id }).select("courses");
 });
 
-userschema.method("blockUserByID", async function () {
+userschema.method("updateStatusByID", async function () {
   const user = await this.model("User").findOne({ _id: this._id });
   if (user == null) {
     throw new APIError(404, "There is no user with this id");
