@@ -11,12 +11,11 @@ const contentSchema = mongoose.Schema(
       default: contentType.L,
       enum: [contentType.T, contentType.V, contentType.L],
     },
-    quiz: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Quiz",
-      },
-    ],
+    url: {
+      type: String,
+    },
+    learningObjective: { type: String },
+    resources: { type: String },
     description: {
       type: String,
     },
