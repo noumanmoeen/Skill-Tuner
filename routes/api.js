@@ -7,16 +7,8 @@ const userRouter = require("./routers/users");
 const courseRouter = require("./routers/courses");
 
 const quizRouter = require("./routers/quiz");
-const contentRouter = require("./routers/contents");
-
 const categoryRouter = require("./routers/category");
 
-router.use([
-  userRouter,
-  courseRouter,
-  quizRouter,
-  contentRouter,
-  categoryRouter,
-]);
+router.use([userRouter, courseRouter, quizRouter, categoryRouter]);
 
 module.exports = router;
