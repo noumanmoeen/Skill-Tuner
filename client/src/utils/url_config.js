@@ -8,6 +8,7 @@ const url = {
   addCourseCategory: "/Courses/addNewCategory",
   viewCourses: "/Courses/View",
   addCourseContent: "/Courses/AddContent",
+  addQuiz: "/Courses/AddQuiz",
 };
 
 export default url;
