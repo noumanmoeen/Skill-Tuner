@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { APIError } = require("../helpers/error");
-const { roles } = require("./../helpers/constant");
+const { roles, contentType } = require("./../helpers/constant");
 const _ = require("underscore");
 const coursesSchema = mongoose.Schema(
   {
@@ -28,8 +28,21 @@ const coursesSchema = mongoose.Schema(
     },
     content: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Content",
+        title: String,
+        type: {
+          type: String,
+          default: contentType.L,
+          enum: [contentType.T, contentType.V, contentType.L],
+        },
+        url: {
+          type: String,
+        },
+        learningObjective: { type: String },
+        resources: { type: String },
+        lectureNo: { type: String },
+        description: {
+          type: String,
+        },
       },
     ],
     feedback: [
@@ -73,6 +86,27 @@ coursesSchema.method("deleteCourseById", async function () {
     throw new APIError(400, "There is no course with this id");
   }
   return await this.model("Courses").deleteOne({ _id: this._id });
+});
+
+coursesSchema.method("addContentInCourseById", async function () {
+  if ((await this.model("Courses").findOne({ _id: this._id })) == null) {
+    throw new APIError(400, "There is no course with this id");
+  }
+
+  const data = await this.model("Courses")
+    .findOne({ _id: this._id })
+    .select({ content: { $elemMatch: { title: this.content[0].title } } });
+
+  if (data.content.length != 0) {
+    throw new APIError(
+      400,
+      "Already a content with this title is present please change this title"
+    );
+  }
+  return await this.model("Courses").updateOne(
+    { _id: this._id },
+    { $push: { content: this.content[0] } }
+  );
 });
 
 coursesSchema.method("deleteCourseByName", async function (title) {

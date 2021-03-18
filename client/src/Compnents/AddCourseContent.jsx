@@ -8,6 +8,14 @@ class AddCourseContent extends Component {
       course: [],
       courseSelected: false,
       courseId: "",
+      title: "",
+      url: "",
+      learningObjective: "",
+      resources: "",
+      lectureNo: "",
+      description: "",
+      type: "",
+      loading: false,
     };
   }
 
@@ -28,6 +36,62 @@ class AddCourseContent extends Component {
       this.setState({ courseSelected: true });
     } else {
       this.setState({ courseSelected: false });
+    }
+  };
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  handleAddForm = (e) => {
+    e.preventDefault();
+    if (
+      this.state.title.length == 0 ||
+      this.state.type.length == 0 ||
+      this.state.learningObjective.length == 0 ||
+      this.state.description.length == 0 ||
+      this.state.lectureNo.length == 0
+    ) {
+      toast.error(
+        "please Fill all fields while resources and url field is not mandatory!!"
+      );
+    } else {
+      this.setState({ loading: true });
+      auth_axios
+        .post("/api/courses/addContent", {
+          title: this.state.title,
+          _id: this.state.courseId,
+          type: this.state.type,
+          url: this.state.url,
+          learningObjective: this.state.learningObjective,
+          resources: this.state.resources,
+          lectureNo: this.state.lectureNo,
+          description: this.state.description,
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            setTimeout(() => {
+              this.setState({ loading: false });
+              toast.success("Content added to course successfully!!");
+              window.location.reload();
+            }, 1200);
+          } else {
+            toast.error("Content not added!!!");
+            this.setState({ loading: false });
+          }
+        })
+        .catch((err) => {
+          if (err.response && Array.isArray(err.response.data.messages)) {
+            const msgs = err.response.data.messages.map((v) => {
+              toast.error(v.msg);
+            });
+            this.setState({ loading: false });
+            this.setState({ errorMessages: msgs });
+          }
+          throw err;
+        });
     }
   };
 
@@ -107,7 +171,7 @@ class AddCourseContent extends Component {
                                 type="text"
                                 name="title"
                                 onChange={(e) => {
-                                  // this.handleChange(e);
+                                  this.handleChange(e);
                                 }}
                                 placeholder="Title eg :Introduction"
                               />
@@ -118,8 +182,12 @@ class AddCourseContent extends Component {
                               </label>
                               <select
                                 className="w-full border bg-white rounded px-3 py-2 outline-none"
-                                // onChange={this.onSelectCourse}
+                                name="type"
+                                onChange={this.handleChange}
                               >
+                                <option value="" selected disabled>
+                                  Select Content type
+                                </option>
                                 <option value="Text">Text</option>
                                 <option value="Link">Link</option>
                                 <option value="Video">Video Link</option>
@@ -135,7 +203,7 @@ class AddCourseContent extends Component {
                                 className="w-full shadow-inner p-2 border-0"
                                 name="learningObjective"
                                 onChange={(e) => {
-                                  // this.handleChange(e);
+                                  this.handleChange(e);
                                 }}
                                 placeholder="What will students be able to do in this section"
                               />
@@ -152,7 +220,7 @@ class AddCourseContent extends Component {
                                 type="text"
                                 name="resources"
                                 onChange={(e) => {
-                                  // this.handleChange(e);
+                                  this.handleChange(e);
                                 }}
                                 placeholder="Enter link of software if any have"
                               />
@@ -166,7 +234,7 @@ class AddCourseContent extends Component {
                                 type="text"
                                 name="lectureNo"
                                 onChange={(e) => {
-                                  // this.handleChange(e);
+                                  this.handleChange(e);
                                 }}
                                 placeholder="lecture no eg: lecture 1"
                               />
@@ -182,7 +250,7 @@ class AddCourseContent extends Component {
                                 type="text"
                                 name="url"
                                 onChange={(e) => {
-                                  // this.handleChange(e);
+                                  this.handleChange(e);
                                 }}
                                 placeholder="Enter link of content eg: https://youtube.com"
                               />
@@ -199,14 +267,14 @@ class AddCourseContent extends Component {
                               rows="3"
                               name="description"
                               onChange={(e) => {
-                                // this.handleChange(e);
+                                this.handleChange(e);
                               }}
                               placeholder="Content description here"
                             />
                           </div>
                           <button
                             type="button"
-                            // onClick={(e) => this.handleAddCourse(e)}
+                            onClick={(e) => this.handleAddForm(e)}
                             class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md  bg-gradient-to-r from-blue-400 to-blue-600 transform hover:scale-110 text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
                           >
                             {this.state.loading ? (

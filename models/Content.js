@@ -6,6 +6,7 @@ const { contentType } = require("./../helpers/constant");
 const contentSchema = mongoose.Schema(
   {
     title: String,
+    course_id: { type: String },
     type: {
       type: String,
       default: contentType.L,
@@ -16,6 +17,7 @@ const contentSchema = mongoose.Schema(
     },
     learningObjective: { type: String },
     resources: { type: String },
+    lectureNo: { type: String },
     description: {
       type: String,
     },

@@ -186,4 +186,31 @@ router.post(
   }
 );
 
+router.post(
+  "/courses/addContent",
+  ejwtauth,
+  processValidationErrors,
+  (req, res, next) => {
+    const course = new Course({
+      _id: req.body._id,
+      content: {
+        title: req.body.title,
+        type: req.body.type,
+        url: req.body.url,
+        learningObjective: req.body.learningObjective,
+        resources: req.body.resources,
+        lectureNo: req.body.lectureNo,
+        description: req.body.description,
+      },
+    });
+
+    course
+      .addContentInCourseById()
+      .then((data) => {
+        res.sendStatus(data ? 200 : 400);
+      })
+      .catch(next);
+  }
+);
+
 module.exports = router;
