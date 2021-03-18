@@ -229,7 +229,7 @@ router.post(
     });
 
     course
-      .addContentInCourseById()
+      .addQuizInCourseById()
       .then((data) => {
         res.sendStatus(data ? 200 : 400);
       })
