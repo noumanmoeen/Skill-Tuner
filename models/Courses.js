@@ -45,6 +45,37 @@ const coursesSchema = mongoose.Schema(
         },
       },
     ],
+    quiz: [
+      {
+        title: String,
+
+        questions: [
+          {
+            questionText: { type: String, required: true },
+            choices: [
+              {
+                type: String,
+                required: true,
+              },
+            ],
+            correctAnswer: {
+              type: String,
+              required: true,
+            },
+            answerDescription: String,
+            marks: {
+              type: Number,
+              required: true,
+            },
+          },
+        ],
+        description: String,
+        totalMarks: {
+          type: Number,
+          required: true,
+        },
+      },
+    ],
     feedback: [
       {
         userId: {
@@ -106,6 +137,27 @@ coursesSchema.method("addContentInCourseById", async function () {
   return await this.model("Courses").updateOne(
     { _id: this._id },
     { $push: { content: this.content[0] } }
+  );
+});
+
+coursesSchema.method("addQuizInCourseById", async function () {
+  if ((await this.model("Courses").findOne({ _id: this._id })) == null) {
+    throw new APIError(400, "There is no course with this id");
+  }
+
+  const data = await this.model("Courses")
+    .findOne({ _id: this._id })
+    .select({ quiz: { $elemMatch: { title: this.quiz[0].title } } });
+
+  if (data.content.length != 0) {
+    throw new APIError(
+      400,
+      "Already a Quiz with this title is present please change this title"
+    );
+  }
+  return await this.model("Courses").updateOne(
+    { _id: this._id },
+    { $push: { quiz: this.quiz[0] } }
   );
 });
 

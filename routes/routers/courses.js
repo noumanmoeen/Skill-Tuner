@@ -213,4 +213,28 @@ router.post(
   }
 );
 
+router.post(
+  "/courses/addQuiz",
+  ejwtauth,
+  processValidationErrors,
+  (req, res, next) => {
+    const course = new Course({
+      _id: req.body._id,
+      quiz: {
+        title: req.body.title,
+        questions: req.body.questions,
+        description: req.body.description,
+        totalMarks: req.body.totalMarks,
+      },
+    });
+
+    course
+      .addContentInCourseById()
+      .then((data) => {
+        res.sendStatus(data ? 200 : 400);
+      })
+      .catch(next);
+  }
+);
+
 module.exports = router;
