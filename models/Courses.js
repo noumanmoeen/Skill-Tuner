@@ -62,7 +62,7 @@ const coursesSchema = mongoose.Schema(
               type: String,
               required: true,
             },
-            answerDescription: String,
+
             marks: {
               type: Number,
               required: true,
@@ -149,7 +149,7 @@ coursesSchema.method("addQuizInCourseById", async function () {
     .findOne({ _id: this._id })
     .select({ quiz: { $elemMatch: { title: this.quiz[0].title } } });
 
-  if (data.content.length != 0) {
+  if (data.quiz.length != 0) {
     throw new APIError(
       400,
       "Already a Quiz with this title is present please change this title"

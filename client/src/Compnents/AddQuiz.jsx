@@ -8,6 +8,7 @@ class AddQuiz extends Component {
       course: [],
       title: "",
       description: "",
+      courseId: "",
       totalMarks: 0,
       questionText: "",
       questions: [],
@@ -18,6 +19,7 @@ class AddQuiz extends Component {
       courseTitleDisable: false,
       courseSelected: false,
       tablevisible: false,
+      submitLoading: false,
       A: "",
       B: "",
       C: "",
@@ -41,6 +43,41 @@ class AddQuiz extends Component {
     } else {
       this.setState({ courseSelected: false });
     }
+  };
+
+  handleSubmitQuiz = (e) => {
+    e.preventDefault();
+
+    auth_axios
+      .post("/api/courses/addQuiz", {
+        _id: this.state.courseId,
+        title: this.state.title,
+        questions: this.state.questions,
+        description: this.state.description,
+        totalMarks: this.state.totalMarks,
+      })
+      .then((res) => {
+        if (res.status == 200) {
+          this.setState({ submitLoading: false });
+          setTimeout(() => {
+            toast.success("Quiz is added successfully!!");
+            window.location.reload();
+          }, 1200);
+        } else {
+          this.setState({ submitLoading: false });
+          toast.error("Opps Something went wrong please try again later!!");
+        }
+      })
+      .catch((err) => {
+        if (err.response && Array.isArray(err.response.data.messages)) {
+          const msgs = err.response.data.messages.map((v) => {
+            toast.error(v.msg);
+          });
+          this.setState({ submitLoading: false });
+          this.setState({ errorMessages: msgs });
+        }
+        throw err;
+      });
   };
 
   handleAddQuiz = (e) => {
@@ -410,6 +447,52 @@ class AddQuiz extends Component {
                       })}
                     </tbody>
                   </table>
+                  <br />
+                  <br />
+                  <div className="md:flex-1 md:pr-3">
+                    <label className="block uppercase tracking-wide text-charcoal-darker text-xs font-bold">
+                      Quiz Description
+                    </label>
+                    <textarea
+                      className="w-full shadow-inner p-2 border-0"
+                      name="description"
+                      onChange={(e) => {
+                        this.handleChange(e);
+                      }}
+                      placeholder="Write description if any or left blank."
+                    />
+                  </div>
+                  <div class="flex justify-center">
+                    <button
+                      type="button"
+                      onClick={(e) => this.handleSubmitQuiz(e)}
+                      class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md  bg-gradient-to-r from-blue-400 to-blue-600 transform hover:scale-110 text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
+                    >
+                      {this.state.submitLoading ? (
+                        <svg
+                          class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            class="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            stroke-width="4"
+                          />
+                          <path
+                            class="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          />
+                        </svg>
+                      ) : null}
+                      Submit Quiz
+                    </button>
+                  </div>
                 </>
               ) : null}
             </main>
