@@ -15,7 +15,13 @@ class AddQuiz extends Component {
       correctAnswer: "",
       answerDescription: "",
       marks: 0,
+      courseTitleDisable: false,
       courseSelected: false,
+      tablevisible: false,
+      A: "",
+      B: "",
+      C: "",
+      D: "",
     };
   }
   async componentDidMount() {
@@ -34,6 +40,56 @@ class AddQuiz extends Component {
       this.setState({ courseSelected: true });
     } else {
       this.setState({ courseSelected: false });
+    }
+  };
+
+  handleAddQuiz = (e) => {
+    e.preventDefault();
+    if (
+      this.state.A.length == 0 ||
+      this.state.B.length == 0 ||
+      this.state.C.length == 0 ||
+      this.state.D.length == 0 ||
+      this.state.questionText.length == 0 ||
+      this.state.title.length == 0 ||
+      this.state.marks == 0 ||
+      this.state.correctAnswer.length == 0
+    ) {
+      toast.error("Please fill all the fields to continue.");
+    } else {
+      // push all choices in array
+      this.state.choices.push(this.state.A);
+      this.state.choices.push(this.state.B);
+      this.state.choices.push(this.state.C);
+      this.state.choices.push(this.state.D);
+      if (this.state.choices.includes(this.state.correctAnswer)) {
+        this.setState({ totalMarks: this.state.totalMarks + this.state.marks });
+        const question = {
+          questionText: this.state.questionText,
+          choices: this.state.choices,
+          correctAnswer: this.state.correctAnswer,
+          marks: this.state.marks,
+        };
+        this.state.questions.push(question);
+        this.setState({
+          A: "",
+          B: "",
+          C: "",
+          D: "",
+          questionText: "",
+          choices: [],
+          marks: 0,
+          courseTitleDisable: true,
+          tablevisible: true,
+          correctAnswer: "",
+        });
+        toast.success(
+          "Question added in the table don't forget to save table after after adding all questions"
+        );
+      } else {
+        this.setState({ choices: [] });
+        toast.error("your correct answer must be in given options");
+      }
     }
   };
 
@@ -118,6 +174,7 @@ class AddQuiz extends Component {
                                 className="w-full shadow-inner p-2 border-0"
                                 type="text"
                                 name="title"
+                                disabled={this.state.courseTitleDisable}
                                 onChange={(e) => {
                                   this.handleChange(e);
                                 }}
@@ -132,6 +189,7 @@ class AddQuiz extends Component {
                                 className="w-full shadow-inner p-2 border-0"
                                 type="number"
                                 name="marks"
+                                value={this.state.marks}
                                 onChange={(e) => {
                                   this.handleChange(e);
                                 }}
@@ -147,6 +205,7 @@ class AddQuiz extends Component {
                               <textarea
                                 className="w-full shadow-inner p-2 border-0"
                                 name="questionText"
+                                value={this.state.questionText}
                                 onChange={(e) => {
                                   this.handleChange(e);
                                 }}
@@ -164,6 +223,7 @@ class AddQuiz extends Component {
                                 className="w-full shadow-inner p-2 border-0"
                                 type="text"
                                 name="A"
+                                value={this.state.A}
                                 onChange={(e) => {
                                   this.handleChange(e);
                                 }}
@@ -178,6 +238,7 @@ class AddQuiz extends Component {
                                 className="w-full shadow-inner p-2 border-0"
                                 type="text"
                                 name="B"
+                                value={this.state.B}
                                 onChange={(e) => {
                                   this.handleChange(e);
                                 }}
@@ -194,6 +255,7 @@ class AddQuiz extends Component {
                                 className="w-full shadow-inner p-2 border-0"
                                 type="text"
                                 name="C"
+                                value={this.state.C}
                                 onChange={(e) => {
                                   this.handleChange(e);
                                 }}
@@ -207,8 +269,8 @@ class AddQuiz extends Component {
                               <input
                                 className="w-full shadow-inner p-2 border-0"
                                 type="text"
-                                rows="3"
                                 name="D"
+                                value={this.state.D}
                                 onChange={(e) => {
                                   this.handleChange(e);
                                 }}
@@ -216,10 +278,27 @@ class AddQuiz extends Component {
                               />
                             </div>
                           </div>
+                          <div className="md:flex mb-4">
+                            <div className="md:flex-1 md:pr-3">
+                              <label className="block uppercase tracking-wide text-charcoal-darker text-xs font-bold">
+                                Correct Answer
+                              </label>
+                              <input
+                                className="w-2\3 shadow-inner p-2 border-0"
+                                type="text"
+                                name="correctAnswer"
+                                value={this.state.correctAnswer}
+                                onChange={(e) => {
+                                  this.handleChange(e);
+                                }}
+                                placeholder="correct Answer"
+                              />
+                            </div>
+                          </div>
 
                           <button
                             type="button"
-                            // onClick={(e) => this.handleAddForm(e)}
+                            onClick={(e) => this.handleAddQuiz(e)}
                             class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md  bg-gradient-to-r from-blue-400 to-blue-600 transform hover:scale-110 text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
                           >
                             {this.state.loading ? (
@@ -244,7 +323,7 @@ class AddQuiz extends Component {
                                 />
                               </svg>
                             ) : null}
-                            Save
+                            add Question
                           </button>
                         </div>
                       ) : null}
@@ -252,6 +331,87 @@ class AddQuiz extends Component {
                   </div>
                 </form>
               </section>
+              <br />
+              {this.state.tablevisible ? (
+                <>
+                  <div className="md:flex">
+                    <h2 className="md:w-1/3 uppercase tracking-wide text-sm sm:text-lg mb-6">
+                      Added Questions in List
+                    </h2>
+                  </div>
+
+                  <table class="min-w-full">
+                    <thead>
+                      <tr>
+                        <th class="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">
+                          #
+                        </th>
+                        <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">
+                          Question
+                        </th>
+                        <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">
+                          Option A
+                        </th>
+                        <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">
+                          Option B
+                        </th>
+                        <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">
+                          Option C
+                        </th>
+                        <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">
+                          Option D
+                        </th>
+                        <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">
+                          Correct option
+                        </th>
+                        <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">
+                          Marks
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody class="bg-white">
+                      {this.state.questions.map((data, key) => {
+                        return (
+                          <tr>
+                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
+                              <div class="flex items-center">
+                                <div>
+                                  <div class="text-sm leading-5 text-gray-800">
+                                    {key}
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
+                              <div class="text-sm leading-5 text-blue-900">
+                                {data.questionText}
+                              </div>
+                            </td>
+                            {data.choices.map((value, k) => {
+                              return (
+                                <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
+                                  {value}
+                                </td>
+                              );
+                            })}
+
+                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
+                              <div class="text-sm leading-5 text-blue-900">
+                                {data.correctAnswer}
+                              </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
+                              <div class="text-sm leading-5 text-blue-900">
+                                {data.marks}
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </>
+              ) : null}
             </main>
           </div>
         </div>
