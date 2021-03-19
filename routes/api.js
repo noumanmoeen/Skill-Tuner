@@ -6,9 +6,8 @@ const db = require("../db/database");
 const userRouter = require("./routers/users");
 const courseRouter = require("./routers/courses");
 
-const quizRouter = require("./routers/quiz");
 const categoryRouter = require("./routers/category");
 
-router.use([userRouter, courseRouter, quizRouter, categoryRouter]);
+router.use([userRouter, courseRouter, categoryRouter]);
 
 module.exports = router;
