@@ -140,6 +140,26 @@ coursesSchema.method("addContentInCourseById", async function () {
   );
 });
 
+coursesSchema.method("deleteCourseContentByCourseId", async function (id) {
+  if ((await this.model("Courses").findOne({ _id: this._id })) == null) {
+    throw new APIError(400, "There is no course with this id");
+  }
+
+  const data = await this.model("Courses")
+    .findOne({ _id: this._id })
+    .select({ content: { $elemMatch: { _id: id } } });
+
+  console.log(data);
+  if (data.content.length == 0) {
+    throw new APIError(400, "There is no content with this id");
+  }
+  return await this.model("Courses").updateOne(
+    { _id: this._id },
+    { $pull: { content: { _id: id } } },
+    { multi: true }
+  );
+});
+
 coursesSchema.method("addQuizInCourseById", async function () {
   if ((await this.model("Courses").findOne({ _id: this._id })) == null) {
     throw new APIError(400, "There is no course with this id");

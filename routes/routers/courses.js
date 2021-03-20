@@ -237,4 +237,21 @@ router.post(
   }
 );
 
+router.post(
+  "/courses/content/delete",
+  ejwtauth,
+  processValidationErrors,
+  (req, res, next) => {
+    const course = new Course({
+      _id: req.body._id,
+    });
+
+    course
+      .deleteCourseContentByCourseId(req.body.contentId)
+      .then((data) => {
+        res.sendStatus(data ? 200 : 400);
+      })
+      .catch(next);
+  }
+);
 module.exports = router;

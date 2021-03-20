@@ -23,6 +23,35 @@ class ViewCourseContent extends Component {
       });
   }
 
+  handleDeleteContent = async (id) => {
+    await auth_axios
+      .post("/api/courses/content/delete", {
+        _id: this.state.courseId,
+        contentId: id,
+      })
+      .then((res) => {
+        if (res.status == 200) {
+          setTimeout(() => {
+            this.setState({ loading: false });
+            toast.success("Content deleted from course successfully!!");
+            window.location.reload();
+          }, 1200);
+        } else {
+          toast.error("Content not deleted!!!");
+          this.setState({ loading: false });
+        }
+      })
+      .catch((err) => {
+        if (err.response && Array.isArray(err.response.data.messages)) {
+          const msgs = err.response.data.messages.map((v) => {
+            toast.error(v.msg);
+          });
+          this.setState({ loading: false });
+          this.setState({ errorMessages: msgs });
+        }
+        throw err;
+      });
+  };
   onSelectCourse = async (e) => {
     this.setState({ courseId: e.target.value });
     if (e.target.value.length > 0) {
@@ -134,7 +163,9 @@ class ViewCourseContent extends Component {
                                     height={23}
                                     viewBox="0 0 512 512"
                                     width={23}
-                                    // onClick={this.hanc}
+                                    onClick={() =>
+                                      this.handleDeleteContent(data._id)
+                                    }
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
                                     <g>
