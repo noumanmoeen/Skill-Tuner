@@ -10,6 +10,7 @@ const url = {
   addCourseContent: "/Courses/AddContent",
   addQuiz: "/Courses/AddQuiz",
   viewCourseContent: "/Courses/Content/View",
+  home: "",
 };
 
 export default url;
