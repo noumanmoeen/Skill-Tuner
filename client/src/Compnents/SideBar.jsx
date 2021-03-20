@@ -151,7 +151,7 @@ class SideBar extends Component {
 
           <Switch>
             <Route path={url.dashboard}>
-              <Dashboard />
+              <Dashboard userId={this.props.id} />
             </Route>
             <Route path={url.users}>
               <Users userId={this.props.id} />

@@ -292,4 +292,34 @@ userschema.method("getAllUsers", async function () {
   return user;
 });
 
+userschema.method("getNoOfAdmins", async function () {
+  const user = await this.model("User")
+    .find({
+      role: roles.A,
+    })
+    .select("role");
+
+  return user;
+});
+
+userschema.method("getNoOfUsers", async function () {
+  const user = await this.model("User")
+    .find({
+      role: roles.U,
+    })
+    .select("role");
+
+  return user;
+});
+
+userschema.method("getNoOfBlockUsers", async function () {
+  const user = await this.model("User")
+    .find({
+      status: status.B,
+    })
+    .select("status");
+
+  return user;
+});
+
 module.exports = mongoose.model("User", userschema);

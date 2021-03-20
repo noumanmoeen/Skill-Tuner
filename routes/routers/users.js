@@ -370,4 +370,50 @@ router.put(
       .catch(next);
   }
 );
+
+router.post(
+  "/users/getNoOfAdmins",
+  ejwtauth,
+  processValidationErrors,
+  (req, res, next) => {
+    const user = new User();
+    user
+      .getNoOfAdmins()
+      .then((data) => {
+        res.send(data);
+      })
+      .catch(next);
+  }
+);
+
+router.post(
+  "/users/getNoOfUsers",
+  ejwtauth,
+  processValidationErrors,
+  (req, res, next) => {
+    const user = new User();
+    user
+      .getNoOfUsers()
+      .then((data) => {
+        res.send(data);
+      })
+      .catch(next);
+  }
+);
+
+router.post(
+  "/users/getNoOfBlockUsers",
+  ejwtauth,
+  processValidationErrors,
+  (req, res, next) => {
+    const user = new User();
+    user
+      .getNoOfBlockUsers()
+      .then((data) => {
+        res.send(data);
+      })
+      .catch(next);
+  }
+);
+
 module.exports = router;
