@@ -6,6 +6,9 @@ class ViewCourseContent extends Component {
     super(props);
     this.state = {
       course: [],
+      courseSelected: false,
+      courseId: "",
+      content: [],
     };
   }
 
@@ -19,6 +22,29 @@ class ViewCourseContent extends Component {
         throw err;
       });
   }
+
+  onSelectCourse = async (e) => {
+    this.setState({ courseId: e.target.value });
+    if (e.target.value.length > 0) {
+      await auth_axios
+        .get("/api/courses/getContentById/" + e.target.value)
+        .then((res) => {
+          this.setState({ courseSelected: true, content: res.data.content });
+        })
+        .catch((err) => {
+          if (err.response && Array.isArray(err.response.data.messages)) {
+            const msgs = err.response.data.messages.map((v) => {
+              toast.error(v.msg);
+            });
+            this.setState({ loading: false });
+            this.setState({ errorMessages: msgs });
+          }
+          throw err;
+        });
+    } else {
+      this.setState({ courseSelected: false });
+    }
+  };
 
   render() {
     return (
@@ -63,8 +89,8 @@ class ViewCourseContent extends Component {
                           {this.state.course.length > 0 ? (
                             <select
                               className="w-1/3 border bg-white rounded px-3 py-2 outline-none"
-                              //   onChange={this.onSelectCourse}
-                              //   disabled={this.state.courseSelected}
+                              onChange={this.onSelectCourse}
+                              disabled={this.state.courseSelected}
                             >
                               <option value="" disable selected>
                                 Select course
@@ -88,72 +114,82 @@ class ViewCourseContent extends Component {
                   </div>
                 </form>
                 <div>
-                  <div className="flex flex-wrap w-full md:w-full items-center h-auto  md:mx-auto bg-white shadow-lg h-auto rounded border-l-8 border-orange-500 my-6">
-                    {/*       Header */}
-                    <div className="flex p-3 pl-6 pr-6 w-full justify-between rounded-tr">
-                      <div className="pt-0 mt-0 ">
-                        <p className="font-extrabold text-xl text-gray-900">
-                          title
-                        </p>
-                      </div>
-                      <div className="flex ">
-                        <img
-                          src="https://image.flaticon.com/icons/svg/59/59254.svg"
-                          alt=""
-                          className="cursor-pointer h-4 w-4 opacity-25"
-                        />
-                      </div>
-                    </div>
-                    {/*  body    */}
-                    <div className="px-6">
-                      <p className="text-lg text-black font-bold">Objective:</p>
-                      <p className="text-sm text-gray-600 flex items-center">
-                        Lorem ipsum dolor sit, amet consectetur adipisicing
-                        elit. Fugit dolorum soluta laboriosam hic magnam? Sed
-                        illo tempora officiis ut impedit eos, amet ipsa
-                        consectetur voluptatum esse ducimus placeat, repellendus
-                        cumque.
-                      </p>
-                      <p className="text-lg text-black font-bold">
-                        Content Type:
-                      </p>
-                      <p className="text-sm text-gray-600 flex items-center">
-                        link
-                      </p>
-                      <p className="text-lg text-black font-bold">
-                        Lecture No:
-                      </p>
-                      <p className="text-sm text-gray-600 flex items-center">
-                        no 1
-                      </p>
-                      <p className="text-lg text-black font-bold">
-                        description:
-                      </p>
-                      <p className="text-sm text-gray-600 flex items-center">
-                        Lorem ipsum dolor sit, amet consectetur adipisicing
-                        elit. Fugit dolorum soluta laboriosam hic magnam? Sed
-                        illo tempora officiis ut impedit eos, amet ipsa
-                        consectetur voluptatum esse ducimus placeat, repellendus
-                        cumque.
-                      </p>
-                      <p className="text-lg text-black font-bold">Resources:</p>
-                      <p className="text-sm text-gray-600 flex items-center">
-                        Lorem ipsum dolor sit, amet consectetur adipisicing
-                        elit. Fugit dolorum soluta laboriosam hic magnam? Sed
-                        illo tempora officiis ut impedit eos, amet ipsa
-                        consectetur voluptatum esse ducimus placeat, repellendus
-                        cumque.
-                      </p>
-                      <p className="text-lg text-black font-bold">Video URL:</p>
-                      <p className="text-sm text-gray-600 flex items-center">
-                        Lorem ipsum dolor sit, amet consectetur adipisicing
-                        elit. Fugit dolorum soluta laboriosam hic magnam? Sed
-                        illo tempora officiis ut impedit eos, amet ipsa
-                        consectetur voluptatum esse ducimus placeat, repellendus
-                        cumque.
-                      </p>
-                    </div>
-                  </div>
+                  {this.state.courseSelected
+                    ? this.state.content.length > 0
+                      ? this.state.content.map((data, key) => {
+                          return (
+                            <div className="flex flex-wrap w-full md:w-full items-center h-auto  md:mx-auto bg-white shadow-lg h-auto rounded border-l-8 border-orange-500 my-6">
+                              {/*       Header */}
+                              <div className="flex p-3 pl-6 pr-6 w-full justify-between rounded-tr">
+                                <div className="pt-0 mt-0 ">
+                                  <p className="font-extrabold text-xl text-gray-900">
+                                    {data.title}
+                                  </p>
+                                </div>
+                                <div className="flex ">
+                                  <svg
+                                    id="Layer_1"
+                                    className="hover:text-gray-400 cursor-pointer"
+                                    enableBackground="new 0 0 512 512"
+                                    height={23}
+                                    viewBox="0 0 512 512"
+                                    width={23}
+                                    // onClick={this.hanc}
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <g>
+                                      <path d="m424 64h-88v-16c0-26.467-21.533-48-48-48h-64c-26.467 0-48 21.533-48 48v16h-88c-22.056 0-40 17.944-40 40v56c0 8.836 7.164 16 16 16h8.744l13.823 290.283c1.221 25.636 22.281 45.717 47.945 45.717h242.976c25.665 0 46.725-20.081 47.945-45.717l13.823-290.283h8.744c8.836 0 16-7.164 16-16v-56c0-22.056-17.944-40-40-40zm-216-16c0-8.822 7.178-16 16-16h64c8.822 0 16 7.178 16 16v16h-96zm-128 56c0-4.411 3.589-8 8-8h336c4.411 0 8 3.589 8 8v40c-4.931 0-331.567 0-352 0zm313.469 360.761c-.407 8.545-7.427 15.239-15.981 15.239h-242.976c-8.555 0-15.575-6.694-15.981-15.239l-13.751-288.761h302.44z" />
+                                      <path d="m256 448c8.836 0 16-7.164 16-16v-208c0-8.836-7.164-16-16-16s-16 7.164-16 16v208c0 8.836 7.163 16 16 16z" />
+                                      <path d="m336 448c8.836 0 16-7.164 16-16v-208c0-8.836-7.164-16-16-16s-16 7.164-16 16v208c0 8.836 7.163 16 16 16z" />
+                                      <path d="m176 448c8.836 0 16-7.164 16-16v-208c0-8.836-7.164-16-16-16s-16 7.164-16 16v208c0 8.836 7.163 16 16 16z" />
+                                    </g>
+                                  </svg>
+                                </div>
+                              </div>
+                              {/*  body    */}
+                              <div className="px-6">
+                                <p className="text-lg text-black font-bold">
+                                  Objective:
+                                </p>
+                                <p className="text-sm text-gray-600 flex items-center">
+                                  {data.learningObjective}
+                                </p>
+                                <p className="text-lg text-black font-bold">
+                                  Content Type:
+                                </p>
+                                <p className="text-sm text-gray-600 flex items-center">
+                                  {data.type}
+                                </p>
+                                <p className="text-lg text-black font-bold">
+                                  Lecture No:
+                                </p>
+                                <p className="text-sm text-gray-600 flex items-center">
+                                  {data.lectureNo}
+                                </p>
+                                <p className="text-lg text-black font-bold">
+                                  description:
+                                </p>
+                                <p className="text-sm text-gray-600 flex items-center">
+                                  {data.description}
+                                </p>
+                                <p className="text-lg text-black font-bold">
+                                  Resources:
+                                </p>
+                                <p className="text-sm text-gray-600 flex items-center">
+                                  {data.resources}
+                                </p>
+                                <p className="text-lg text-black font-bold">
+                                  Video URL:
+                                </p>
+                                <p className="text-sm text-gray-600 flex items-center">
+                                  {data.url}
+                                </p>
+                              </div>
+                            </div>
+                          );
+                        })
+                      : null
+                    : null}
                 </div>
               </section>
             </main>
