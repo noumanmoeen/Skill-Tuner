@@ -5,6 +5,7 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
+import Header from "./Compnents/Header";
 import Home from "./Compnents/Home";
 import Login from "./Compnents/Login";
 import SideBar from "./Compnents/SideBar";
@@ -208,7 +209,7 @@ class App extends React.Component {
             }}
           />
 
-          <Route path={url.home} component={Home} />
+          <Route path={url.home} component={Header} />
         </Switch>
       </Router>
     );
