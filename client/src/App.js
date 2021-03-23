@@ -252,7 +252,13 @@ class App extends React.Component {
               );
             }}
           />
-
+          <Route
+            exact
+            path="/"
+            render={(props) => {
+              return <Redirect to={url.home} />;
+            }}
+          />
           <Route
             path={url.home}
             render={(props) => {

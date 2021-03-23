@@ -61,7 +61,7 @@ class Header extends Component {
             <ul className="menu border-b md:border-none flex justify-end list-reset m-0 w-full md:w-auto">
               <li className="border-t md:border-none">
                 <Link
-                  to=""
+                  to={url.home}
                   className="block md:inline-block px-3 py-3 no-underline text-black hover:text-gray-500 font-bold"
                 >
                   Home
@@ -114,7 +114,7 @@ class Header extends Component {
           </nav>
           <Switch>
             <Route path={url.home}>
-              <Home />
+              <Home id={this.props.id} />
             </Route>
             <Route path={url.todoList}>
               <TodoList id={this.props.id} />

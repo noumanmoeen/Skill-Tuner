@@ -10,7 +10,7 @@ const url = {
   addCourseContent: "/Courses/AddContent",
   addQuiz: "/Courses/AddQuiz",
   viewCourseContent: "/Courses/Content/View",
-  home: "/",
+  home: "/Home",
   userLogin: "/User/Login",
   userSignup: "/User/Signup",
   todoList: "/User/TodoList",
