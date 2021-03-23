@@ -12,6 +12,7 @@ const url = {
   viewCourseContent: "/Courses/Content/View",
   home: "",
   userLogin: "/User/Login",
+  userSignup: "/User/Signup",
 };
 
 export default url;
