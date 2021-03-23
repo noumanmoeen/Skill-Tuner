@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import CourseView from "./CourseView";
+import FeatureVideos from "./FeatureVideos";
+import Footer from "./Footer";
 
 class Home extends Component {
   constructor(props) {
@@ -40,10 +43,10 @@ class Home extends Component {
           >
             <div className="w-2/3 inline-block">
               <input
-                className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                className="appearance-none block md:w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey"
                 id="grid-password"
                 type="search"
-                placeholder="Search over 1000s of free courses and videos..."
+                placeholder="Search for free courses and videos..."
               />
             </div>
 
@@ -64,6 +67,12 @@ class Home extends Component {
             </div>
           </div>
         </div>
+        <CourseView />
+        <br />
+        <br />
+
+        <FeatureVideos />
+        <Footer />
       </>
     );
   }
