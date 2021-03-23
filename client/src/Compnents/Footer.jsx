@@ -194,7 +194,7 @@ class Footer extends Component {
               </div>
             </div>
             <hr />
-            <div className="mt-2">© Copyright 2020. All Rights Reserved.</div>
+            <div className="mt-2">© Copyright 2021. All Rights Reserved.</div>
           </div>
         </footer>
       </>

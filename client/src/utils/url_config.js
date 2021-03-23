@@ -11,6 +11,7 @@ const url = {
   addQuiz: "/Courses/AddQuiz",
   viewCourseContent: "/Courses/Content/View",
   home: "",
+  userLogin: "/User/Login",
 };
 
 export default url;
