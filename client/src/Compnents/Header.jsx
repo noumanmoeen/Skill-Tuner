@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import url from "../utils/url_config";
 import Home from "./Home";
+import TodoList from "./TodoList";
 
 class Header extends Component {
   constructor(props) {
@@ -76,7 +77,28 @@ class Header extends Component {
                   Contact
                 </Link>
               </li>
-              {this.props.isloggedIn ? null : (
+              {this.props.isloggedIn ? (
+                <>
+                  <li className="border-t md:border-none">
+                    <Link
+                      to={url.todoList}
+                      className="block md:inline-block px-3 py-3 no-underline text-black hover:text-gray-500 font-bold"
+                    >
+                      Todo List
+                    </Link>
+                  </li>
+                  <li className="border-t md:border-none">
+                    <Link className="block md:inline-block px-3 py-3 no-underline text-black hover:text-gray-500 font-bold">
+                      LeaderBoard
+                    </Link>
+                  </li>
+                  <li className="border-t md:border-none">
+                    <Link className="block md:inline-block px-3 py-3 no-underline text-black hover:text-gray-500 font-bold">
+                      My Courses
+                    </Link>
+                  </li>
+                </>
+              ) : (
                 <li className="border-t md:border-none">
                   <Link
                     to={url.userLogin}
@@ -93,6 +115,9 @@ class Header extends Component {
           <Switch>
             <Route path={url.home}>
               <Home />
+            </Route>
+            <Route path={url.todoList}>
+              <TodoList id={this.props.id} />
             </Route>
           </Switch>
         </Router>
