@@ -10,7 +10,9 @@ import Home from "./Compnents/Home";
 import Login from "./Compnents/Login";
 import SideBar from "./Compnents/SideBar";
 import Signup from "./Compnents/Signup";
+import UserLogin from "./Compnents/UserLogin";
 import Users from "./Compnents/Users";
+import UserSignup from "./Compnents/UserSignup";
 import auth_axios from "./utils/auth_axios";
 import url from "./utils/url_config";
 
@@ -19,13 +21,27 @@ class App extends React.Component {
     super(props);
 
     // preserve state on login
-    this.state = { loggedIn: localStorage.getItem("token") ? true : false };
+    this.state = {
+      loggedIn: localStorage.getItem("token") ? true : false,
+      userLogIn: localStorage.getItem("userToken") ? true : false,
+    };
     if (this.state.loggedIn) {
       auth_axios.defaults.headers.common["Authorization"] =
         "Bearer " + localStorage.getItem("token");
     }
+
+    if (this.state.userLogIn) {
+      auth_axios.defaults.headers.common["Authorization"] =
+        "Bearer " + localStorage.getItem("userToken");
+    }
     this.handleLoggedIn = this.handleLoggedIn.bind(this);
     this.handleLoggedOut = this.handleLoggedOut.bind(this);
+  }
+
+  handleUserLoggedIn() {
+    this.setState({ userLogIn: true });
+    auth_axios.defaults.headers.common["Authorization"] =
+      "Bearer " + localStorage.getItem("userToken");
   }
 
   handleLoggedIn() {
@@ -43,9 +59,19 @@ class App extends React.Component {
     auth_axios.defaults.headers.common["Authorization"] = null;
   }
 
+  handleUserLoggedOut() {
+    this.setState({ userLogIn: false });
+
+    // remove the token
+    auth_axios.defaults.headers.common["Authorization"] = null;
+  }
+
   // get the token
   componentDidMount() {
-    this.setState({ loggedIn: localStorage.getItem("token") ? true : false });
+    this.setState({
+      loggedIn: localStorage.getItem("token") ? true : false,
+      userLogIn: localStorage.getItem("userToken") ? true : false,
+    });
   }
 
   render() {
@@ -192,7 +218,23 @@ class App extends React.Component {
               );
             }}
           />
+
+          <Route
+            path={url.userLogin}
+            render={(props) => {
+              console.log(this.state.userLogIn);
+              return this.state.userLogIn ? (
+                <Redirect
+                  to={url.home}
+                /> /*if user is login then redirect user to dashboard*/
+              ) : (
+                <UserLogin {...props} whenLoggedIn={this.handleUserLoggedIn} />
+              );
+            }}
+          />
           <Route path={url.register} component={Signup} />
+
+          <Route path={url.userSignup} component={UserSignup} />
           <Route
             path={url.dashboard}
             render={(props) => {
@@ -209,7 +251,23 @@ class App extends React.Component {
             }}
           />
 
-          <Route path={url.home} component={Header} />
+          <Route
+            path={url.home}
+            render={(props) => {
+              return this.state.loggedIn ? (
+                <Header
+                  {...props}
+                  whenLoggedOut={this.handleUserLoggedOut}
+                  id={localStorage.getItem("user_id")}
+                  isloggedIn={this.state.userLogIn}
+                /> /*if user is login then redirect user to dashboard*/
+              ) : (
+                <Header {...props} isloggedIn={this.state.userLogIn} />
+              );
+            }}
+          />
+
+          {/* <Route path={url.home} component={Header} /> */}
         </Switch>
       </Router>
     );

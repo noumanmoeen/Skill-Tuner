@@ -13,37 +13,37 @@ class UserLogin extends Component {
   handleSubmit(e) {
     e.preventDefault();
     // log in
-    // Axios.post("/api/users/login", {
-    //   email: this.state.email,
-    //   pswd: this.state.password,
-    // })
-    //   .then((res) => {
-    //     if (res.data.admin) {
-    //       toast.success("Logged In. Redirecting...");
+    Axios.post("/api/users/login", {
+      email: this.state.email,
+      pswd: this.state.password,
+    })
+      .then((res) => {
+        if (!res.data.admin) {
+          toast.success("Logged In. Redirecting...");
 
-    //       // store token in the browser
-    //       localStorage.setItem("token", res.data.token);
-    //       // store user id
-    //       localStorage.setItem("_id", res.data._id);
+          // store token in the browser
+          localStorage.setItem("userToken", res.data.token);
+          // store user id
+          localStorage.setItem("user_id", res.data._id);
 
-    //       setTimeout(() => {
-    //         // tell parent that user loggedIn
-    //         this.props.whenLoggedIn();
-    //         // login to dashboard
-    //         this.props.history.push(url.dashboard);
-    //       }, 2000);
-    //     } else {
-    //       toast.error("Invalid user role please login with Admin Account.");
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     if (err.response && Array.isArray(err.response.data.messages)) {
-    //       const msgs = err.response.data.messages.map((v) =>
-    //         toast.error(v.msg)
-    //       );
-    //     }
-    //     throw err;
-    //   });
+          setTimeout(() => {
+            // tell parent that user loggedIn
+            this.props.whenLoggedIn();
+            // login to dashboard
+            this.props.history.push(url.home);
+          }, 2000);
+        } else {
+          toast.error("Invalid user role please login with User Account.");
+        }
+      })
+      .catch((err) => {
+        if (err.response && Array.isArray(err.response.data.messages)) {
+          const msgs = err.response.data.messages.map((v) =>
+            toast.error(v.msg)
+          );
+        }
+        throw err;
+      });
   }
 
   handleChange(e) {
@@ -164,7 +164,10 @@ class UserLogin extends Component {
                 </form>
                 <div className="mt-12 text-sm font-display font-semibold text-gray-700 text-center">
                   Don't have an account ?{" "}
-                  <Link className="cursor-pointer text-indigo-600 hover:text-indigo-800">
+                  <Link
+                    to={url.userSignup}
+                    className="cursor-pointer text-indigo-600 hover:text-indigo-800"
+                  >
                     Sign up
                   </Link>
                 </div>

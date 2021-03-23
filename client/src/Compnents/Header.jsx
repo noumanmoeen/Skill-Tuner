@@ -76,15 +76,18 @@ class Header extends Component {
                   Contact
                 </Link>
               </li>
-
-              <li className="border-t md:border-none">
-                <Link
-                  style={{ transition: "all 0.15s ease 0s" }}
-                  className="block md:inline-block px-3 py-3 no-underline text-black hover:text-white hover:bg-red-600 font-bold"
-                >
-                  Login <i className="fas fa-arrow-right ml-1" />
-                </Link>
-              </li>
+              {this.props.isloggedIn ? null : (
+                <li className="border-t md:border-none">
+                  <Link
+                    to={url.userLogin}
+                    onClick={() => this.props.history.push(url.userLogin)}
+                    style={{ transition: "all 0.15s ease 0s" }}
+                    className="block md:inline-block px-3 py-3 no-underline text-black hover:text-white hover:bg-red-600 font-bold"
+                  >
+                    Login <i className="fas fa-arrow-right ml-1" />
+                  </Link>
+                </li>
+              )}
             </ul>
           </nav>
           <Switch>

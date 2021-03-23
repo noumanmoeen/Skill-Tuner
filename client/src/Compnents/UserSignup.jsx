@@ -246,7 +246,10 @@ class UserSignup extends Component {
 
                 <div className="mt-6 text-sm font-display font-semibold text-gray-700 text-center">
                   Already have an account ?{" "}
-                  <Link className="cursor-pointer text-indigo-600 hover:text-indigo-800">
+                  <Link
+                    to={url.userLogin}
+                    className="cursor-pointer text-indigo-600 hover:text-indigo-800"
+                  >
                     Sign in
                   </Link>
                 </div>
