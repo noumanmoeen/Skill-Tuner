@@ -41,6 +41,7 @@ class Signup extends Component {
         username: this.state.username,
         email: this.state.email,
         pswd: this.state.password,
+        role: "Admin",
       })
         .then((res) => {
           this.setState({ errorMessages: [] });

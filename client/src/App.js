@@ -36,6 +36,8 @@ class App extends React.Component {
     }
     this.handleLoggedIn = this.handleLoggedIn.bind(this);
     this.handleLoggedOut = this.handleLoggedOut.bind(this);
+    this.handleUserLoggedIn = this.handleUserLoggedIn.bind(this);
+    this.handleUserLoggedOut = this.handleUserLoggedOut.bind(this);
   }
 
   handleUserLoggedIn() {

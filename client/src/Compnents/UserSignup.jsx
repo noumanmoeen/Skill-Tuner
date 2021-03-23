@@ -23,46 +23,46 @@ class UserSignup extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    // if (
-    //   this.state.firstname.length == 0 ||
-    //   this.state.lastname.length == 0 ||
-    //   this.state.username.length == 0 ||
-    //   this.state.email.length == 0 ||
-    //   this.state.password.length == 0 ||
-    //   this.state.confirmpassword.length == 0
-    // ) {
-    //   toast.error("Please fill all fields before sign up");
-    // } else if (this.state.password != this.state.confirmpassword) {
-    //   toast.error("password and confirm password are not matched");
-    // } else {
-    //   Axios.post("/api/users/register", {
-    //     firstname: this.state.firstname,
-    //     lastname: this.state.lastname,
-    //     username: this.state.username,
-    //     email: this.state.email,
-    //     pswd: this.state.password,
-    //   })
-    //     .then((res) => {
-    //       this.setState({ errorMessages: [] });
-    //       toast.success("User Successfully Created. Redirecting...");
-    //       this.setState({
-    //         successMessages: ["User Successfully Created. Redirecting..."],
-    //       });
-    //       setTimeout(() => {
-    //         // go to login page
-    //         this.props.history.push(url.login);
-    //       }, 2000);
-    //     })
-    //     .catch((err) => {
-    //       if (err.response && Array.isArray(err.response.data.messages)) {
-    //         const msgs = err.response.data.messages.map((v) => {
-    //           toast.error(v.msg);
-    //         });
-    //         this.setState({ errorMessages: msgs });
-    //       }
-    //       throw err;
-    //     });
-    // }
+    if (
+      this.state.firstname.length == 0 ||
+      this.state.lastname.length == 0 ||
+      this.state.username.length == 0 ||
+      this.state.email.length == 0 ||
+      this.state.password.length == 0 ||
+      this.state.confirmpassword.length == 0
+    ) {
+      toast.error("Please fill all fields before sign up");
+    } else if (this.state.password != this.state.confirmpassword) {
+      toast.error("password and confirm password are not matched");
+    } else {
+      Axios.post("/api/users/register", {
+        firstname: this.state.firstname,
+        lastname: this.state.lastname,
+        username: this.state.username,
+        email: this.state.email,
+        pswd: this.state.password,
+      })
+        .then((res) => {
+          this.setState({ errorMessages: [] });
+          toast.success("User Successfully Created. Redirecting...");
+          this.setState({
+            successMessages: ["User Successfully Created. Redirecting..."],
+          });
+          setTimeout(() => {
+            // go to login page
+            this.props.history.push(url.userLogin);
+          }, 2000);
+        })
+        .catch((err) => {
+          if (err.response && Array.isArray(err.response.data.messages)) {
+            const msgs = err.response.data.messages.map((v) => {
+              toast.error(v.msg);
+            });
+            this.setState({ errorMessages: msgs });
+          }
+          throw err;
+        });
+    }
   }
 
   handleChange(e) {
