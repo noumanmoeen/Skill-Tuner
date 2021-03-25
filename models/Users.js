@@ -268,8 +268,9 @@ userschema.method("deleteTodoListTask", async function () {
   return await this.model("User").updateOne(
     {
       _id: this._id,
+      todolist: { $elemMatch: { _id: this.todolist[0]._id } },
     },
-    { $pull: { todolist: { $elemMatch: { _id: this.todolist[0]._id } } } },
+    { $pull: { todolist: { _id: this.todolist[0]._id } } },
     { multi: true }
   );
 });
