@@ -289,6 +289,22 @@ class App extends React.Component {
               );
             }}
           />
+
+          <Route
+            path={url.leaderBoard}
+            render={(props) => {
+              return this.state.userLogIn ? (
+                <Header
+                  {...props}
+                  whenLoggedOut={this.handleUserLoggedOut}
+                  _id={localStorage.getItem("user_id")}
+                  isloggedIn={this.state.userLogIn}
+                /> /*if user is login then redirect user to dashboard*/
+              ) : (
+                <Redirect to={url.userLogin} />
+              );
+            }}
+          />
         </Switch>
       </Router>
     );

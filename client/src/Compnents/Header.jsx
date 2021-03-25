@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import url from "../utils/url_config";
 import Home from "./Home";
+import LeaderBoard from "./LeaderBoard";
 import TodoList from "./TodoList";
 
 class Header extends Component {
@@ -89,7 +90,10 @@ class Header extends Component {
                     </Link>
                   </li>
                   <li className="border-t md:border-none">
-                    <Link className="block md:inline-block px-3 py-3 no-underline text-black hover:text-gray-500 font-bold">
+                    <Link
+                      to={url.leaderBoard}
+                      className="block md:inline-block px-3 py-3 no-underline text-black hover:text-gray-500 font-bold"
+                    >
                       LeaderBoard
                     </Link>
                   </li>
@@ -119,6 +123,9 @@ class Header extends Component {
             </Route>
             <Route path={url.todoList}>
               <TodoList _id={this.props._id} />
+            </Route>
+            <Route path={url.leaderBoard}>
+              <LeaderBoard _id={this.props._id} />
             </Route>
           </Switch>
         </Router>
