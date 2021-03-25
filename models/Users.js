@@ -223,19 +223,19 @@ userschema.method("addTaskInTodoList", async function () {
     throw new APIError(404, "There is no user with this id");
   }
 
-  const task = _.find(user.todolist, (result) => {
-    if (result.title == undefined) {
-      throw new APIError(404, "title is not present");
-    }
-    return result.title.toString() == this.todolist[0].title;
-  });
+  // const task = _.find(user.todolist, (result) => {
+  //   if (result.title == undefined) {
+  //     throw new APIError(404, "title is not present");
+  //   }
+  //   return result.title.toString() == this.todolist[0].title;
+  // });
 
-  if (task != undefined) {
-    throw new APIError(
-      400,
-      "there is already a task present in todo list with same title"
-    );
-  }
+  // if (task != undefined) {
+  //   throw new APIError(
+  //     400,
+  //     "there is already a task present in todo list with same title"
+  //   );
+  // }
   return await this.model("User").updateOne(
     {
       _id: this._id,
@@ -261,25 +261,34 @@ userschema.method("deleteTodoListTask", async function () {
     throw new APIError(404, "There is no user with this id");
   }
 
-  const task = _.find(user.todolist, (result) => {
-    return result.title.toString() == this.todolist[0].title;
-  });
+  // const task = _.find(user.todolist, (result) => {
+  //   return result.title.toString() == this.todolist[0].title;
+  // });
 
-  if (task != undefined) {
-    return await this.model("User").updateOne(
-      {
-        _id: this._id,
-        todolist: { $elemMatch: { _id: this.todolist[0]._id } },
-      },
-      { $pull: { todolist: this.todolist[0] } },
-      { multi: true }
-    );
-  }
-  throw new APIError(
-    404,
-    "There is no task with same title please create a new one"
+  return await this.model("User").updateOne(
+    {
+      _id: this._id,
+    },
+    { $pull: { todolist: { $elemMatch: { _id: this.todolist[0]._id } } } },
+    { multi: true }
   );
 });
+
+userschema.method("updateTodoListStatusDone", async function () {
+  const user = await this.model("User").findOne({ _id: this._id });
+  if (user == null) {
+    throw new APIError(404, "There is no user with this id");
+  }
+
+  return await this.model("User").updateOne(
+    {
+      _id: this._id,
+      todolist: { $elemMatch: { _id: this.todolist[0]._id } },
+    },
+    { $set: { "todolist.$.status": todoStatus.D } }
+  );
+});
+
 // get all users except admins and user who call it.
 userschema.method("getAllUsers", async function () {
   const user = await this.model("User")

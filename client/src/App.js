@@ -262,11 +262,11 @@ class App extends React.Component {
           <Route
             path={url.home}
             render={(props) => {
-              return this.state.loggedIn ? (
+              return this.state.userLogIn ? (
                 <Header
                   {...props}
                   whenLoggedOut={this.handleUserLoggedOut}
-                  id={localStorage.getItem("user_id")}
+                  _id={localStorage.getItem("user_id")}
                   isloggedIn={this.state.userLogIn}
                 /> /*if user is login then redirect user to dashboard*/
               ) : (
@@ -277,11 +277,11 @@ class App extends React.Component {
           <Route
             path={url.todoList}
             render={(props) => {
-              return this.state.loggedIn ? (
+              return this.state.userLogIn ? (
                 <Header
                   {...props}
                   whenLoggedOut={this.handleUserLoggedOut}
-                  id={localStorage.getItem("user_id")}
+                  _id={localStorage.getItem("user_id")}
                   isloggedIn={this.state.userLogIn}
                 /> /*if user is login then redirect user to dashboard*/
               ) : (

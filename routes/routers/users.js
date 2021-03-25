@@ -323,6 +323,24 @@ router.delete(
   }
 );
 
+router.put(
+  "/users/todoTask/changeStatusToDone",
+  ejwtauth,
+  processValidationErrors,
+  (req, res, next) => {
+    const user = new User({
+      _id: req.body._id,
+      todolist: { _id: req.body.taskId },
+    });
+    user
+      .updateTodoListStatusDone()
+      .then((data) => {
+        res.sendStatus(data ? 200 : 400);
+      })
+      .catch(next);
+  }
+);
+
 // get the list of those users that are not admin
 router.get(
   "/users/getAllUsers/:_id",

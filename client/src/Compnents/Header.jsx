@@ -9,6 +9,7 @@ class Header extends Component {
     super(props);
     this.state = {};
   }
+
   render() {
     return (
       <>
@@ -114,10 +115,10 @@ class Header extends Component {
           </nav>
           <Switch>
             <Route path={url.home}>
-              <Home id={this.props.id} />
+              <Home _id={this.props._id} />
             </Route>
             <Route path={url.todoList}>
-              <TodoList id={this.props.id} />
+              <TodoList _id={this.props._id} />
             </Route>
           </Switch>
         </Router>
