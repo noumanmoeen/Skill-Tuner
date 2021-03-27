@@ -1,9 +1,22 @@
+import axios from "axios";
 import React, { Component } from "react";
 
 class CourseView extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { courses: [] };
+  }
+
+  async componentDidMount() {
+    await axios
+      .get("/api/courses/getAllCourses")
+      .then((res) => {
+        console.log(res.data);
+        this.setState({ courses: res.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
   render() {
     return (
@@ -16,220 +29,62 @@ class CourseView extends Component {
           </div>
           <div className="container mx-auto px-4 md:px-12">
             <div className="flex flex-wrap -mx-1 lg:-mx-4">
-              <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
-                <article className="overflow-hidden rounded-lg shadow-lg">
-                  <a href="#">
-                    <img
-                      alt="Placeholder"
-                      className="block h-auto w-full"
-                      src="https://picsum.photos/600/400/?random"
-                    />
-                  </a>
-                  <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                    <h1 className="text-lg">
-                      <a
-                        className="no-underline hover:underline text-black"
-                        href="#"
-                      >
-                        Course Title
-                      </a>
-                    </h1>
-                    <p className="text-grey-darker text-sm">11/1/19</p>
-                  </header>
-                  <footer className="flex items-center justify-between leading-none p-2 md:p-4">
-                    <a
-                      className="flex items-center no-underline hover:underline text-black"
-                      href="#"
-                    >
-                      <img
-                        alt="Placeholder"
-                        className="block rounded-full"
-                        src="https://picsum.photos/32/32/?random"
-                      />
-                      <p className="ml-2 text-sm">Course Subject</p>
-                    </a>
-                    <a
-                      className="no-underline text-grey-darker hover:text-red-dark"
-                      href="#"
-                    >
-                      <span className="hidden">Like</span>
-                      <i className="fa fa-heart" />
-                    </a>
-                  </footer>
-                </article>
-              </div>
-
-              <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
-                <article className="overflow-hidden rounded-lg shadow-lg">
-                  <a href="#">
-                    <img
-                      alt="Placeholder"
-                      className="block h-auto w-full"
-                      src="https://picsum.photos/600/400/?random"
-                    />
-                  </a>
-                  <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                    <h1 className="text-lg">
-                      <a
-                        className="no-underline hover:underline text-black"
-                        href="#"
-                      >
-                        Browse Courses
-                      </a>
-                    </h1>
-                    <p className="text-grey-darker text-sm">11/1/19</p>
-                  </header>
-                  <footer className="flex items-center justify-between leading-none p-2 md:p-4">
-                    <a
-                      className="flex items-center no-underline hover:underline text-black"
-                      href="#"
-                    >
-                      <img
-                        alt="Placeholder"
-                        className="block rounded-full"
-                        src="https://picsum.photos/32/32/?random"
-                      />
-                      <p className="ml-2 text-sm">Course Name</p>
-                    </a>
-                    <a
-                      className="no-underline text-grey-darker hover:text-red-dark"
-                      href="#"
-                    >
-                      <span className="hidden">Like</span>
-                      <i className="fa fa-heart" />
-                    </a>
-                  </footer>
-                </article>
-              </div>
-
-              <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
-                <article className="overflow-hidden rounded-lg shadow-lg">
-                  <a href="#">
-                    <img
-                      alt="Placeholder"
-                      className="block h-auto w-full"
-                      src="https://picsum.photos/600/400/?random"
-                    />
-                  </a>
-                  <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                    <h1 className="text-lg">
-                      <a
-                        className="no-underline hover:underline text-black"
-                        href="#"
-                      >
-                        Browse Courses
-                      </a>
-                    </h1>
-                    <p className="text-grey-darker text-sm">11/1/19</p>
-                  </header>
-                  <footer className="flex items-center justify-between leading-none p-2 md:p-4">
-                    <a
-                      className="flex items-center no-underline hover:underline text-black"
-                      href="#"
-                    >
-                      <img
-                        alt="Placeholder"
-                        className="block rounded-full"
-                        src="https://picsum.photos/32/32/?random"
-                      />
-                      <p className="ml-2 text-sm">Course Name</p>
-                    </a>
-                    <a
-                      className="no-underline text-grey-darker hover:text-red-dark"
-                      href="#"
-                    >
-                      <span className="hidden">Like</span>
-                      <i className="fa fa-heart" />
-                    </a>
-                  </footer>
-                </article>
-              </div>
-
-              <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
-                <article className="overflow-hidden rounded-lg shadow-lg">
-                  <a href="#">
-                    <img
-                      alt="Placeholder"
-                      className="block h-auto w-full"
-                      src="https://picsum.photos/600/400/?random"
-                    />
-                  </a>
-                  <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                    <h1 className="text-lg">
-                      <a
-                        className="no-underline hover:underline text-black"
-                        href="#"
-                      >
-                        Course Title
-                      </a>
-                    </h1>
-                    <p className="text-grey-darker text-sm">11/1/19</p>
-                  </header>
-                  <footer className="flex items-center justify-between leading-none p-2 md:p-4">
-                    <a
-                      className="flex items-center no-underline hover:underline text-black"
-                      href="#"
-                    >
-                      <img
-                        alt="Placeholder"
-                        className="block rounded-full"
-                        src="https://picsum.photos/32/32/?random"
-                      />
-                      <p className="ml-2 text-sm">Course Subject</p>
-                    </a>
-                    <a
-                      className="no-underline text-grey-darker hover:text-red-dark"
-                      href="#"
-                    >
-                      <span className="hidden">Like</span>
-                      <i className="fa fa-heart" />
-                    </a>
-                  </footer>
-                </article>
-              </div>
-
-              <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
-                <article className="overflow-hidden rounded-lg shadow-lg">
-                  <a href="#">
-                    <img
-                      alt="Placeholder"
-                      className="block h-auto w-full"
-                      src="https://picsum.photos/600/400/?random"
-                    />
-                  </a>
-                  <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                    <h1 className="text-lg">
-                      <a
-                        className="no-underline hover:underline text-black"
-                        href="#"
-                      >
-                        Course Title
-                      </a>
-                    </h1>
-                    <p className="text-grey-darker text-sm">11/1/19</p>
-                  </header>
-                  <footer className="flex items-center justify-between leading-none p-2 md:p-4">
-                    <a
-                      className="flex items-center no-underline hover:underline text-black"
-                      href="#"
-                    >
-                      <img
-                        alt="Placeholder"
-                        className="block rounded-full"
-                        src="https://picsum.photos/32/32/?random"
-                      />
-                      <p className="ml-2 text-sm">Course Subject</p>
-                    </a>
-                    <a
-                      className="no-underline text-grey-darker hover:text-red-dark"
-                      href="#"
-                    >
-                      <span className="hidden">Like</span>
-                      <i className="fa fa-heart" />
-                    </a>
-                  </footer>
-                </article>
-              </div>
+              {this.state.courses.length > 0 ? (
+                this.state.courses.map((data) => {
+                  return (
+                    <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
+                      <article className="overflow-hidden rounded-lg shadow-lg">
+                        <a href="#">
+                          <img
+                            alt="Placeholder"
+                            className="block h-auto w-full"
+                            src={
+                              "/api/getCourse/cover/" +
+                              data.coverPicture.replace(/^.*[\\\/]/, "")
+                            }
+                          />
+                        </a>
+                        <header className="flex items-center justify-between leading-tight p-2 md:p-4">
+                          <h1 className="text-lg">
+                            <a
+                              className="no-underline hover:underline text-black"
+                              href="#"
+                            >
+                              {data.title}
+                            </a>
+                          </h1>
+                          <p className="text-grey-darker text-sm">
+                            Duration: {data.duration}
+                          </p>
+                        </header>
+                        <footer className="flex items-center justify-between leading-none p-2 md:p-4">
+                          <a
+                            className="flex items-center no-underline hover:underline text-black"
+                            href="#"
+                          >
+                            <p className="ml-2 text-sm">{data.subject}</p>
+                          </a>
+                          <a
+                            className="no-underline text-grey-darker hover:text-red-dark"
+                            href="#"
+                          >
+                            <span className="hidden">Like</span>
+                            <i className="fa fa-heart" />
+                          </a>
+                        </footer>
+                      </article>
+                    </div>
+                  );
+                })
+              ) : (
+                <div className="container">
+                  <div className="text-center pb-lg-4">
+                    <h2 className="m-5 text-red-600">
+                      Op's No Courses available yet
+                    </h2>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
           <div class="text-center mt-5">

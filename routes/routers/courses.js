@@ -3,7 +3,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const process = require("process");
 const Course = require("./../../models/Courses");
-
+var path = require("path");
 const keys = {
   jwtsecret: process.env.jwtsecret,
 };
@@ -19,6 +19,7 @@ const { request } = require("../../app");
 const fs = require("fs");
 const multer = require("multer");
 const uuid = require("uuid").v4;
+
 storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "./uploads/Images/");
@@ -93,10 +94,11 @@ router.get(
   }
 );
 
+// its a public route so any one can access it with out any token no need any authentication
 router.get(
   "/courses/getAllCourses",
   processValidationErrors,
-  ejwtauth,
+  // ejwtauth,
   (req, res, next) => {
     const course = new Course();
     course
@@ -110,6 +112,13 @@ router.get(
       .catch(next);
   }
 );
+
+// todo:get better way to get image
+router.get("/getCourse/cover/:name", (req, res) => {
+  res.sendFile(
+    path.join(__dirname, "./../../uploads/images/" + req.params.name)
+  );
+});
 
 router.get(
   "/courses/searchByName/:name",
