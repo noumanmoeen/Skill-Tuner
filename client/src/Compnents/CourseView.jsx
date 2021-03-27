@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import url from "../utils/url_config";
 
 class CourseView extends Component {
@@ -46,7 +47,7 @@ class CourseView extends Component {
                     return (
                       <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
                         <article className="overflow-hidden rounded-lg shadow-lg">
-                          <a href="#">
+                          <Link to={`/Courses/${data.title}/details`}>
                             <img
                               alt="Placeholder"
                               className="block h-auto w-full"
@@ -55,25 +56,22 @@ class CourseView extends Component {
                                 data.coverPicture.replace(/^.*[\\\/]/, "")
                               }
                             />
-                          </a>
+                          </Link>
                           <header className="flex items-center justify-between leading-tight p-2 md:p-4">
                             <h1 className="text-lg">
-                              <a
+                              <Link
                                 className="no-underline hover:underline text-black"
-                                href="#"
+                                to={`/Courses/${data.title}/details`}
                               >
                                 {data.title}
-                              </a>
+                              </Link>
                             </h1>
                             <p className="text-grey-darker text-sm">
                               Duration: {data.duration}
                             </p>
                           </header>
                           <footer className="flex items-center justify-between leading-none p-2 md:p-4">
-                            <a
-                              className="flex items-center no-underline hover:underline text-black"
-                              href="#"
-                            >
+                            <a className="flex items-center no-underline hover:underline text-black">
                               <p className="ml-2 text-sm">{data.subject}</p>
                             </a>
                             <a
@@ -93,7 +91,7 @@ class CourseView extends Component {
                     return (
                       <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
                         <article className="overflow-hidden rounded-lg shadow-lg">
-                          <a href="#">
+                          <Link to={`/Courses/${data.title}/details`}>
                             <img
                               alt="Placeholder"
                               className="block h-auto w-full"
@@ -102,15 +100,15 @@ class CourseView extends Component {
                                 data.coverPicture.replace(/^.*[\\\/]/, "")
                               }
                             />
-                          </a>
+                          </Link>
                           <header className="flex items-center justify-between leading-tight p-2 md:p-4">
                             <h1 className="text-lg">
-                              <a
+                              <Link
                                 className="no-underline hover:underline text-black"
-                                href="#"
+                                to={`/Courses/${data.title}/details`}
                               >
                                 {data.title}
-                              </a>
+                              </Link>
                             </h1>
                             <p className="text-grey-darker text-sm">
                               Duration: {data.duration}

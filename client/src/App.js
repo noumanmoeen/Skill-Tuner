@@ -266,6 +266,7 @@ class App extends React.Component {
               url.contact,
               url.viewAllCourse,
               url.smartSearch,
+              url.courseDetails,
             ]}
             render={(props) => {
               return this.state.userLogIn ? (

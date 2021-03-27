@@ -3,6 +3,7 @@ import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import url from "../utils/url_config";
 import About from "./About";
 import Contact from "./Contact";
+import CourseDetails from "./CourseDetails";
 import Home from "./Home";
 import LeaderBoard from "./LeaderBoard";
 import SmartSearch from "./SmartSearch";
@@ -147,6 +148,7 @@ class Header extends Component {
               <ViewAllCourses _id={this.props._id} />
             </Route>
             <Route exact path={url.smartSearch} component={SmartSearch} />
+            <Route exact path={url.courseDetails} component={CourseDetails} />
           </Switch>
         </Router>
       </>
