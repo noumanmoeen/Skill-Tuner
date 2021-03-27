@@ -15,6 +15,8 @@ const url = {
   userSignup: "/User/Signup",
   todoList: "/User/TodoList",
   leaderBoard: "/User/LeaderBoard",
+  about: "/About",
+  contact: "/Contact",
 };
 
 export default url;

@@ -24,7 +24,7 @@ class FeatureVideos extends Component {
                   <div className="px-8 py-10 relative z-10 w-full border border-gray-200 bg-white transform transition duration-500 hover:scale-125 opacity-0 hover:opacity-100">
                     <iframe
                       className="absolute inset-0 w-full h-full object-cover object-center"
-                      src="https://www.youtube.com/embed/4UZrsTqkcW4?autoplay=1"
+                      src="https://www.youtube.com/embed/4UZrsTqkcW4"
                       frameBorder={0}
                       allow="autoplay"
                       allowFullScreen
@@ -43,7 +43,7 @@ class FeatureVideos extends Component {
                   <div className="px-8 py-10 relative z-10 w-full border border-gray-200 bg-white transform transition duration-500 hover:scale-125 opacity-0 hover:opacity-100">
                     <iframe
                       className="absolute inset-0 w-full h-full object-cover object-center"
-                      src="https://www.youtube.com/embed/4deVCNJq3qc?autoplay=1"
+                      src="https://www.youtube.com/embed/4deVCNJq3qc"
                       frameBorder={0}
                       allow="autoplay"
                       allowFullScreen
@@ -62,7 +62,7 @@ class FeatureVideos extends Component {
                   <div className="px-8 py-10 relative z-10 w-full border border-gray-200 bg-white transform transition duration-500 hover:scale-125 opacity-0 hover:opacity-100">
                     <iframe
                       className="absolute inset-0 w-full h-full object-cover object-center"
-                      src="https://www.youtube.com/embed/2OHbjep_WjQ?autoplay=1"
+                      src="https://www.youtube.com/embed/2OHbjep_WjQ"
                       frameBorder={0}
                       allow="autoplay"
                       allowFullScreen
