@@ -19,12 +19,12 @@ class FeatureVideos extends Component {
                   <img
                     alt="gallery"
                     className="absolute inset-0 w-full h-full object-cover object-center"
-                    src="https://ajssarimg.mediatriple.net/1110523.jpg"
+                    src="https://i.pinimg.com/564x/61/e3/d5/61e3d5ce3923b1a74eab3434df097990.jpg"
                   />
                   <div className="px-8 py-10 relative z-10 w-full border border-gray-200 bg-white transform transition duration-500 hover:scale-125 opacity-0 hover:opacity-100">
                     <iframe
                       className="absolute inset-0 w-full h-full object-cover object-center"
-                      src="https://www.youtube.com/embed/eIGGKSHMQOM?rel=0&modestbranding=1&autohide=1&mute=1&showinfo=0&controls=0&autoplay=1"
+                      src="https://www.youtube.com/embed/4UZrsTqkcW4?autoplay=1"
                       frameBorder={0}
                       allow="autoplay"
                       allowFullScreen
@@ -38,12 +38,12 @@ class FeatureVideos extends Component {
                   <img
                     alt="gallery"
                     className="absolute inset-0 w-full h-full object-cover object-center"
-                    src="https://i1.wp.com/dokuz8haber.net/wp-content/uploads/2020/06/dark-dizisi.jpeg?fit=788%2C443&ssl=1"
+                    src="https://miro.medium.com/max/700/1*OrjCKmou1jT4It5so5gvOA.jpeg"
                   />
                   <div className="px-8 py-10 relative z-10 w-full border border-gray-200 bg-white transform transition duration-500 hover:scale-125 opacity-0 hover:opacity-100">
                     <iframe
                       className="absolute inset-0 w-full h-full object-cover object-center"
-                      src="https://www.youtube.com/embed/cq2iTHoLrt0?rel=0&modestbranding=1&autohide=1&mute=1&showinfo=0&controls=0&autoplay=1"
+                      src="https://www.youtube.com/embed/4deVCNJq3qc?autoplay=1"
                       frameBorder={0}
                       allow="autoplay"
                       allowFullScreen
@@ -57,12 +57,12 @@ class FeatureVideos extends Component {
                   <img
                     alt="gallery"
                     className="absolute inset-0 w-full h-full object-cover object-center"
-                    src="https://www.webtekno.com/images/editor/default/0001/98/6989608967a2f04b240670471d58b43757ec0b24.jpeg"
+                    src="https://www.techiexpert.com/wp-content/uploads/2019/07/AngularJS-1.png"
                   />
                   <div className="px-8 py-10 relative z-10 w-full border border-gray-200 bg-white transform transition duration-500 hover:scale-125 opacity-0 hover:opacity-100">
                     <iframe
                       className="absolute inset-0 w-full h-full object-cover object-center"
-                      src="https://www.youtube.com/embed/qKqj85oo2wI?rel=0&modestbranding=1&autohide=1&mute=1&showinfo=0&controls=0&autoplay=1"
+                      src="https://www.youtube.com/embed/2OHbjep_WjQ?autoplay=1"
                       frameBorder={0}
                       allow="autoplay"
                       allowFullScreen
