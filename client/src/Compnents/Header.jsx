@@ -5,6 +5,7 @@ import About from "./About";
 import Contact from "./Contact";
 import Home from "./Home";
 import LeaderBoard from "./LeaderBoard";
+import SmartSearch from "./SmartSearch";
 import TodoList from "./TodoList";
 import ViewAllCourses from "./ViewAllCourses";
 
@@ -145,6 +146,7 @@ class Header extends Component {
             <Route path={url.viewAllCourse}>
               <ViewAllCourses _id={this.props._id} />
             </Route>
+            <Route exact path={url.smartSearch} component={SmartSearch} />
           </Switch>
         </Router>
       </>

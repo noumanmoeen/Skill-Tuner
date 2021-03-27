@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import url from "../utils/url_config";
 import CourseView from "./CourseView";
 import FeatureVideos from "./FeatureVideos";
 import Footer from "./Footer";
@@ -7,8 +8,14 @@ import Footer from "./Footer";
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { title: "query", type: "all" };
   }
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
   render() {
     return (
       <>
@@ -46,6 +53,8 @@ class Home extends Component {
                 className="appearance-none block md:w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey"
                 id="grid-password"
                 type="search"
+                name="title"
+                onChange={(e) => this.handleChange(e)}
                 placeholder="Search for free courses and videos..."
               />
             </div>
@@ -53,17 +62,22 @@ class Home extends Component {
             <div className="inline-block w-1/6 ml-2">
               <select
                 className="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey outline-none"
+                name="type"
+                onChange={(e) => this.handleChange(e)}
                 id="grid-state"
               >
-                <option>All</option>
-                <option>Courses</option>
-                <option>Lecture Title</option>
+                <option value="all">All</option>
+                <option value="Courses">Courses</option>
+                <option value="CourseTitle">Lecture Title</option>
               </select>
             </div>
             <div className="inline-block w-1/7 ml-1">
-              <button className="focus:outline-none text-white text-sm py-3 px-5 rounded-md bg-gradient-to-r from-blue-400 to-blue-600 transform hover:scale-110">
+              <Link
+                to={`/Search/${this.state.title}/${this.state.type}`}
+                className="focus:outline-none text-white text-sm py-3 px-5 rounded-md bg-gradient-to-r from-blue-400 to-blue-600 transform hover:scale-110"
+              >
                 Search
-              </button>
+              </Link>
             </div>
           </div>
         </div>

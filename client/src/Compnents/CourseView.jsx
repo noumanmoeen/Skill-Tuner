@@ -14,7 +14,6 @@ class CourseView extends Component {
     await axios
       .get("/api/courses/getAllCourses")
       .then((res) => {
-        // console.log(res.data);
         this.setState({ courses: res.data });
       })
       .catch((err) => {

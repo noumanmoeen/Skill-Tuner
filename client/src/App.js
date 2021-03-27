@@ -260,7 +260,13 @@ class App extends React.Component {
             }}
           />
           <Route
-            path={[url.home, url.about, url.contact, url.viewAllCourse]}
+            path={[
+              url.home,
+              url.about,
+              url.contact,
+              url.viewAllCourse,
+              url.smartSearch,
+            ]}
             render={(props) => {
               return this.state.userLogIn ? (
                 <Header

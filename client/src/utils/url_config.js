@@ -18,6 +18,7 @@ const url = {
   about: "/faqs",
   contact: "/ContactUs",
   viewAllCourse: "/AllCourses",
+  smartSearch: "/Search/:title/:filter",
 };
 
 export default url;

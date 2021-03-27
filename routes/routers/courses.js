@@ -124,7 +124,7 @@ router.get(
   "/courses/searchByName/:name",
   param("name").escape(),
   processValidationErrors,
-  ejwtauth,
+  // ejwtauth,
   (req, res, next) => {
     const course = new Course({ title: req.params.name });
     course
