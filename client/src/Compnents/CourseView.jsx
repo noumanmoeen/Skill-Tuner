@@ -4,14 +4,16 @@ import React, { Component } from "react";
 class CourseView extends Component {
   constructor(props) {
     super(props);
-    this.state = { courses: [] };
+    this.state = {
+      courses: [],
+    };
   }
 
   async componentDidMount() {
     await axios
       .get("/api/courses/getAllCourses")
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         this.setState({ courses: res.data });
       })
       .catch((err) => {
@@ -30,7 +32,7 @@ class CourseView extends Component {
           <div className="container mx-auto px-4 md:px-12">
             <div className="flex flex-wrap -mx-1 lg:-mx-4">
               {this.state.courses.length > 0 ? (
-                this.state.courses.map((data) => {
+                this.state.courses.slice(0, 6).map((data) => {
                   return (
                     <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
                       <article className="overflow-hidden rounded-lg shadow-lg">
