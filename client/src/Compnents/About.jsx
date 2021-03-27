@@ -12,7 +12,7 @@ class About extends Component {
             " Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione. Lorem ipsum, dolor sit amet consectetur adipisicing elit.",
         },
         {
-          question: " What could possibly be your first question?",
+          question: " What could possibly be your second question?",
           answer:
             " Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione. Lorem ipsum, dolor sit amet consectetur adipisicing elit.",
         },
