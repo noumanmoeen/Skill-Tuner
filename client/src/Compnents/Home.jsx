@@ -67,7 +67,7 @@ class Home extends Component {
             </div>
           </div>
         </div>
-        <CourseView />
+        <CourseView home={true} />
         <br />
         <br />
 

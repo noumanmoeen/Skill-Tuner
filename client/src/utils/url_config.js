@@ -17,6 +17,7 @@ const url = {
   leaderBoard: "/User/LeaderBoard",
   about: "/faqs",
   contact: "/ContactUs",
+  viewAllCourse: "/AllCourses",
 };
 
 export default url;

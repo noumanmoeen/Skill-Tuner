@@ -6,6 +6,7 @@ import Contact from "./Contact";
 import Home from "./Home";
 import LeaderBoard from "./LeaderBoard";
 import TodoList from "./TodoList";
+import ViewAllCourses from "./ViewAllCourses";
 
 class Header extends Component {
   constructor(props) {
@@ -140,6 +141,9 @@ class Header extends Component {
             </Route>
             <Route path={url.contact}>
               <Contact _id={this.props._id} />
+            </Route>
+            <Route path={url.viewAllCourse}>
+              <ViewAllCourses _id={this.props._id} />
             </Route>
           </Switch>
         </Router>
