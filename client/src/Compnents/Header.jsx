@@ -76,7 +76,7 @@ class Header extends Component {
                   to={url.about}
                   className="block md:inline-block px-3 py-3 no-underline text-black hover:text-gray-500 font-bold"
                 >
-                  About
+                  Faq's
                 </Link>
               </li>
               <li className="border-t md:border-none">
