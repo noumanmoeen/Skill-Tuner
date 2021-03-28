@@ -236,10 +236,6 @@ class CourseDetails extends Component {
                 style={{ fontSize: "14px", color: "#29303b", padding: "8px" }}
               >
                 {this.state.data.description}
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Repudiandae, porro quia incidunt corrupti necessitatibus sequi
-                repellat eaque sint. Aut eveniet optio, distinctio magnam
-                reprehenderit aspernatur. Nemo qui possimus earum quaerat.
               </div>
             </div>
           </div>
@@ -251,7 +247,7 @@ class CourseDetails extends Component {
 
         <ReadReviewContainer />
 
-        <ReviewContainer />
+        <ReviewContainer _id={this.props._id} />
 
         <RecomendedSection category={this.state.category} />
         <br />

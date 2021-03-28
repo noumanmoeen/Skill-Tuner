@@ -37,12 +37,16 @@ class ReviewContainer extends Component {
               border: "1px solid black",
             }}
           />
-          <button
-            className="bg-blue-500 hover:bg-blue-200"
-            style={{ fontSize: "15px", padding: "12px 54px" }}
-          >
-            Make Review
-          </button>
+          {String(this.props._id).length > 0 ? (
+            <button
+              className="bg-blue-500 hover:bg-blue-200"
+              style={{ fontSize: "15px", padding: "12px 54px" }}
+            >
+              Make Review
+            </button>
+          ) : (
+            <h1>Please login to give review</h1>
+          )}
         </div>
         <br />
         <br />
