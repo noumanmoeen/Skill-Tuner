@@ -44,6 +44,8 @@ class ReviewContainer extends Component {
             Make Review
           </button>
         </div>
+        <br />
+        <br />
       </>
     );
   }

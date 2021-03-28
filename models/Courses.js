@@ -234,4 +234,13 @@ coursesSchema.method("getCourseContentById", async function () {
   }
   return course;
 });
+
+coursesSchema.method("getCoursesByCategoryId", async function () {
+  const course = await this.model("Courses").find({ category: this.category });
+  if (course.length == 0) {
+    throw new APIError(404, "Course with this id is not found");
+  }
+  return course;
+});
+
 module.exports = mongoose.model("Courses", coursesSchema);

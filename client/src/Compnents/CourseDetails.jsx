@@ -10,18 +10,26 @@ import ReviewContainer from "./ReviewContainer";
 class CourseDetails extends Component {
   constructor(props) {
     super(props);
-    this.state = { data: {}, content: [], quiz: [] };
+    this.state = { data: {}, content: [], quiz: [], category: [] };
   }
 
   async componentDidMount() {
     await axios
       .get("/api/courses/searchById/" + this.props.match.params.id)
-      .then((res) => {
+      .then(async (res) => {
         this.setState({
           data: res.data,
           content: res.data.content,
           quiz: res.data.quiz,
         });
+        await axios
+          .get("/api/courses/getAllCoursesByCategory/" + res.data.category._id)
+          .then((res) => {
+            this.setState({ category: res.data });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => {
         console.log(err);
@@ -245,8 +253,7 @@ class CourseDetails extends Component {
 
         <ReviewContainer />
 
-        <RecomendedSection />
-
+        <RecomendedSection category={this.state.category} />
         <br />
         <br />
         <Footer />

@@ -10,7 +10,7 @@ class ReadReviewContainer extends Component {
       <>
         <div>
           <div
-            className="review-header"
+            className=""
             style={{
               padding: "70px 130px 0px 130px",
               marginBottom: "22px",
@@ -35,7 +35,7 @@ class ReadReviewContainer extends Component {
           }}
         >
           <div
-            className="review-feed-container"
+            className="w-full"
             style={{
               fontFamily: "inherit",
               display: "flex",
@@ -103,7 +103,7 @@ class ReadReviewContainer extends Component {
             </div>
           </div>
           <div
-            className="review-feed-container"
+            className="w-full"
             style={{
               fontFamily: "inherit",
               display: "flex",
@@ -181,14 +181,13 @@ class ReadReviewContainer extends Component {
           }}
         >
           <div
-            className="see-more-review-button"
             style={{
               color: "#007791",
               backgroundColor: "#fff",
               border: "1px solid #007791",
               fontWeight: 600,
               textAlign: "center",
-              width: "140px",
+              width: "200px",
               padding: "11px 12px",
             }}
           >

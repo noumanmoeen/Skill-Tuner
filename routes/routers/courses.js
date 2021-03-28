@@ -113,6 +113,24 @@ router.get(
   }
 );
 
+router.get(
+  "/courses/getAllCoursesByCategory/:id",
+  processValidationErrors,
+  // ejwtauth,
+  (req, res, next) => {
+    const course = new Course({ category: req.params.id });
+    course
+      .getCoursesByCategoryId()
+      .then((data) => {
+        if (data.length == 0) {
+          throw new APIError(404, "There are no courses Available");
+        }
+        res.send(data);
+      })
+      .catch(next);
+  }
+);
+
 // todo:get better way to get image
 router.get("/getCourse/cover/:name", (req, res) => {
   res.sendFile(
