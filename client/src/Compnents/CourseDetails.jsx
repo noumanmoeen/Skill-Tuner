@@ -1,17 +1,27 @@
 import axios from "axios";
 import React, { Component } from "react";
+import CourseContentContainer from "./CourseContentContainer";
+import Footer from "./Footer";
+import QuizContainer from "./QuizContainer";
+import ReadReviewContainer from "./ReadReviewContainer";
+import RecomendedSection from "./RecomendedSection";
+import ReviewContainer from "./ReviewContainer";
 
 class CourseDetails extends Component {
   constructor(props) {
     super(props);
-    this.state = { data: {}, content: [] };
+    this.state = { data: {}, content: [], quiz: [] };
   }
 
   async componentDidMount() {
     await axios
       .get("/api/courses/searchById/" + this.props.match.params.id)
       .then((res) => {
-        this.setState({ data: res.data, content: res.data.content });
+        this.setState({
+          data: res.data,
+          content: res.data.content,
+          quiz: res.data.quiz,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -226,62 +236,20 @@ class CourseDetails extends Component {
             </div>
           </div>
         </div>
-        <div>
-          <div
-            className="title-course"
-            style={{
-              margin: "60px 78px 23px ",
-              fontSize: "22px",
-              fontWeight: 600,
-              color: "#29303b",
-            }}
-          >
-            Course content
-          </div>
-        </div>
-        <div
-          className="accordion h-screen"
-          style={{
-            margin: "40px 78px 23px ",
-            color: "#29303b",
-          }}
-        >
-          {this.state.content.length > 0
-            ? this.state.content.map((data, index) => {
-                return (
-                  <div className="w-full">
-                    <input
-                      type="checkbox"
-                      name="panel"
-                      id={`panel-${index}`}
-                      className="hidden"
-                    />
-                    <label
-                      htmlFor={`panel-${index}`}
-                      className="relative block text-white p-3 shadow border-b border-grey"
-                      style={{ backgroundColor: "#29303b" }}
-                    >
-                      {data.title}
-                    </label>
-                    <div
-                      className="accordion__content overflow-hidden "
-                      style={{ backgroundColor: "#f9f9f9" }}
-                    >
-                      <h2 className="accordion__header pt-4 pl-4">Header</h2>
-                      <p className="accordion__body p-4" id="panel1">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit. Iusto possimus at a cum saepe molestias modi illo
-                        facere ducimus voluptatibus praesentium deleniti fugiat
-                        ab error quia sit perspiciatis velit
-                        necessitatibus.Lorem ipsum dolor sit amet, consectetur
-                        adipisicing elit. Lorem ipsum dolor sit amet.
-                      </p>
-                    </div>
-                  </div>
-                );
-              })
-            : null}
-        </div>
+
+        <CourseContentContainer content={this.state.content} />
+
+        <QuizContainer content={this.state.content} quiz={this.state.quiz} />
+
+        <ReadReviewContainer />
+
+        <ReviewContainer />
+
+        <RecomendedSection />
+
+        <br />
+        <br />
+        <Footer />
       </>
     );
   }
