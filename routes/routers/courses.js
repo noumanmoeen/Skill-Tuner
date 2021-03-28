@@ -79,7 +79,7 @@ router.get(
     .escape()
     .custom((value) => validateObjectID(value)),
   processValidationErrors,
-  ejwtauth,
+  // ejwtauth,
   (req, res, next) => {
     const course = new Course({ _id: req.params._id });
     course

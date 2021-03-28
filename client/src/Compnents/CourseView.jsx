@@ -47,7 +47,7 @@ class CourseView extends Component {
                     return (
                       <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
                         <article className="overflow-hidden rounded-lg shadow-lg">
-                          <Link to={`/Courses/${data.title}/details`}>
+                          <Link to={`/Courses/${data._id}/details`}>
                             <img
                               alt="Placeholder"
                               className="block h-auto w-full"
@@ -61,7 +61,7 @@ class CourseView extends Component {
                             <h1 className="text-lg">
                               <Link
                                 className="no-underline hover:underline text-black"
-                                to={`/Courses/${data.title}/details`}
+                                to={`/Courses/${data._id}/details`}
                               >
                                 {data.title}
                               </Link>
@@ -91,7 +91,7 @@ class CourseView extends Component {
                     return (
                       <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
                         <article className="overflow-hidden rounded-lg shadow-lg">
-                          <Link to={`/Courses/${data.title}/details`}>
+                          <Link to={`/Courses/${data._id}/details`}>
                             <img
                               alt="Placeholder"
                               className="block h-auto w-full"
@@ -105,7 +105,7 @@ class CourseView extends Component {
                             <h1 className="text-lg">
                               <Link
                                 className="no-underline hover:underline text-black"
-                                to={`/Courses/${data.title}/details`}
+                                to={`/Courses/${data._id}/details`}
                               >
                                 {data.title}
                               </Link>

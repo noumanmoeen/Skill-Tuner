@@ -186,7 +186,9 @@ coursesSchema.method("deleteCourseByName", async function (title) {
 });
 
 coursesSchema.method("searchBycourseId", async function () {
-  return await this.model("Courses").findOne({ _id: this._id });
+  return await this.model("Courses")
+    .findOne({ _id: this._id })
+    .populate(["content", "quiz", "feedback", "category"]);
 });
 
 coursesSchema.method("addUserFeedBack", async function () {

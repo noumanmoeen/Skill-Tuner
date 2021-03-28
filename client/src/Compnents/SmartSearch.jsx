@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import Footer from "./Footer";
 
 class SmartSearch extends Component {
@@ -65,7 +66,7 @@ class SmartSearch extends Component {
                   return (
                     <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
                       <article className="overflow-hidden rounded-lg shadow-lg">
-                        <a href="#">
+                        <Link to={`/Courses/${data._id}/details`}>
                           <img
                             alt="Placeholder"
                             className="block h-auto w-full"
@@ -74,15 +75,15 @@ class SmartSearch extends Component {
                               data.coverPicture.replace(/^.*[\\\/]/, "")
                             }
                           />
-                        </a>
+                        </Link>
                         <header className="flex items-center justify-between leading-tight p-2 md:p-4">
                           <h1 className="text-lg">
-                            <a
+                            <Link
                               className="no-underline hover:underline text-black"
-                              href="#"
+                              to={`/Courses/${data._id}/details`}
                             >
                               {data.title}
-                            </a>
+                            </Link>
                           </h1>
                           <p className="text-grey-darker text-sm">
                             Duration: {data.duration}
