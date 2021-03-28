@@ -156,11 +156,12 @@ userschema.method("deleteUser", async function (_id) {
 userschema.method("addNewCourseByUserID", async function () {
   const user = this.model("User");
   if ((await user.findOne({ _id: this._id, courses: this.courses })) != null) {
-    throw new APIError(404, "User already registered in this course");
+    throw new APIError(404, "you are already registered in this course");
   }
+
   return await user.updateOne(
     { _id: this._id },
-    { $push: { courses: this.courses } }
+    { $push: { courses: this.courses[0] } }
   );
 });
 
@@ -174,6 +175,15 @@ userschema.method("dropCourseByUserID", async function () {
     { $pull: { courses: this.courses[0] } },
     { multi: true }
   );
+});
+
+userschema.method("checkIfUserEnroleinCourse", async function () {
+  const user = this.model("User");
+  if ((await user.findOne({ _id: this._id, courses: this.courses })) != null) {
+    return true;
+  } else {
+    return false;
+  }
 });
 
 userschema.method("addSkill", async function () {

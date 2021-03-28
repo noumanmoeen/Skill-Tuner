@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, { Component } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import auth_axios from "../utils/auth_axios";
 import CourseContentContainer from "./CourseContentContainer";
 import Footer from "./Footer";
 import QuizContainer from "./QuizContainer";
@@ -10,10 +12,30 @@ import ReviewContainer from "./ReviewContainer";
 class CourseDetails extends Component {
   constructor(props) {
     super(props);
-    this.state = { data: {}, content: [], quiz: [], category: [] };
+    this.state = {
+      data: {},
+      content: [],
+      quiz: [],
+      category: [],
+      loading: false,
+      enroll: false,
+    };
   }
 
   async componentDidMount() {
+    if (localStorage.getItem("user_id")) {
+      await auth_axios
+        .post("/api/users/courses/CheckIfEnrolled/", {
+          _id: localStorage.getItem("user_id"),
+          courseId: this.props.match.params.id,
+        })
+        .then((res) => {
+          this.setState({ enroll: res.data });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
     await axios
       .get("/api/courses/searchById/" + this.props.match.params.id)
       .then(async (res) => {
@@ -35,9 +57,50 @@ class CourseDetails extends Component {
         console.log(err);
       });
   }
+  handleCourseEnrol = async (e) => {
+    e.preventDefault();
+    this.setState({ loading: true });
+    await auth_axios
+      .post("/api/users/courses/add/", {
+        _id: localStorage.getItem("user_id"),
+        courseId: this.props.match.params.id,
+      })
+      .then((res) => {
+        if (res.status == 200) {
+          setTimeout(() => {
+            toast.success("You are enroled in the Course Sucessfully");
+            this.setState({ loading: false });
+            window.location.reload();
+          }, 1200);
+        } else {
+          toast.error("there is a problem with server please try again later");
+          this.setState({ loading: false });
+        }
+      })
+      .catch((err) => {
+        this.setState({ loading: false });
+        if (err.response && Array.isArray(err.response.data.messages)) {
+          const msgs = err.response.data.messages.map((v) =>
+            toast.error(v.msg)
+          );
+        }
+        throw err;
+      });
+  };
   render() {
     return (
       <>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
         <div
           className=""
           style={{
@@ -180,32 +243,56 @@ class CourseDetails extends Component {
                 </svg>
               </div>
             </div>
-
-            <button
-              className="back-home-button"
-              style={{
-                fontFamily: "inherit",
-                color: "#fff",
-                backgroundColor: "#ec5252",
-                border: "1px solid transparent",
-                display: "inline-block",
-                margin: "25px 0px 18px 0px",
-                textAlign: "center",
-                verticalAlign: "middle",
-                touchAction: "manipulation",
-                cursor: "pointer",
-                backgroundImage: "none",
-                whiteSpace: "nowrap",
-                padding: "12px 11px",
-                fontSize: "15px",
-                lineHeight: "1.35135",
-                borderRadius: "2px",
-                width: "90%",
-                outline: "none",
-              }}
-            >
-              Enroll Now
-            </button>
+            {this.state.enroll ? null : (
+              <button
+                className="back-home-button"
+                onClick={(e) => this.handleCourseEnrol(e)}
+                style={{
+                  fontFamily: "inherit",
+                  color: "#fff",
+                  backgroundColor: "#ec5252",
+                  border: "1px solid transparent",
+                  display: "inline-block",
+                  margin: "25px 0px 18px 0px",
+                  textAlign: "center",
+                  verticalAlign: "middle",
+                  touchAction: "manipulation",
+                  cursor: "pointer",
+                  backgroundImage: "none",
+                  whiteSpace: "nowrap",
+                  padding: "12px 11px",
+                  fontSize: "15px",
+                  lineHeight: "1.35135",
+                  borderRadius: "2px",
+                  width: "90%",
+                  outline: "none",
+                }}
+              >
+                {this.state.loading ? (
+                  <svg
+                    class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      class="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="4"
+                    />
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    />
+                  </svg>
+                ) : null}
+                Enroll Now
+              </button>
+            )}
           </div>
         </div>
         <div style={{ margin: "80px 80px 0px 80px" }}>
@@ -247,7 +334,7 @@ class CourseDetails extends Component {
 
         <ReadReviewContainer />
 
-        <ReviewContainer _id={this.props._id} />
+        <ReviewContainer _id={localStorage.getItem("user_id")} />
 
         <RecomendedSection category={this.state.category} />
         <br />

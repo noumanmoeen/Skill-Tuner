@@ -125,6 +125,7 @@ router.get(
     .escape()
     .custom((value) => validateObjectID(value)),
   processValidationErrors,
+  ejwtauth,
   (req, res, next) => {
     let user = new User();
     user
@@ -138,6 +139,7 @@ router.get(
   "/users/checkusername/:username",
   param("username").escape().isString(),
   processValidationErrors,
+
   (req, res, next) => {
     let user = new User({ username: req.params.username });
     user
@@ -175,6 +177,26 @@ router.post(
       .addNewCourseByUserID()
       .then((data) => {
         res.sendStatus(data ? 200 : 400);
+      })
+      .catch(next);
+  }
+);
+
+router.post(
+  "/users/courses/CheckIfEnrolled/",
+  body("_id").escape(),
+  body("courseId").escape(),
+  processValidationErrors,
+  ejwtauth,
+  (req, res, next) => {
+    const user = new User({
+      _id: req.body._id,
+      courses: { _id: req.body.courseId },
+    });
+    user
+      .checkIfUserEnroleinCourse()
+      .then((data) => {
+        res.send(data);
       })
       .catch(next);
   }
