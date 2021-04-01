@@ -45,7 +45,6 @@ class CourseDetails extends Component {
           courseId: this.props.match.params.id,
         })
         .then((res) => {
-          console.log("hello", res.data);
           this.setState({ completedLectures: res.data[0].lecture });
         })
         .catch((err) => {
@@ -77,7 +76,7 @@ class CourseDetails extends Component {
   handleCompleteLecture = async () => {
     this.setState({ comleteLoading: true });
     await auth_axios
-      .post("/api/users/AddCompletedContent", {
+      .put("/api/users/AddCompletedContent", {
         _id: localStorage.getItem("user_id"),
         courseId: this.props.match.params.id,
       })

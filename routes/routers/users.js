@@ -456,7 +456,7 @@ router.post(
   }
 );
 
-router.post(
+router.put(
   "/users/AddCompletedContent",
   ejwtauth,
   processValidationErrors,
