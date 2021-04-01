@@ -71,6 +71,14 @@ const userschema = mongoose.Schema(
           type: mongoose.Schema.Types.ObjectId,
           ref: "Courses",
         },
+        lecture: { type: Number, default: 1 },
+        progress: [
+          {
+            contentId: {
+              type: mongoose.Schema.Types.ObjectId,
+            },
+          },
+        ],
       },
     ],
   },
@@ -165,6 +173,29 @@ userschema.method("addNewCourseByUserID", async function () {
   );
 });
 
+userschema.method("addCourseCompleted", async function () {
+  const user = this.model("User");
+  const lecture = await user.findOne({
+    _id: this._id,
+    courses: { $elemMatch: { _id: this.courses[0]._id } },
+  });
+
+  return await user.updateOne(
+    { _id: this._id, courses: { $elemMatch: { _id: this.courses[0]._id } } },
+    { "courses.$.lecture": lecture.courses[0].lecture + 1 }
+  );
+});
+
+userschema.method("getNoOfCoursesCompleted", async function () {
+  const user = this.model("User");
+  const lecture = await user.findOne({
+    _id: this._id,
+    courses: { $elemMatch: { _id: this.courses[0]._id } },
+  });
+
+  return lecture.courses;
+});
+
 userschema.method("dropCourseByUserID", async function () {
   const user = this.model("User");
   if ((await user.findOne({ _id: this._id, courses: this.courses })) == null) {
@@ -179,7 +210,12 @@ userschema.method("dropCourseByUserID", async function () {
 
 userschema.method("checkIfUserEnroleinCourse", async function () {
   const user = this.model("User");
-  if ((await user.findOne({ _id: this._id, courses: this.courses })) != null) {
+  if (
+    (await user.findOne({
+      _id: this._id,
+      courses: { $elemMatch: { _id: this.courses[0]._id } },
+    })) != null
+  ) {
     return true;
   } else {
     return false;

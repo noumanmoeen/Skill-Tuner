@@ -456,4 +456,40 @@ router.post(
   }
 );
 
+router.post(
+  "/users/AddCompletedContent",
+  ejwtauth,
+  processValidationErrors,
+  (req, res, next) => {
+    const user = new User({
+      _id: req.body._id,
+      courses: { _id: req.body.courseId },
+    });
+    user
+      .addCourseCompleted()
+      .then((data) => {
+        res.sendStatus(data ? 200 : 400);
+      })
+      .catch(next);
+  }
+);
+
+router.post(
+  "/users/getNoOfLectureCompleted",
+  ejwtauth,
+  processValidationErrors,
+  (req, res, next) => {
+    const user = new User({
+      _id: req.body._id,
+      courses: { _id: req.body.courseId },
+    });
+    user
+      .getNoOfCoursesCompleted()
+      .then((data) => {
+        res.send(data);
+      })
+      .catch(next);
+  }
+);
+
 module.exports = router;

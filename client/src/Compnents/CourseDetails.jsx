@@ -19,7 +19,10 @@ class CourseDetails extends Component {
       category: [],
       loading: false,
       enroll: false,
+      completedLectures: 1,
+      comleteLoading: false,
     };
+    this.handleCompleteLecture = this.handleCompleteLecture.bind(this);
   }
 
   async componentDidMount() {
@@ -31,6 +34,19 @@ class CourseDetails extends Component {
         })
         .then((res) => {
           this.setState({ enroll: res.data });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      await auth_axios
+        .post("/api/users/getNoOfLectureCompleted", {
+          _id: localStorage.getItem("user_id"),
+          courseId: this.props.match.params.id,
+        })
+        .then((res) => {
+          console.log("hello", res.data);
+          this.setState({ completedLectures: res.data[0].lecture });
         })
         .catch((err) => {
           console.log(err);
@@ -57,6 +73,28 @@ class CourseDetails extends Component {
         console.log(err);
       });
   }
+
+  handleCompleteLecture = async () => {
+    this.setState({ comleteLoading: true });
+    await auth_axios
+      .post("/api/users/AddCompletedContent", {
+        _id: localStorage.getItem("user_id"),
+        courseId: this.props.match.params.id,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          setTimeout(() => {
+            toast.success("You Have Successfully completed the lecture");
+            this.setState({ comleteLoading: false });
+            window.location.reload();
+          }, 1200);
+        }
+      })
+      .catch((err) => {
+        this.setState({ comleteLoading: false });
+        console.log(err);
+      });
+  };
   handleCourseEnrol = async (e) => {
     e.preventDefault();
     this.setState({ loading: true });
@@ -328,7 +366,13 @@ class CourseDetails extends Component {
           </div>
         </div>
 
-        <CourseContentContainer content={this.state.content} />
+        <CourseContentContainer
+          content={this.state.content}
+          enroll={this.state.enroll}
+          handleCompleteLecture={this.handleCompleteLecture}
+          completedLectures={this.state.completedLectures}
+          completeLoading={this.state.comleteLoading}
+        />
 
         <QuizContainer content={this.state.content} quiz={this.state.quiz} />
 
