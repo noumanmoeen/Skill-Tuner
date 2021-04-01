@@ -20,6 +20,7 @@ const url = {
   viewAllCourse: "/AllCourses",
   smartSearch: "/Search/:title/:filter",
   courseDetails: "/Courses/:id/details",
+  myCourses: "/MyCourses",
 };
 
 export default url;

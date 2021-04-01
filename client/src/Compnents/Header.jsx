@@ -6,6 +6,7 @@ import Contact from "./Contact";
 import CourseDetails from "./CourseDetails";
 import Home from "./Home";
 import LeaderBoard from "./LeaderBoard";
+import MyCourses from "./MyCourses";
 import SmartSearch from "./SmartSearch";
 import TodoList from "./TodoList";
 import ViewAllCourses from "./ViewAllCourses";
@@ -109,7 +110,10 @@ class Header extends Component {
                     </Link>
                   </li>
                   <li className="border-t md:border-none">
-                    <Link className="block md:inline-block px-3 py-3 no-underline text-black hover:text-gray-500 font-bold">
+                    <Link
+                      to={url.myCourses}
+                      className="block md:inline-block px-3 py-3 no-underline text-black hover:text-gray-500 font-bold"
+                    >
                       My Courses
                     </Link>
                   </li>
@@ -149,6 +153,9 @@ class Header extends Component {
             </Route>
             <Route exact path={url.smartSearch} component={SmartSearch} />
             <Route exact path={url.courseDetails} component={CourseDetails} />
+            <Route path={url.myCourses}>
+              <MyCourses _id={this.props._id} />
+            </Route>
           </Switch>
         </Router>
       </>
