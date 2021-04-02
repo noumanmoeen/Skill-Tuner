@@ -23,6 +23,7 @@ class CourseDetails extends Component {
       comleteLoading: false,
     };
     this.handleCompleteLecture = this.handleCompleteLecture.bind(this);
+    this.handleQuizComplete = this.handleQuizComplete.bind(this);
   }
 
   async componentDidMount() {
@@ -72,6 +73,10 @@ class CourseDetails extends Component {
         console.log(err);
       });
   }
+
+  handleQuizComplete = async (quizId) => {
+    console.log("hello quiz");
+  };
 
   handleCompleteLecture = async () => {
     this.setState({ comleteLoading: true });
@@ -373,7 +378,12 @@ class CourseDetails extends Component {
           completeLoading={this.state.comleteLoading}
         />
 
-        <QuizContainer content={this.state.content} quiz={this.state.quiz} />
+        <QuizContainer
+          content={this.state.content}
+          quiz={this.state.quiz}
+          enroll={this.state.enroll}
+          handleQuizComplete={this.handleQuizComplete}
+        />
 
         <ReadReviewContainer />
 

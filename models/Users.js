@@ -241,7 +241,10 @@ userschema.method("viewEnrollCourses", async function () {
     throw new APIError(404, "There is no user with this id");
   }
 
-  return await user.findOne({ _id: this._id }).select("courses");
+  return await user
+    .findOne({ _id: this._id })
+    .populate("courses._id")
+    .select("courses");
 });
 
 userschema.method("updateStatusByID", async function () {
