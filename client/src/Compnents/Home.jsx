@@ -8,7 +8,10 @@ import Footer from "./Footer";
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = { title: "query", type: "all" };
+    this.state = {
+      title: "query",
+      type: "all",
+    };
   }
 
   handleChange = (e) => {

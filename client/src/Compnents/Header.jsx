@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import url from "../utils/url_config";
 import About from "./About";
+import ChatBotComponent from "./ChatBotComponent";
 import Contact from "./Contact";
 import CourseDetails from "./CourseDetails";
 import Home from "./Home";
@@ -20,6 +21,7 @@ class Header extends Component {
   render() {
     return (
       <>
+        <ChatBotComponent />
         <Router>
           <nav className="nav sticky flex flex-wrap items-center justify-between px-4 shadow-sm">
             <div className="flex flex-no-shrink items-center mr-6 py-3 text-grey-darkest">
