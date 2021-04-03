@@ -99,6 +99,7 @@ class CourseDetails extends Component {
         console.log(err);
       });
   };
+
   handleCourseEnrol = async (e) => {
     e.preventDefault();
     this.setState({ loading: true });
@@ -388,7 +389,10 @@ class CourseDetails extends Component {
 
         <ReadReviewContainer />
 
-        <ReviewContainer _id={localStorage.getItem("user_id")} />
+        <ReviewContainer
+          _id={localStorage.getItem("user_id")}
+          courseId={this.props.match.params.id}
+        />
 
         <RecomendedSection category={this.state.category} />
         <br />

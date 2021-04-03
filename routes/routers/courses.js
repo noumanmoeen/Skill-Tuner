@@ -207,7 +207,7 @@ router.post(
     course
       .addUserFeedBack()
       .then((data) => {
-        res.send(data);
+        res.sendStatus(data ? 200 : 400);
       })
       .catch(next);
   }
