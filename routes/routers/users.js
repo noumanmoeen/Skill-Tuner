@@ -105,12 +105,21 @@ router.post(
             });
           } else {
             // TODO: never expiring tokens
-            res.send({
-              _id: _user._id,
-              token,
-              admin: false,
-              message: "Keep it safe :)",
-            });
+            if (_user.status === status.B) {
+              next(
+                new APIError(
+                  400,
+                  "you are blocked by admin request him to unblock you."
+                )
+              );
+            } else {
+              res.send({
+                _id: _user._id,
+                token,
+                admin: false,
+                message: "Keep it safe :)",
+              });
+            }
           }
         } else {
           next(new APIError(400, "Invalid Email or Password"));
