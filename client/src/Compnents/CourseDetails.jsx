@@ -21,6 +21,7 @@ class CourseDetails extends Component {
       enroll: false,
       completedLectures: 1,
       comleteLoading: false,
+      feedback: [],
     };
     this.handleCompleteLecture = this.handleCompleteLecture.bind(this);
     this.handleQuizComplete = this.handleQuizComplete.bind(this);
@@ -52,6 +53,7 @@ class CourseDetails extends Component {
           console.log(err);
         });
     }
+
     await axios
       .get("/api/courses/searchById/" + this.props.match.params.id)
       .then(async (res) => {
@@ -59,6 +61,7 @@ class CourseDetails extends Component {
           data: res.data,
           content: res.data.content,
           quiz: res.data.quiz,
+          feedback: res.data.feedback,
         });
         await axios
           .get("/api/courses/getAllCoursesByCategory/" + res.data.category._id)
@@ -387,7 +390,7 @@ class CourseDetails extends Component {
           handleQuizComplete={this.handleQuizComplete}
         />
 
-        <ReadReviewContainer />
+        <ReadReviewContainer feedback={this.state.feedback} />
 
         <ReviewContainer
           _id={localStorage.getItem("user_id")}

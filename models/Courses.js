@@ -188,7 +188,17 @@ coursesSchema.method("deleteCourseByName", async function (title) {
 coursesSchema.method("searchBycourseId", async function () {
   return await this.model("Courses")
     .findOne({ _id: this._id })
-    .populate(["content", "quiz", "feedback", "category"]);
+    .populate([
+      "content",
+      "quiz",
+      "feedback",
+      "category",
+      {
+        path: "feedback.userId",
+        model: "User",
+        select: "-pswd -role -skills -todolist -courses -status",
+      },
+    ]);
 });
 
 coursesSchema.method("getQuizByID", async function () {
@@ -225,6 +235,15 @@ coursesSchema.method("addUserFeedBack", async function () {
     { $push: { feedback: this.feedback } },
     { multi: true }
   );
+});
+
+coursesSchema.method("getUsersFeedBack", async function () {
+  const course = await this.model("Courses")
+    .findOne({ _id: this._id })
+    .populate("feedback")
+    .select(["-pswd", "-role", "-email"]);
+
+  return course;
 });
 
 coursesSchema.method("searchByTitle", async function () {
