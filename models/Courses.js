@@ -191,6 +191,14 @@ coursesSchema.method("searchBycourseId", async function () {
     .populate(["content", "quiz", "feedback", "category"]);
 });
 
+coursesSchema.method("getQuizByID", async function () {
+  return await this.model("Courses")
+    .findOne({
+      _id: this._id,
+      quiz: { $elemMatch: { _id: this.quiz[0]._id } },
+    })
+    .select("quiz");
+});
 coursesSchema.method("addUserFeedBack", async function () {
   const course = await this.model("Courses").findOne({ _id: this._id });
   if (course == null) {

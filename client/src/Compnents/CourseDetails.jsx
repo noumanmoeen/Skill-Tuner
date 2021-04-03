@@ -382,6 +382,7 @@ class CourseDetails extends Component {
           content={this.state.content}
           quiz={this.state.quiz}
           enroll={this.state.enroll}
+          courseId={this.props.match.params.id}
           handleQuizComplete={this.handleQuizComplete}
         />
 

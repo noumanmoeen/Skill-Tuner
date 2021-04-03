@@ -72,6 +72,7 @@ const userschema = mongoose.Schema(
           ref: "Courses",
         },
         lecture: { type: Number, default: 1 },
+        marksGain: { type: Number, default: 0 },
         progress: [
           {
             contentId: {

@@ -8,6 +8,7 @@ import CourseDetails from "./CourseDetails";
 import Home from "./Home";
 import LeaderBoard from "./LeaderBoard";
 import MyCourses from "./MyCourses";
+import Quiz from "./Quiz";
 import SmartSearch from "./SmartSearch";
 import TodoList from "./TodoList";
 import ViewAllCourses from "./ViewAllCourses";
@@ -153,6 +154,7 @@ class Header extends Component {
             <Route path={url.viewAllCourse}>
               <ViewAllCourses _id={this.props._id} />
             </Route>
+            <Route exact path={url.quiz} component={Quiz} />
             <Route exact path={url.smartSearch} component={SmartSearch} />
             <Route exact path={url.courseDetails} component={CourseDetails} />
             <Route path={url.myCourses}>

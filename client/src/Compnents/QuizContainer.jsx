@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class QuizContainer extends Component {
   constructor(props) {
@@ -56,15 +57,14 @@ class QuizContainer extends Component {
                         Total Marks: {data.totalMarks}
                       </h6>
                       {this.props.enroll ? (
-                        <button
+                        <Link
                           className="bg-blue-500 hover:bg-blue-200"
-                          onClick={() =>
-                            this.props.handleQuizComplete(data._id)
-                          }
+                          to={`/Quiz/${data._id}/course/${this.props.courseId}`}
                           style={{
                             fontSize: "15px",
                             padding: "12px 54px",
                             marginLeft: 20,
+                            color: "white",
                           }}
                         >
                           {this.props.completeLoading ? (
@@ -90,7 +90,7 @@ class QuizContainer extends Component {
                             </svg>
                           ) : null}
                           Start Quiz
-                        </button>
+                        </Link>
                       ) : null}
 
                       <br />

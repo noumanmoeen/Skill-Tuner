@@ -21,6 +21,7 @@ const url = {
   smartSearch: "/Search/:title/:filter",
   courseDetails: "/Courses/:id/details",
   myCourses: "/MyCourses",
+  quiz: "/Quiz/:id/course/:courseId",
 };
 
 export default url;

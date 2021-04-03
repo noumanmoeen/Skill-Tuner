@@ -15,7 +15,7 @@ code {
 @media (max-width: 767px) {
   .navicon {
     width: 1.125em;
-    height: .125em;
+    height: 0.125em;
   }
 
   .navicon::before,
@@ -24,9 +24,9 @@ code {
     position: absolute;
     width: 100%;
     height: 100%;
-    transition: all .2s ease-out;
-    content: '';
-    background: #3D4852;
+    transition: all 0.2s ease-out;
+    content: "";
+    background: #3d4852;
   }
 
   .navicon::before {
@@ -64,26 +64,39 @@ code {
 }
 
 label:after {
-  content: '+';
+  content: "+";
   position: absolute;
   right: 1em;
   color: #fff;
 }
 
 input:checked + label:after {
-  content: '-';
-  line-height: .8em;
+  content: "-";
+  line-height: 0.8em;
 }
 
-.accordion__content{
+.accordion__content {
   max-height: 0em;
   transition: all 0.4s cubic-bezier(0.865, 0.14, 0.095, 0.87);
 }
-input[name='panel']:checked ~ .accordion__content {
+input[name="panel"]:checked ~ .accordion__content {
   /* Get this as close to what height you expect */
   max-height: 100rem;
 }
 
+.options {
+  padding: 8px;
+  border: 3px solid #000;
+  cursor: pointer;
+  width: 100%;
+  background-color: white;
+  color: steelblue;
+  font-weight: bold;
+}
+
+.selected {
+  background: yellow;
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

@@ -281,4 +281,25 @@ router.post(
       .catch(next);
   }
 );
+
+router.get(
+  "/courses/Quiz/:id/:courseId",
+  ejwtauth,
+  processValidationErrors,
+  (req, res, next) => {
+    const course = new Course({
+      _id: req.params.courseId,
+      quiz: {
+        _id: req.params.id,
+      },
+    });
+
+    course
+      .getQuizByID()
+      .then((data) => {
+        res.send(data);
+      })
+      .catch(next);
+  }
+);
 module.exports = router;

@@ -89,6 +89,7 @@ class Home extends Component {
         <br />
 
         <FeatureVideos />
+
         <Footer />
       </>
     );
