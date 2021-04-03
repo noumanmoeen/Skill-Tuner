@@ -7,59 +7,7 @@ class LeaderBoard extends Component {
     super(props);
     this.state = {
       // data: [],
-      data: {
-        columns: [
-          {
-            label: "First Name",
-            field: "firstname",
-            sort: "asc",
-            width: 150,
-          },
-          {
-            label: "Last Name",
-            field: "lastname",
-            sort: "asc",
-            width: 270,
-          },
-          {
-            label: "Username",
-            field: "username",
-            sort: "asc",
-            width: 200,
-          },
-          {
-            label: "Email",
-            field: "email",
-            sort: "asc",
-            width: 100,
-          },
-          {
-            label: "Role",
-            field: "role",
-            sort: "asc",
-            width: 150,
-          },
-          {
-            label: "Status",
-            field: "status",
-            sort: "asc",
-            width: 100,
-          },
-          {
-            label: "Action",
-            field: "action",
-            sort: "asc",
-            width: 100,
-          },
-          {
-            label: "Action",
-            field: "block",
-            sort: "asc",
-            width: 100,
-          },
-        ],
-        rows: [],
-      },
+      data: {},
     };
   }
 
@@ -67,7 +15,70 @@ class LeaderBoard extends Component {
     await auth_axios
       .post("/api/users/getTopPerformers")
       .then((res) => {
-        this.setState({ data: res.data });
+        console.log(res.data);
+        let data = res.data;
+        let result = [];
+        let rank = 0;
+        let previous_marks = 0;
+        data.forEach((element) => {
+          rank += 1;
+          const value = {};
+          value.rank = rank;
+          value.firstname = element.firstname;
+          value.lastname = element.lastname;
+          value.email = element.email;
+          value.username = element.username;
+          element.courses.forEach((ele) => {
+            previous_marks += ele.marksGain;
+          });
+          value.score = previous_marks;
+          previous_marks = 0;
+          result.push(value);
+        });
+
+        this.setState({
+          data: {
+            columns: [
+              {
+                label: "Rank",
+                field: "rank",
+                sort: "asc",
+                width: 150,
+              },
+              {
+                label: "First Name",
+                field: "firstname",
+                sort: "asc",
+                width: 150,
+              },
+              {
+                label: "Last Name",
+                field: "lastname",
+                sort: "asc",
+                width: 270,
+              },
+              {
+                label: "Username",
+                field: "username",
+                sort: "asc",
+                width: 200,
+              },
+              {
+                label: "Email",
+                field: "email",
+                sort: "asc",
+                width: 100,
+              },
+              {
+                label: "Score",
+                field: "score",
+                sort: "asc",
+                width: 150,
+              },
+            ],
+            rows: result,
+          },
+        });
       })
       .catch((err) => {
         console.log(err);
