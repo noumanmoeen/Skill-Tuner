@@ -510,4 +510,20 @@ router.post(
   }
 );
 
+router.post(
+  "/users/getTopPerformers",
+  ejwtauth,
+  processValidationErrors,
+  (req, res, next) => {
+    const user = new User();
+
+    user
+      .getTopUsersGettingScores()
+      .then((data) => {
+        res.send(data);
+      })
+      .catch(next);
+  }
+);
+
 module.exports = router;

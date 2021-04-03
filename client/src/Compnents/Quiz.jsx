@@ -104,6 +104,9 @@ class Quiz extends Component {
           if (res.status == 200) {
             setTimeout(() => {
               toast.success("your marks are recorded for leader board");
+              this.props.history.push(
+                `/Courses/${this.props.match.params.courseId}/details`
+              );
             }, 1200);
           } else {
             toast.error("marks are not recorded in server");

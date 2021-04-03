@@ -365,6 +365,18 @@ userschema.method("getAllUsers", async function () {
   return user;
 });
 
+userschema.method("getTopUsersGettingScores", async function () {
+  const user = await this.model("User")
+    .find({ role: { $ne: roles.A } })
+    .sort({ "courses.marksGain": -1 })
+    .populate("courses")
+    .select(["-pswd", "-status", "-role", "-skills", "-todolist"]);
+
+  console.log(user);
+
+  return user;
+});
+
 userschema.method("getNoOfAdmins", async function () {
   const user = await this.model("User")
     .find({
