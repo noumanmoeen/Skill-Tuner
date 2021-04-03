@@ -3,6 +3,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const process = require("process");
 const User = require("./../../models/Users");
+const Contact = require("./../../models/ContactUs");
 const { status, roles } = require("./../../helpers/constant");
 
 const keys = {
@@ -526,4 +527,14 @@ router.post(
   }
 );
 
+router.post("/users/contactus", processValidationErrors, (req, res, next) => {
+  const contact = new Contact(req.body);
+
+  contact
+    .addRecord()
+    .then((data) => {
+      res.sendStatus(data ? 200 : 400);
+    })
+    .catch(next);
+});
 module.exports = router;

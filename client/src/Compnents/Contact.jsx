@@ -1,14 +1,76 @@
+import axios from "axios";
 import React, { Component } from "react";
+import { toast, ToastContainer } from "react-toastify";
 import Footer from "./Footer";
 
 class Contact extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      name: "",
+      designation: "",
+      email: "",
+      phoneno: "",
+      message: "",
+    };
   }
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  handleSubmit = async (e) => {
+    e.preventDefault();
+    if (
+      this.state.name.length === 0 ||
+      this.state.designation.length === 0 ||
+      this.state.email.length === 0 ||
+      this.state.phoneno.length === 0 ||
+      this.state.message.length === 0
+    ) {
+      toast.error("please fill all fields to send the message");
+    } else {
+      await axios
+        .post("/api/users/contactus", {
+          name: this.state.name,
+          designation: this.state.designation,
+          email: this.state.email,
+          phoneno: this.state.phoneno,
+          message: this.state.message,
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            setTimeout(() => {
+              toast.success(
+                "your message has being sent to the admin he will Contact you shortly!!!"
+              );
+              window.location.reload();
+            }, 1200);
+          } else {
+            toast.error("error in sending the message");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
   render() {
     return (
       <>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
         <section
           style={{
             height: 400,
@@ -59,6 +121,8 @@ class Contact extends Component {
                           <input
                             type="text"
                             placeholder="Full Name"
+                            name="name"
+                            onChange={(e) => this.handleChange(e)}
                             className="border-2 rounded px-3 py-1 w-full focus:border-indigo-400 input"
                           />
                         </div>
@@ -66,6 +130,8 @@ class Contact extends Component {
                           <input
                             type="text"
                             placeholder="Designation"
+                            name="designation"
+                            onChange={(e) => this.handleChange(e)}
                             className="border-2 rounded px-3 py-1 w-full focus:border-indigo-400 input"
                           />
                         </div>
@@ -73,6 +139,8 @@ class Contact extends Component {
                           <input
                             type="text"
                             placeholder="E-mail address"
+                            name="email"
+                            onChange={(e) => this.handleChange(e)}
                             className="border-2 rounded px-3 py-1 w-full focus:border-indigo-400 input"
                           />
                         </div>
@@ -80,6 +148,8 @@ class Contact extends Component {
                           <input
                             type="text"
                             placeholder="Phone Number"
+                            name="phoneno"
+                            onChange={(e) => this.handleChange(e)}
                             className="border-2 rounded px-3 py-1 w-full focus:border-indigo-400 input"
                           />
                         </div>
@@ -89,6 +159,8 @@ class Contact extends Component {
                             id="message"
                             cols={30}
                             rows={4}
+                            name="message"
+                            onChange={(e) => this.handleChange(e)}
                             placeholder="Your message here"
                             className="border-2 rounded px-3 py-1 w-full focus:border-indigo-400 input"
                             defaultValue={""}
@@ -96,7 +168,10 @@ class Contact extends Component {
                         </div>
                       </div>
                       <div className="text-right mt-4 md:mt-12">
-                        <button className="border-2 border-indigo-600 rounded px-6 py-2 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-colors duration-300">
+                        <button
+                          onClick={(e) => this.handleSubmit(e)}
+                          className="border-2 border-indigo-600 rounded px-6 py-2 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-colors duration-300"
+                        >
                           Send a Message
                           <i className="fas fa-chevron-right ml-2 text-sm" />
                         </button>
