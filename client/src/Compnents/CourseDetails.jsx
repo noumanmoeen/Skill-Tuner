@@ -1,7 +1,9 @@
 import axios from "axios";
 import React, { Component } from "react";
+import { Redirect } from "react-router";
 import { toast, ToastContainer } from "react-toastify";
 import auth_axios from "../utils/auth_axios";
+import url from "../utils/url_config";
 import CourseContentContainer from "./CourseContentContainer";
 import Footer from "./Footer";
 import QuizContainer from "./QuizContainer";
@@ -105,33 +107,40 @@ class CourseDetails extends Component {
 
   handleCourseEnrol = async (e) => {
     e.preventDefault();
-    this.setState({ loading: true });
-    await auth_axios
-      .post("/api/users/courses/add/", {
-        _id: localStorage.getItem("user_id"),
-        courseId: this.props.match.params.id,
-      })
-      .then((res) => {
-        if (res.status == 200) {
-          setTimeout(() => {
-            toast.success("You are enroled in the Course Sucessfully");
+    if (localStorage.getItem("user_id")) {
+      this.setState({ loading: true });
+      await auth_axios
+        .post("/api/users/courses/add/", {
+          _id: localStorage.getItem("user_id"),
+          courseId: this.props.match.params.id,
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            setTimeout(() => {
+              toast.success("You are enroled in the Course Sucessfully");
+              this.setState({ loading: false });
+              window.location.reload();
+            }, 1200);
+          } else {
+            toast.error(
+              "there is a problem with server please try again later"
+            );
             this.setState({ loading: false });
-            window.location.reload();
-          }, 1200);
-        } else {
-          toast.error("there is a problem with server please try again later");
+          }
+        })
+        .catch((err) => {
           this.setState({ loading: false });
-        }
-      })
-      .catch((err) => {
-        this.setState({ loading: false });
-        if (err.response && Array.isArray(err.response.data.messages)) {
-          const msgs = err.response.data.messages.map((v) =>
-            toast.error(v.msg)
-          );
-        }
-        throw err;
-      });
+          if (err.response && Array.isArray(err.response.data.messages)) {
+            const msgs = err.response.data.messages.map((v) =>
+              toast.error(v.msg)
+            );
+          }
+          throw err;
+        });
+    } else {
+      this.props.history.push(url.userLogin);
+      window.location.reload();
+    }
   };
   render() {
     return (

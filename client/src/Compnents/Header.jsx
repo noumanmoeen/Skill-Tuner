@@ -25,7 +25,7 @@ class Header extends Component {
     localStorage.removeItem("userToken");
     localStorage.removeItem("user_id");
     this.props.whenLoggedOut();
-    this.props.history.push(url.home);
+    window.location.reload();
   };
 
   render() {
