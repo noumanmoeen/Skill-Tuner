@@ -187,6 +187,19 @@ userschema.method("addCourseCompleted", async function () {
   );
 });
 
+userschema.method("addQuizMarks", async function (marks) {
+  const user = this.model("User");
+  const lecture = await user.findOne({
+    _id: this._id,
+    courses: { $elemMatch: { _id: this.courses[0]._id } },
+  });
+
+  return await user.updateOne(
+    { _id: this._id, courses: { $elemMatch: { _id: this.courses[0]._id } } },
+    { "courses.$.marksGain": lecture.courses[0].marksGain + marks }
+  );
+});
+
 userschema.method("getNoOfCoursesCompleted", async function () {
   const user = this.model("User");
   const lecture = await user.findOne({

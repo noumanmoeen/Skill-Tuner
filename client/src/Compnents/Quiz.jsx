@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { toast, ToastContainer } from "react-toastify";
 import auth_axios from "../utils/auth_axios";
 import Footer from "./Footer";
 
@@ -23,7 +24,7 @@ class Quiz extends Component {
         `/api/courses/Quiz/${this.props.match.params.id}/${this.props.match.params.courseId}`
       )
       .then((res) => {
-        // this.setState({ QuizData: res.data.quiz[0].questions });
+        this.setState({ QuizData: res.data.quiz[0].questions });
       });
     this.loadQuiz();
   }
@@ -86,8 +87,31 @@ class Quiz extends Component {
   }; // Sets the userAnswer state to the option selected by the user and enables next step
 
   //Responds to the click of the finish button
-  finishHandler = () => {
+  finishHandler = async () => {
+    if (this.state.userAnswer === this.state.answer) {
+      await this.setState({
+        score: this.state.score + this.state.questionPoint,
+      });
+    } //Check for Last answers
     if (this.state.currentIndex === this.state.QuizData.length - 1) {
+      await auth_axios
+        .post("/api/users/AddQuizMarks", {
+          _id: localStorage.getItem("user_id"),
+          courseId: this.props.match.params.courseId,
+          marks: this.state.score,
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            setTimeout(() => {
+              toast.success("your marks are recorded for leader board");
+            }, 1200);
+          } else {
+            toast.error("marks are not recorded in server");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       this.setState({
         quizEnd: true,
       });
@@ -101,6 +125,17 @@ class Quiz extends Component {
       if (quizEnd) {
         return (
           <>
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
             <section
               style={{
                 backgroundImage:
@@ -123,7 +158,9 @@ class Quiz extends Component {
               </div>
             </section>
             <div className="flex justify-center bg-gray-100">
-              <h1>Quiz Over. Final score is {this.state.score} points</h1>
+              <h1 style={{ paddingTop: "30px", paddingBottom: "30px" }}>
+                Quiz Over. Final score is {this.state.score} points
+              </h1>
             </div>
 
             <Footer />
@@ -132,6 +169,17 @@ class Quiz extends Component {
       }
       return (
         <>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
           <section
             style={{
               backgroundImage:
@@ -206,6 +254,17 @@ class Quiz extends Component {
     } else {
       return (
         <>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
           <section
             style={{
               backgroundImage:

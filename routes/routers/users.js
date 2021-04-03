@@ -492,4 +492,22 @@ router.post(
   }
 );
 
+router.post(
+  "/users/AddQuizMarks",
+  ejwtauth,
+  processValidationErrors,
+  (req, res, next) => {
+    const user = new User({
+      _id: req.body._id,
+      courses: { _id: req.body.courseId },
+    });
+    user
+      .addQuizMarks(req.body.marks)
+      .then((data) => {
+        res.sendStatus(data ? 200 : 400);
+      })
+      .catch(next);
+  }
+);
+
 module.exports = router;
