@@ -16,7 +16,7 @@ import ViewAllCourses from "./ViewAllCourses";
 class Header extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { menu: false };
   }
 
   render() {
@@ -119,6 +119,59 @@ class Header extends Component {
                     >
                       My Courses
                     </Link>
+                  </li>
+                  <li>
+                    <div className="ml-3" style={{ marginTop: "10px" }}>
+                      <div>
+                        <button
+                          type="button"
+                          className="bg-white  flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                          id="user-menu"
+                          aria-expanded="false"
+                          aria-haspopup="true"
+                          onClick={() => {
+                            this.setState({ menu: !this.state.menu });
+                          }}
+                        >
+                          <span className="sr-only">Open user menu</span>
+                          <img
+                            className="h-8 w-8 rounded-full"
+                            src="https://img.icons8.com/metro/26/000000/user-male.png"
+                            alt=""
+                          />
+                        </button>
+                      </div>
+
+                      <div
+                        className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                        role="menu"
+                        aria-orientation="vertical"
+                        aria-labelledby="user-menu"
+                        style={this.state.menu ? null : { display: "none" }}
+                      >
+                        <a
+                          href="#"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          role="menuitem"
+                        >
+                          Your Profile
+                        </a>
+                        <a
+                          href="#"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          role="menuitem"
+                        >
+                          Settings
+                        </a>
+                        <a
+                          href="#"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          role="menuitem"
+                        >
+                          Sign out
+                        </a>
+                      </div>
+                    </div>
                   </li>
                 </>
               ) : (
