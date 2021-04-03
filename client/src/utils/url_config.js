@@ -22,6 +22,7 @@ const url = {
   courseDetails: "/Courses/:id/details",
   myCourses: "/MyCourses",
   quiz: "/Quiz/:id/course/:courseId",
+  userSettings: "/User/Settings",
 };
 
 export default url;

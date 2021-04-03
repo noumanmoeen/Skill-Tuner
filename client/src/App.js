@@ -282,7 +282,7 @@ class App extends React.Component {
             }}
           />
           <Route
-            path={[url.todoList, url.myCourses, url.quiz]}
+            path={[url.todoList, url.myCourses, url.quiz, url.userSettings]}
             render={(props) => {
               return this.state.userLogIn ? (
                 <Header

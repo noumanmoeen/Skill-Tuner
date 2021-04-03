@@ -11,6 +11,7 @@ import MyCourses from "./MyCourses";
 import Quiz from "./Quiz";
 import SmartSearch from "./SmartSearch";
 import TodoList from "./TodoList";
+import UserSettings from "./UserSettings";
 import ViewAllCourses from "./ViewAllCourses";
 
 class Header extends Component {
@@ -18,6 +19,14 @@ class Header extends Component {
     super(props);
     this.state = { menu: false };
   }
+
+  handleSignOut = (e) => {
+    e.preventDefault();
+    localStorage.removeItem("userToken");
+    localStorage.removeItem("user_id");
+    this.props.whenLoggedOut();
+    this.props.history.push(url.home);
+  };
 
   render() {
     return (
@@ -136,7 +145,7 @@ class Header extends Component {
                           <span className="sr-only">Open user menu</span>
                           <img
                             className="h-8 w-8 rounded-full"
-                            src="https://img.icons8.com/metro/26/000000/user-male.png"
+                            src="https://i.postimg.cc/MMLkSjgZ/boy.png"
                             alt=""
                           />
                         </button>
@@ -149,26 +158,26 @@ class Header extends Component {
                         aria-labelledby="user-menu"
                         style={this.state.menu ? null : { display: "none" }}
                       >
-                        <a
+                        {/* <a
                           href="#"
                           className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                           role="menuitem"
                         >
                           Your Profile
-                        </a>
-                        <a
-                          href="#"
+                        </a> */}
+                        <Link
+                          to={url.userSettings}
                           className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                           role="menuitem"
                         >
                           Settings
-                        </a>
+                        </Link>
                         <a
-                          href="#"
+                          onClick={(e) => this.handleSignOut(e)}
                           className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                           role="menuitem"
                         >
-                          Sign out
+                          Logout
                         </a>
                       </div>
                     </div>
@@ -212,6 +221,9 @@ class Header extends Component {
             <Route exact path={url.courseDetails} component={CourseDetails} />
             <Route path={url.myCourses}>
               <MyCourses _id={this.props._id} />
+            </Route>
+            <Route path={url.userSettings}>
+              <UserSettings userId={this.props._id} />
             </Route>
           </Switch>
         </Router>
