@@ -5,6 +5,7 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
+import FourZeroFour from "./Compnents/404";
 import Header from "./Compnents/Header";
 import Home from "./Compnents/Home";
 import Login from "./Compnents/Login";
@@ -81,6 +82,7 @@ class App extends React.Component {
       <Router>
         <Switch>
           <Route
+            exact
             path={url.users}
             render={(props) => {
               return this.state.loggedIn ? (
@@ -97,6 +99,7 @@ class App extends React.Component {
           />
 
           <Route
+            exact
             path={url.setting}
             render={(props) => {
               return this.state.loggedIn ? (
@@ -113,6 +116,7 @@ class App extends React.Component {
           />
 
           <Route
+            exact
             path={url.addCourseCategory}
             render={(props) => {
               return this.state.loggedIn ? (
@@ -129,6 +133,7 @@ class App extends React.Component {
           />
 
           <Route
+            exact
             path={url.addCourse}
             render={(props) => {
               return this.state.loggedIn ? (
@@ -145,6 +150,7 @@ class App extends React.Component {
           />
 
           <Route
+            exact
             path={url.viewCourses}
             render={(props) => {
               return this.state.loggedIn ? (
@@ -161,6 +167,7 @@ class App extends React.Component {
           />
 
           <Route
+            exact
             path={url.addCourseContent}
             render={(props) => {
               return this.state.loggedIn ? (
@@ -177,6 +184,7 @@ class App extends React.Component {
           />
 
           <Route
+            exact
             path={url.addQuiz}
             render={(props) => {
               return this.state.loggedIn ? (
@@ -193,6 +201,7 @@ class App extends React.Component {
           />
 
           <Route
+            exact
             path={url.viewCourseContent}
             render={(props) => {
               return this.state.loggedIn ? (
@@ -209,6 +218,7 @@ class App extends React.Component {
           />
 
           <Route
+            exact
             path={url.login}
             render={(props) => {
               return this.state.loggedIn ? (
@@ -222,6 +232,7 @@ class App extends React.Component {
           />
 
           <Route
+            exact
             path={url.userLogin}
             render={(props) => {
               console.log(this.state.userLogIn);
@@ -234,10 +245,11 @@ class App extends React.Component {
               );
             }}
           />
-          <Route path={url.register} component={Signup} />
+          <Route exact path={url.register} component={Signup} />
 
-          <Route path={url.userSignup} component={UserSignup} />
+          <Route exact path={url.userSignup} component={UserSignup} />
           <Route
+            exact
             path={url.dashboard}
             render={(props) => {
               return this.state.loggedIn ? (
@@ -260,6 +272,7 @@ class App extends React.Component {
             }}
           />
           <Route
+            exact
             path={[
               url.home,
               url.about,
@@ -282,6 +295,7 @@ class App extends React.Component {
             }}
           />
           <Route
+            exact
             path={[url.todoList, url.myCourses, url.quiz, url.userSettings]}
             render={(props) => {
               return this.state.userLogIn ? (
@@ -298,6 +312,7 @@ class App extends React.Component {
           />
 
           <Route
+            exact
             path={url.leaderBoard}
             render={(props) => {
               return this.state.userLogIn ? (
@@ -312,6 +327,7 @@ class App extends React.Component {
               );
             }}
           />
+          <Route component={FourZeroFour} />
         </Switch>
       </Router>
     );

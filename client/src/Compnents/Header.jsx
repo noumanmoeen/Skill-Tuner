@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import url from "../utils/url_config";
+import FourZeroFour from "./404";
 import About from "./About";
 import ChatBotComponent from "./ChatBotComponent";
 import Contact from "./Contact";
