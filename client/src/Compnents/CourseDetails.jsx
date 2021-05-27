@@ -6,6 +6,7 @@ import auth_axios from "../utils/auth_axios";
 import url from "../utils/url_config";
 import CourseContentContainer from "./CourseContentContainer";
 import Footer from "./Footer";
+import PaymentTabs from "./PaymentTabs";
 import QuizContainer from "./QuizContainer";
 import ReadReviewContainer from "./ReadReviewContainer";
 import RecomendedSection from "./RecomendedSection";
@@ -24,6 +25,7 @@ class CourseDetails extends Component {
       completedLectures: 1,
       comleteLoading: false,
       feedback: [],
+      showPaymentOptionModal: false,
     };
     this.handleCompleteLecture = this.handleCompleteLecture.bind(this);
     this.handleQuizComplete = this.handleQuizComplete.bind(this);
@@ -59,6 +61,7 @@ class CourseDetails extends Component {
     await axios
       .get("/api/courses/searchById/" + this.props.match.params.id)
       .then(async (res) => {
+        console.log(res.data.price === undefined);
         this.setState({
           data: res.data,
           content: res.data.content,
@@ -137,6 +140,16 @@ class CourseDetails extends Component {
           }
           throw err;
         });
+    } else {
+      this.props.history.push(url.userLogin);
+      window.location.reload();
+    }
+  };
+
+  handlePaymentModalOpen = async (e) => {
+    e.preventDefault();
+    if (localStorage.getItem("user_id")) {
+      this.setState({ showPaymentOptionModal: true });
     } else {
       this.props.history.push(url.userLogin);
       window.location.reload();
@@ -244,6 +257,13 @@ class CourseDetails extends Component {
             <div>
               {/* react-text: 4993 */}Language: English{/* /react-text */}
             </div>
+            {this.state.data.price === undefined ||
+            this.state.data.price <= 0 ? null : (
+              <div>
+                {/* react-text: 4993 */}Price: {this.state.data.price}
+                {/* /react-text */}
+              </div>
+            )}
           </div>
 
           <div
@@ -298,7 +318,8 @@ class CourseDetails extends Component {
                 </svg>
               </div>
             </div>
-            {this.state.enroll ? null : (
+            {this.state.enroll ? null : this.state.data.price === undefined ||
+              this.state.data.price <= 0 ? (
               <button
                 className="back-home-button"
                 onClick={(e) => this.handleCourseEnrol(e)}
@@ -347,6 +368,76 @@ class CourseDetails extends Component {
                 ) : null}
                 Enroll Now
               </button>
+            ) : (
+              <>
+                <button
+                  className="back-home-button"
+                  onClick={(e) => this.handlePaymentModalOpen(e)}
+                  style={{
+                    fontFamily: "inherit",
+                    color: "#fff",
+                    backgroundColor: "#ec5252",
+                    border: "1px solid transparent",
+                    display: "inline-block",
+                    margin: "25px 0px 18px 0px",
+                    textAlign: "center",
+                    verticalAlign: "middle",
+                    touchAction: "manipulation",
+                    cursor: "pointer",
+                    backgroundImage: "none",
+                    whiteSpace: "nowrap",
+                    padding: "12px 11px",
+                    fontSize: "15px",
+                    lineHeight: "1.35135",
+                    borderRadius: "2px",
+                    width: "90%",
+                    outline: "none",
+                  }}
+                >
+                  {this.state.loading ? (
+                    <svg
+                      class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        class="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        stroke-width="4"
+                      />
+                      <path
+                        class="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      />
+                    </svg>
+                  ) : null}
+                  Buy Now ({this.state.data.price} Pkr)
+                </button>
+                <>
+                  {this.state.showPaymentOptionModal ? (
+                    <>
+                      <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                        <div className="relative w-auto my-6 mx-auto max-w-6xl">
+                          <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                            <PaymentTabs
+                              userId={localStorage.getItem("user_id")}
+                              courseId={this.props.match.params.id}
+                              price={String(this.state.data.price)}
+                              color="gray"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                    </>
+                  ) : null}
+                </>
+              </>
             )}
           </div>
         </div>
@@ -385,6 +476,11 @@ class CourseDetails extends Component {
 
         <CourseContentContainer
           content={this.state.content}
+          amount={
+            this.state.data.price === undefined || this.state.data.price <= 0
+              ? 0
+              : this.state.data.price
+          }
           enroll={this.state.enroll}
           handleCompleteLecture={this.handleCompleteLecture}
           completedLectures={this.state.completedLectures}

@@ -74,6 +74,7 @@ class CourseView extends Component {
                             <a className="flex items-center no-underline hover:underline text-black">
                               <p className="ml-2 text-sm">{data.subject}</p>
                             </a>
+
                             <a
                               className="no-underline text-grey-darker hover:text-red-dark"
                               href="#"

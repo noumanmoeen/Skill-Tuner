@@ -39,9 +39,11 @@ class CourseContentContainer extends Component {
                       id={`panel-${index}`}
                       className="hidden"
                       disabled={
-                        this.props.enroll
-                          ? this.props.completedLectures >= index + 1
-                            ? false
+                        this.props.amount > 0
+                          ? this.props.enroll
+                            ? this.props.completedLectures >= index + 1
+                              ? false
+                              : true
                             : true
                           : false
                       }

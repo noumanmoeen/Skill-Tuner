@@ -28,6 +28,7 @@ class AddCourse extends Component {
       selectedCategory: "",
       coverPicture: null,
       loading: false,
+      price: 0,
     };
   }
 
@@ -106,6 +107,7 @@ class AddCourse extends Component {
 
       formData.append("category", this.state.selectedCategory);
       formData.append("skills", skills);
+      formData.append("price", this.state.price);
       auth_axios
         .post("/api/courses/add", formData)
         .then((res) => {
@@ -265,6 +267,20 @@ class AddCourse extends Component {
                               })}
                             </select>
                           ) : null}
+                        </div>
+                        <div className="md:flex-1 md:pl-3">
+                          <label className="block uppercase tracking-wide text-charcoal-darker text-xs font-bold">
+                            Course Price
+                          </label>
+                          <input
+                            className="w-full shadow-inner p-2 border-0"
+                            type="number"
+                            name="price"
+                            onChange={(e) => {
+                              this.handleChange(e);
+                            }}
+                            placeholder="price in pkr"
+                          />
                         </div>
                       </div>
 

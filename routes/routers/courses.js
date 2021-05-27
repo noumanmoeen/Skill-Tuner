@@ -61,6 +61,7 @@ router.post(
       duration: req.body.duration,
       description: req.body.description,
       category: req.body.category,
+      price: req.body.price,
       coverPicture: "/uploads/Images/" + req.file.filename,
     });
 

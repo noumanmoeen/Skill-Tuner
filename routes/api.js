@@ -7,7 +7,8 @@ const userRouter = require("./routers/users");
 const courseRouter = require("./routers/courses");
 
 const categoryRouter = require("./routers/category");
+const paymentApi = require("./routers/JazzCash");
 
-router.use([userRouter, courseRouter, categoryRouter]);
+router.use([userRouter, courseRouter, categoryRouter, paymentApi]);
 
 module.exports = router;
